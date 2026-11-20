@@ -1,0 +1,19 @@
+# Warm-up: the same hand-written models on MNIST, 3 seeds (~10 min on the laptop GPU).
+name: mnist
+output_dir: outputs/mnist
+seeds: [0, 1, 2]
+models: [linear, mlp, cnn]
+data:
+  dataset: mnist
+  val_size: 5000
+  augment: true
+  num_workers: 4
+train:
+  epochs: 15
+  batch_size: 128
+  lr: 0.05
+  scheduler: onecycle
+  amp: true
+  early_stop_patience: 5
+model_overrides:
+  linear: {lr: 0.01}

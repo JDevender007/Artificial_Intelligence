@@ -1,0 +1,24 @@
+# Main experiment: hand-written models vs pretrained ResNet-18 on CIFAR-10, 3 seeds.
+# Laptop (RTX 3050 4 GB) estimate: ~1.5-2 h total. Kaggle T4: similar.
+name: cifar10
+output_dir: outputs/cifar10
+seeds: [0, 1, 2]
+models: [linear, mlp, cnn, resnet18]
+data:
+  dataset: cifar10
+  val_size: 5000
+  augment: true
+  num_workers: 4
+  resnet_img_size: 128
+train:
+  epochs: 30
+  batch_size: 128
+  lr: 0.05
+  weight_decay: 5.0e-4
+  optimizer: sgd
+  scheduler: onecycle
+  amp: true
+  early_stop_patience: 5
+model_overrides:
+  linear: {epochs: 15, lr: 0.01}
+  resnet18: {epochs: 8, lr: 0.01}  # fine-tune all layers; lower LR protects pretrained features

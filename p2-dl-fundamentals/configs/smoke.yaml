@@ -1,0 +1,17 @@
+# Few-minute sanity run on a CIFAR-10 subset. Numbers are NOT reportable.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0]
+models: [linear, mlp, cnn, resnet18]
+data:
+  dataset: cifar10
+  limit_train: 2000
+  num_workers: 2
+  resnet_img_size: 64
+train:
+  epochs: 2
+  batch_size: 128
+  early_stop_patience: 0
+model_overrides:
+  linear: {lr: 0.01}
+  resnet18: {lr: 0.01}

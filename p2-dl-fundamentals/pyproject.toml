@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dlfund"
+version = "0.1.0"
+description = "MLP and CNN from scratch in PyTorch with a hand-written training loop, vs a pretrained ResNet-18"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+filterwarnings = ["ignore::UserWarning:torch.*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E731"]
