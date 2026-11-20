@@ -1,0 +1,17 @@
+{
+  "n_train": 24000,
+  "n_test": 6000,
+  "train_positive_rate": 0.22120833333333334,
+  "test_positive_rate": 0.22116666666666668,
+  "test_rows_duplicated_in_train": 15,
+  "top_single_feature_auc": {
+    "PAY_1": 0.6931,
+    "PAY_2": 0.6401,
+    "PAY_3": 0.627,
+    "LIMIT_BAL": 0.6234,
+    "PAY_4": 0.6127
+  },
+  "suspicious_features": [],
+  "target_in_features": false,
+  "passed": true
+}

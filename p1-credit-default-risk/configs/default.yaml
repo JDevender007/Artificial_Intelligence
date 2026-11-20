@@ -1,0 +1,21 @@
+# Full experiment. ~CPU only; no GPU needed for 30k rows.
+name: default
+output_dir: outputs/default
+seeds: [0, 1, 2]
+models: [dummy, logreg, xgboost, lightgbm]   # untuned defaults
+tune: [logreg, xgboost, lightgbm]            # Optuna-tuned versions ("<name>_tuned")
+imbalance: class_weight                      # none | class_weight
+calibration: isotonic                        # isotonic | sigmoid | none
+cv_folds: 5
+ece_bins: 15
+shap_samples: 2000
+data:
+  raw_dir: data/raw
+  test_size: 0.2
+  split_seed: 42
+features:
+  drop_protected: true                       # SEX/EDUCATION/MARRIAGE/AGE only used for audit
+  engineered: true
+tuning:
+  n_trials: 50
+  timeout_s: null

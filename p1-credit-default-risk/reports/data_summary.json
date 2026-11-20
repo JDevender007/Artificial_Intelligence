@@ -1,0 +1,8 @@
+{
+  "n_rows": 30000,
+  "n_raw_features": 23,
+  "positive_rate": 0.2212,
+  "n_train": 24000,
+  "n_test": 6000,
+  "data_sha256": "30c6be3abd8dcfd3e6096c828bad8c2f011238620f5369220bd60cfc82700933"
+}

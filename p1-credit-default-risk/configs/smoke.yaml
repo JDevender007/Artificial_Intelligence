@@ -1,0 +1,11 @@
+# Fast end-to-end check (a few minutes on a laptop). Numbers are NOT reportable.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0]
+models: [dummy, logreg, lightgbm]
+tune: [lightgbm]
+calibration: isotonic
+cv_folds: 3
+shap_samples: 300
+tuning:
+  n_trials: 3

@@ -1,0 +1,6 @@
+{
+  "seed": 0,
+  "model": "xgboost_tuned_calibrated",
+  "threshold": 0.2979654967784881,
+  "uncalibrated": "xgboost_tuned"
+}
