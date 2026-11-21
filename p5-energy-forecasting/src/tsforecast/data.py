@@ -67,12 +67,14 @@ class Splits:
 
 def download(cfg: DataConfig) -> Path:
     path = Path(cfg.raw_dir) / RAW_NAME
-    if path.exists() and path.stat().st_size > 0:
+    if path.exists() and zipfile.is_zipfile(path):  # a cut-off download has no central directory
         return path
     path.parent.mkdir(parents=True, exist_ok=True)
     log.info("downloading %s", cfg.url)
     tmp = path.with_suffix(".part")
     urllib.request.urlretrieve(cfg.url, tmp)
+    if not zipfile.is_zipfile(tmp):
+        raise OSError(f"{tmp} is not a complete zip; delete it and retry")
     tmp.replace(path)
     return path
 

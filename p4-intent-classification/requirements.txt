@@ -6,4 +6,5 @@ scikit-learn==1.9.0
 joblib==1.5.3
 pyyaml==6.0.3
 tabulate==0.10.0
-transformers  # TODO pin: the exact version is written to env.txt by the Kaggle run
+transformers==5.20.2  # version on the Kaggle image used for the results (env.txt)
+tokenizers==0.23.3
