@@ -1,0 +1,39 @@
+# Full P3 experiment: 5 variants x 3 seeds on Construction-PPE (Kaggle T4, ~4-5 h).
+name: ppe
+output_dir: outputs/ppe
+seeds: [0, 1, 2]
+data:
+  yaml: construction-ppe.yaml   # Ultralytics built-in, CC BY 4.0, auto-download
+  val_fraction: 0.15            # carved from official train; official val = our TEST
+  split_seed: 42
+train:
+  epochs: 50
+  imgsz: 640
+  batch: 16
+  patience: 15
+  workers: 4
+variants:
+  - name: scratch_n             # baseline: same architecture, random init
+    model: yolo26n.yaml
+    pretrained: false
+  - name: pretrained_n          # main model: COCO-pretrained, default augmentation
+    model: yolo26n.pt
+  - name: pretrained_n_noaug    # ablation: augmentation off
+    model: yolo26n.pt
+    overrides: {mosaic: 0.0, mixup: 0.0, hsv_h: 0.0, hsv_s: 0.0, hsv_v: 0.0, fliplr: 0.0, scale: 0.0, translate: 0.0}
+  - name: pretrained_n_frozen   # ablation: freeze the first 10 layers (backbone)
+    model: yolo26n.pt
+    overrides: {freeze: 10}
+  - name: pretrained_s          # capacity: larger model
+    model: yolo26s.pt
+eval:
+  conf: 0.25
+  iou: 0.5
+  main_variant: pretrained_n
+track:
+  enabled: true
+  trackers: [bytetrack.yaml, botsort.yaml]
+  n_sequences: 20
+  n_frames: 30
+  min_objects: 3
+  seed: 0

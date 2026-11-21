@@ -1,0 +1,10 @@
+# CI needs no torch/ultralytics: the tested modules are pure numpy/scipy, ultralytics is imported lazily.
+numpy==2.5.2
+pandas==2.3.3
+scipy==1.18.0
+pyyaml==6.0.3
+pillow==12.3.0
+tabulate==0.10.0
+pytest==9.1.1
+ruff==0.15.22
+opencv-python-headless==5.0.0.93

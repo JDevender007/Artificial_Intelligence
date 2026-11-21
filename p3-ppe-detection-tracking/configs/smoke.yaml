@@ -1,0 +1,18 @@
+# 5-minute pipeline check (1 epoch, 25% of train, 1 seed). Numbers are NOT reportable.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0]
+train:
+  epochs: 1
+  imgsz: 320
+  batch: 16
+  fraction: 0.25
+  workers: 2
+variants:
+  - name: pretrained_n
+    model: yolo26n.pt
+eval:
+  main_variant: pretrained_n
+track:
+  n_sequences: 2
+  n_frames: 5
