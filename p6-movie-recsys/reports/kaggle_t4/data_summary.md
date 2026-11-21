@@ -1,0 +1,22 @@
+# Data summary
+
+- users: 6040
+- items: 3883
+- ratings: 1000209
+- positives: 575281
+- density: 0.04264679797998748
+- t_val: 2000-12-02T14:52:18
+- t_test: 2000-12-29T23:42:56
+- train_ratings: 800164
+- train_positives: 463017
+- train_users_with_pos: 5396
+- val_ratings: 100024
+- val_positives: 57812
+- val_users_with_pos: 1103
+- val_cold_users: 611
+- val_cold_item_positives: 5
+- test_ratings: 100021
+- test_positives: 54452
+- test_users_with_pos: 1188
+- test_cold_users: 195
+- test_cold_item_positives: 50

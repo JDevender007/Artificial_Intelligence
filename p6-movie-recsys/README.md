@@ -152,7 +152,7 @@ At this catalogue size, search time is negligible next to the user-tower forward
 
 ## Error analysis
 
-Seed 0, k=20 (full file: [`reports/kaggle_t4/error_analysis.md`](reports/kaggle_t4/error_analysis.md)). I split the test hits by item popularity:
+Seed 0, k=20 (tables: [`reports/kaggle_t4/error_analysis.md`](reports/kaggle_t4/error_analysis.md); the per-user example section is left out of the committed copy). I split the test hits by item popularity:
 
 | model | head-item hit rate (25,607 pairs) | tail-item hit rate (28,795) | cold-item (50) |
 |---|---|---|---|
@@ -175,7 +175,7 @@ Seed 0, k=20 (full file: [`reports/kaggle_t4/error_analysis.md`](reports/kaggle_
 
 ## Licences and ethics
 
-- MovieLens-1M: GroupLens research licence. No redistribution, no commercial use, citation required. No data or titles are committed.
+- MovieLens-1M: GroupLens research licence. No redistribution, no commercial use, citation required. No ratings, user records or per-user histories are committed. This README names a handful of film titles to illustrate two example users.
 - Using gender and age as features can reinforce stereotypes (for example "children's films for under-18s"). Before production I would compare recommendations across gender/age groups and drop the features if they do not improve quality for every group.
 - Popularity feedback loops: a system trained on its own recommendations narrows the catalogue. The coverage and tail-share columns exist so that this is monitored, not just accuracy.
 - Code: MIT. FAISS: MIT. PyTorch: BSD-3.
