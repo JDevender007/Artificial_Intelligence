@@ -1,6 +1,6 @@
 # Runtime (Kaggle / GPU). torch + torchvision come from the platform (Kaggle) or the CUDA index.
 # ultralytics is pinned to the exact version the reported run used: see reports/env.txt.
-ultralytics  # TODO pin: exact version is written to outputs/env.txt by the first Kaggle run
+ultralytics==8.4.216  # the version the Kaggle runs used (env.txt)
 numpy==2.5.2
 pandas==2.3.3
 scipy==1.18.0

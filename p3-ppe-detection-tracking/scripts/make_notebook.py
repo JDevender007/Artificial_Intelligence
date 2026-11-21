@@ -27,7 +27,7 @@ def build(config: str) -> dict:
         ("markdown", INTRO),
         ("code", "!git clone --depth 1 https://github.com/JDevender007/Artificial_Intelligence.git\n"
                  "%cd Artificial_Intelligence/p3-ppe-detection-tracking\n"
-                 "!pip install -q ultralytics tabulate && pip install -q -e . --no-deps\n"
+                 "!pip install -q ultralytics==8.4.216 tabulate && pip install -q -e . --no-deps\n"
                  "!yolo settings datasets_dir=/kaggle/working/datasets sync=False"),
         ("code", f"!mkdir -p {out}\n"
                  f"!python -c \"import ultralytics, torch, numpy, cv2; print('ultralytics', ultralytics.__version__); "

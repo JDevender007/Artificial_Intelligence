@@ -11,7 +11,7 @@ Eleven end-to-end projects, from classical ML to MLOps. Every project follows th
 |---|---|---|---|---|
 | 1 | [Credit default risk](p1-credit-default-risk/) | Tabular ML: leakage checks, Optuna, calibration, SHAP, fairness audit | Test PR-AUC 0.557 ± 0.001 vs 0.496 for a tuned logistic baseline; ECE 0.200 → 0.015 after isotonic calibration | ![p1](https://github.com/JDevender007/Artificial_Intelligence/actions/workflows/p1-ci.yml/badge.svg) |
 | 2 | [DL fundamentals](p2-dl-fundamentals/) | MLP/CNN from scratch in PyTorch, own training loop, vs a ResNet-18 fine-tune | code + tests done; results pending (Kaggle run) | |
-| 3 | Computer vision | detection/tracking or 3D segmentation | planned | |
+| 3 | [PPE detection + tracking](p3-ppe-detection-tracking/) | YOLO26 scratch vs pretrained + ablations, own error analysis, per-person compliance rule, ByteTrack vs BoT-SORT with own CLEAR-MOT | code + tests done; results pending (Kaggle run) | ![p3](https://github.com/JDevender007/Artificial_Intelligence/actions/workflows/p3-ci.yml/badge.svg) |
 | 4 | NLP | TF-IDF baseline vs a DistilBERT fine-tune | planned | |
 | 5 | Time series | forecasting with walk-forward backtest + anomaly detection | planned | |
 | 6 | Recommender systems | MF vs two-tower, FAISS serving | planned | |
