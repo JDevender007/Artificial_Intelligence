@@ -1,0 +1,104 @@
+06:50:02 | INFO | Config: {'name': 'no_amp', 'output_dir': '/kaggle/working/outputs/abl_no_amp', 'seeds': [0, 1, 2], 'models': ['cnn'], 'deterministic': False, 'tensorboard': True, 'data': {'dataset': 'cifar10', 'data_dir': '/kaggle/working/data', 'val_size': 5000, 'split_seed': 42, 'augment': True, 'num_workers': 4, 'limit_train': None, 'resnet_img_size': 128}, 'train': {'epochs': 30, 'batch_size': 128, 'lr': 0.05, 'weight_decay': 0.0005, 'optimizer': 'sgd', 'momentum': 0.9, 'scheduler': 'onecycle', 'amp': False, 'early_stop_patience': 5, 'label_smoothing': 0.0, 'grad_clip': None}, 'model_overrides': {'linear': {'epochs': 15, 'lr': 0.01}, 'resnet18': {'epochs': 8, 'lr': 0.01}}}
+06:50:02 | INFO | Environment: {'torch': '2.11.0+cu130', 'device': 'cuda', 'gpu': 'Tesla T4'}
+06:50:09 | INFO | seed=0 model=cnn params=1.15M train=45000 val=5000 test=10000 epochs<=30
+06:50:36 | INFO |   epoch   1  train 1.6810/0.3707  val 1.3902/0.4926  lr 4.08e-03  2120 img/s
+06:50:55 | INFO |   epoch   2  train 1.2690/0.5366  val 1.0968/0.6062  lr 9.95e-03  2435 img/s
+06:51:14 | INFO |   epoch   3  train 1.0604/0.6217  val 1.1124/0.6076  lr 1.86e-02  2519 img/s
+06:51:33 | INFO |   epoch   4  train 0.9033/0.6801  val 0.9605/0.6704  lr 2.85e-02  2543 img/s
+06:51:52 | INFO |   epoch   5  train 0.7892/0.7248  val 1.0044/0.6952  lr 3.80e-02  2512 img/s
+06:52:11 | INFO |   epoch   6  train 0.7181/0.7499  val 1.0382/0.6634  lr 4.54e-02  2496 img/s
+06:52:30 | INFO |   epoch   7  train 0.6483/0.7760  val 0.9697/0.7258  lr 4.95e-02  2505 img/s
+06:52:48 | INFO |   epoch   8  train 0.5910/0.7962  val 0.6295/0.7876  lr 4.99e-02  2511 img/s
+06:53:07 | INFO |   epoch   9  train 0.5450/0.8122  val 0.5719/0.8146  lr 4.95e-02  2508 img/s
+06:53:26 | INFO |   epoch  10  train 0.5079/0.8263  val 0.5870/0.8048  lr 4.85e-02  2500 img/s
+06:53:45 | INFO |   epoch  11  train 0.4803/0.8364  val 0.7534/0.7730  lr 4.71e-02  2502 img/s
+06:54:04 | INFO |   epoch  12  train 0.4479/0.8444  val 0.4848/0.8330  lr 4.52e-02  2497 img/s
+06:54:23 | INFO |   epoch  13  train 0.4246/0.8544  val 0.4687/0.8452  lr 4.30e-02  2506 img/s
+06:54:42 | INFO |   epoch  14  train 0.4065/0.8588  val 0.4486/0.8506  lr 4.04e-02  2498 img/s
+06:55:01 | INFO |   epoch  15  train 0.3824/0.8680  val 0.5031/0.8388  lr 3.75e-02  2510 img/s
+06:55:20 | INFO |   epoch  16  train 0.3623/0.8779  val 0.4790/0.8440  lr 3.44e-02  2503 img/s
+06:55:39 | INFO |   epoch  17  train 0.3453/0.8819  val 0.4018/0.8638  lr 3.10e-02  2507 img/s
+06:55:58 | INFO |   epoch  18  train 0.3267/0.8882  val 0.4541/0.8518  lr 2.76e-02  2502 img/s
+06:56:16 | INFO |   epoch  19  train 0.3090/0.8933  val 0.4463/0.8576  lr 2.41e-02  2507 img/s
+06:56:35 | INFO |   epoch  20  train 0.2925/0.8979  val 0.3973/0.8772  lr 2.06e-02  2503 img/s
+06:56:54 | INFO |   epoch  21  train 0.2753/0.9046  val 0.3883/0.8766  lr 1.73e-02  2505 img/s
+06:57:13 | INFO |   epoch  22  train 0.2502/0.9137  val 0.3615/0.8862  lr 1.40e-02  2496 img/s
+06:57:32 | INFO |   epoch  23  train 0.2314/0.9204  val 0.3514/0.8886  lr 1.10e-02  2508 img/s
+06:57:51 | INFO |   epoch  24  train 0.2047/0.9297  val 0.3334/0.8942  lr 8.26e-03  2504 img/s
+06:58:10 | INFO |   epoch  25  train 0.1809/0.9380  val 0.3145/0.9014  lr 5.84e-03  2506 img/s
+06:58:29 | INFO |   epoch  26  train 0.1547/0.9477  val 0.3015/0.9058  lr 3.79e-03  2496 img/s
+06:58:48 | INFO |   epoch  27  train 0.1336/0.9546  val 0.2879/0.9146  lr 2.16e-03  2509 img/s
+06:59:07 | INFO |   epoch  28  train 0.1164/0.9614  val 0.2777/0.9172  lr 9.66e-04  2495 img/s
+06:59:26 | INFO |   epoch  29  train 0.1041/0.9665  val 0.2734/0.9170  lr 2.42e-04  2506 img/s
+06:59:45 | INFO |   epoch  30  train 0.0967/0.9697  val 0.2720/0.9172  lr 2.02e-07  2507 img/s
+06:59:47 | INFO | seed=0 cnn       test_acc=0.9074 macro_f1=0.9073 best_epoch=30/30 (9.0 min)
+06:59:50 | INFO | seed=1 model=cnn params=1.15M train=45000 val=5000 test=10000 epochs<=30
+07:00:09 | INFO |   epoch   1  train 1.6825/0.3734  val 1.3539/0.5154  lr 4.08e-03  2477 img/s
+07:00:28 | INFO |   epoch   2  train 1.2749/0.5349  val 1.2259/0.5740  lr 9.95e-03  2502 img/s
+07:00:47 | INFO |   epoch   3  train 1.0700/0.6149  val 1.1206/0.6194  lr 1.86e-02  2510 img/s
+07:01:06 | INFO |   epoch   4  train 0.9190/0.6711  val 1.0989/0.6400  lr 2.85e-02  2506 img/s
+07:01:25 | INFO |   epoch   5  train 0.8045/0.7188  val 0.8383/0.7084  lr 3.80e-02  2505 img/s
+07:01:44 | INFO |   epoch   6  train 0.7196/0.7488  val 1.0279/0.6816  lr 4.54e-02  2497 img/s
+07:02:02 | INFO |   epoch   7  train 0.6467/0.7756  val 1.0183/0.6852  lr 4.95e-02  2507 img/s
+07:02:21 | INFO |   epoch   8  train 0.5911/0.7965  val 0.8882/0.7090  lr 4.99e-02  2499 img/s
+07:02:40 | INFO |   epoch   9  train 0.5451/0.8106  val 0.7696/0.7504  lr 4.95e-02  2504 img/s
+07:02:59 | INFO |   epoch  10  train 0.5100/0.8262  val 0.6541/0.7850  lr 4.85e-02  2495 img/s
+07:03:18 | INFO |   epoch  11  train 0.4811/0.8347  val 0.6257/0.7942  lr 4.71e-02  2507 img/s
+07:03:37 | INFO |   epoch  12  train 0.4499/0.8439  val 0.5835/0.8118  lr 4.52e-02  2508 img/s
+07:03:56 | INFO |   epoch  13  train 0.4269/0.8530  val 0.5626/0.8156  lr 4.30e-02  2508 img/s
+07:04:15 | INFO |   epoch  14  train 0.3979/0.8631  val 0.4991/0.8312  lr 4.04e-02  2503 img/s
+07:04:34 | INFO |   epoch  15  train 0.3852/0.8679  val 0.5315/0.8310  lr 3.75e-02  2507 img/s
+07:04:53 | INFO |   epoch  16  train 0.3619/0.8744  val 0.5077/0.8330  lr 3.44e-02  2504 img/s
+07:05:12 | INFO |   epoch  17  train 0.3455/0.8808  val 0.4024/0.8662  lr 3.10e-02  2508 img/s
+07:05:30 | INFO |   epoch  18  train 0.3220/0.8889  val 0.4867/0.8454  lr 2.76e-02  2496 img/s
+07:05:49 | INFO |   epoch  19  train 0.3055/0.8941  val 0.4786/0.8544  lr 2.41e-02  2506 img/s
+07:06:08 | INFO |   epoch  20  train 0.2843/0.9020  val 0.4329/0.8634  lr 2.06e-02  2495 img/s
+07:06:27 | INFO |   epoch  21  train 0.2689/0.9062  val 0.3978/0.8722  lr 1.73e-02  2507 img/s
+07:06:46 | INFO |   epoch  22  train 0.2457/0.9155  val 0.3561/0.8850  lr 1.40e-02  2498 img/s
+07:07:05 | INFO |   epoch  23  train 0.2282/0.9201  val 0.3525/0.8872  lr 1.10e-02  2506 img/s
+07:07:24 | INFO |   epoch  24  train 0.2012/0.9313  val 0.3665/0.8852  lr 8.26e-03  2505 img/s
+07:07:43 | INFO |   epoch  25  train 0.1793/0.9389  val 0.3204/0.8974  lr 5.84e-03  2507 img/s
+07:08:02 | INFO |   epoch  26  train 0.1554/0.9468  val 0.2898/0.9084  lr 3.79e-03  2508 img/s
+07:08:21 | INFO |   epoch  27  train 0.1293/0.9573  val 0.2779/0.9082  lr 2.16e-03  2503 img/s
+07:08:40 | INFO |   epoch  28  train 0.1145/0.9610  val 0.2733/0.9104  lr 9.66e-04  2502 img/s
+07:08:59 | INFO |   epoch  29  train 0.0988/0.9693  val 0.2728/0.9130  lr 2.42e-04  2507 img/s
+07:09:18 | INFO |   epoch  30  train 0.0963/0.9697  val 0.2707/0.9128  lr 2.02e-07  2508 img/s
+07:09:20 | INFO | seed=1 cnn       test_acc=0.9113 macro_f1=0.9114 best_epoch=30/30 (9.0 min)
+07:09:22 | INFO | seed=2 model=cnn params=1.15M train=45000 val=5000 test=10000 epochs<=30
+07:09:42 | INFO |   epoch   1  train 1.6663/0.3749  val 1.4777/0.4704  lr 4.08e-03  2477 img/s
+07:10:01 | INFO |   epoch   2  train 1.2540/0.5427  val 1.0428/0.6258  lr 9.95e-03  2504 img/s
+07:10:19 | INFO |   epoch   3  train 1.0533/0.6249  val 1.2969/0.5534  lr 1.86e-02  2506 img/s
+07:10:38 | INFO |   epoch   4  train 0.8969/0.6831  val 0.9162/0.6878  lr 2.85e-02  2505 img/s
+07:10:57 | INFO |   epoch   5  train 0.7885/0.7249  val 0.9031/0.7048  lr 3.80e-02  2505 img/s
+07:11:16 | INFO |   epoch   6  train 0.7081/0.7554  val 0.6700/0.7716  lr 4.54e-02  2504 img/s
+07:11:35 | INFO |   epoch   7  train 0.6419/0.7797  val 0.8147/0.7364  lr 4.95e-02  2504 img/s
+07:11:54 | INFO |   epoch   8  train 0.5942/0.7953  val 1.0124/0.6972  lr 4.99e-02  2508 img/s
+07:12:13 | INFO |   epoch   9  train 0.5480/0.8110  val 0.7327/0.7542  lr 4.95e-02  2508 img/s
+07:12:32 | INFO |   epoch  10  train 0.5066/0.8248  val 0.6292/0.7936  lr 4.85e-02  2500 img/s
+07:12:51 | INFO |   epoch  11  train 0.4743/0.8365  val 0.6780/0.7920  lr 4.71e-02  2503 img/s
+07:13:10 | INFO |   epoch  12  train 0.4498/0.8462  val 0.7559/0.7660  lr 4.52e-02  2504 img/s
+07:13:29 | INFO |   epoch  13  train 0.4269/0.8512  val 0.4807/0.8404  lr 4.30e-02  2508 img/s
+07:13:48 | INFO |   epoch  14  train 0.3985/0.8624  val 0.4696/0.8442  lr 4.04e-02  2503 img/s
+07:14:06 | INFO |   epoch  15  train 0.3831/0.8686  val 0.5582/0.8218  lr 3.75e-02  2505 img/s
+07:14:25 | INFO |   epoch  16  train 0.3633/0.8749  val 0.4942/0.8412  lr 3.44e-02  2499 img/s
+07:14:44 | INFO |   epoch  17  train 0.3454/0.8809  val 0.4242/0.8570  lr 3.10e-02  2506 img/s
+07:15:03 | INFO |   epoch  18  train 0.3253/0.8885  val 0.5767/0.8194  lr 2.76e-02  2499 img/s
+07:15:22 | INFO |   epoch  19  train 0.3100/0.8940  val 0.3990/0.8666  lr 2.41e-02  2511 img/s
+07:15:41 | INFO |   epoch  20  train 0.2921/0.8997  val 0.3827/0.8732  lr 2.06e-02  2505 img/s
+07:16:00 | INFO |   epoch  21  train 0.2734/0.9051  val 0.4299/0.8580  lr 1.73e-02  2505 img/s
+07:16:19 | INFO |   epoch  22  train 0.2570/0.9117  val 0.3442/0.8876  lr 1.40e-02  2507 img/s
+07:16:38 | INFO |   epoch  23  train 0.2246/0.9240  val 0.4001/0.8752  lr 1.10e-02  2510 img/s
+07:16:57 | INFO |   epoch  24  train 0.2102/0.9266  val 0.3428/0.8908  lr 8.26e-03  2498 img/s
+07:17:16 | INFO |   epoch  25  train 0.1792/0.9393  val 0.3060/0.9020  lr 5.84e-03  2505 img/s
+07:17:34 | INFO |   epoch  26  train 0.1554/0.9472  val 0.3052/0.9034  lr 3.79e-03  2499 img/s
+07:17:53 | INFO |   epoch  27  train 0.1333/0.9550  val 0.2959/0.9090  lr 2.16e-03  2507 img/s
+07:18:12 | INFO |   epoch  28  train 0.1148/0.9629  val 0.2874/0.9138  lr 9.66e-04  2497 img/s
+07:18:31 | INFO |   epoch  29  train 0.1063/0.9656  val 0.2859/0.9144  lr 2.42e-04  2504 img/s
+07:18:50 | INFO |   epoch  30  train 0.0980/0.9681  val 0.2852/0.9152  lr 2.02e-07  2503 img/s
+07:18:52 | INFO | seed=2 cnn       test_acc=0.9061 macro_f1=0.9059 best_epoch=30/30 (9.0 min)
+07:18:52 | INFO | 
+| model | test_acc | test_macro_f1 | test_loss | val_acc | best_epoch | epochs_run | train_minutes | images_per_s | params_m | n_seeds |
+|---|---|---|---|---|---|---|---|---|---|---|
+| cnn | 0.9083 ± 0.0027 | 0.9082 ± 0.0029 | 0.3049 ± 0.0124 | 0.9151 ± 0.0022 | 30.0 ± 0.0 | 30.0 ± 0.0 | 9.0 ± 0.0 | 2499.0 ± 7.3 | 1.1 ± 0.0 | 3 |
+07:18:53 | INFO | Figures in /kaggle/working/outputs/abl_no_amp/figures
+07:18:53 | INFO | Done. Results in /kaggle/working/outputs/abl_no_amp/results.md

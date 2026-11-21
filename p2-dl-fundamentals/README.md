@@ -112,19 +112,34 @@ Reproducibility: `set_seed` seeds Python, NumPy and torch, and DataLoader worker
 
 ## Results
 
-> Pending the real runs. The numbers will be copied from `outputs/{mnist,cifar10}/results.md` into `reports/`. None are filled in by hand.
+Real runs on a Kaggle T4, test set, mean ± std over seeds 0, 1, 2. The tables are copied from the kernel logs in [`reports/kaggle_logs/`](reports/kaggle_logs/). Nothing is typed in by hand.
 
-| dataset | model | test acc | macro-F1 | test loss | params (M) | img/s |
-|---|---|---|---|---|---|---|
-| MNIST | linear (baseline) | _ | _ | _ | _ | _ |
-| MNIST | mlp | _ | _ | _ | _ | _ |
-| MNIST | cnn | _ | _ | _ | _ | _ |
-| CIFAR-10 | linear (baseline) | _ | _ | _ | _ | _ |
-| CIFAR-10 | mlp | _ | _ | _ | _ | _ |
-| CIFAR-10 | cnn | _ | _ | _ | _ | _ |
-| CIFAR-10 | resnet18 (pretrained) | _ | _ | _ | _ | _ |
+| dataset | model | test acc | macro-F1 | test loss | params (M) | train min | img/s |
+|---|---|---|---|---|---|---|---|
+| MNIST | linear (baseline) | 0.8502 ± 0.0041 | 0.8477 ± 0.0046 | 0.5601 ± 0.0049 | 0.01 | 1.8 | 7,041 |
+| MNIST | mlp | 0.9883 ± 0.0003 | 0.9882 ± 0.0003 | 0.0367 ± 0.0011 | 0.5 | 2.0 | 6,791 |
+| MNIST | cnn | **0.9964 ± 0.0006** | 0.9964 ± 0.0006 | 0.0105 ± 0.0010 | 1.1 | 2.2 | 6,234 |
+| CIFAR-10 | linear (baseline) | 0.3266 ± 0.0042 | 0.3101 ± 0.0062 | 1.9625 ± 0.0095 | 0.03 | 0.8 | 5,599 |
+| CIFAR-10 | mlp | 0.5752 ± 0.0034 | 0.5697 ± 0.0030 | 1.1887 ± 0.0035 | 1.7 | 4.1 | 5,458 |
+| CIFAR-10 | cnn | 0.9055 ± 0.0005 | 0.9054 ± 0.0005 | 0.3086 ± 0.0031 | 1.1 | 4.3 | 5,179 |
+| CIFAR-10 | resnet18 (ImageNet-pretrained, 128 px) | **0.9535 ± 0.0011** | 0.9534 ± 0.0011 | 0.1450 ± 0.0014 | 11.2 | 2.9 | 2,076 |
 
-Ablations (CNN, CIFAR-10, 3 seeds): see [configs/ablations.md](configs/ablations.md). Build the table with `python scripts/compare_ablations.py`.
+Ablations (from-scratch CNN, CIFAR-10, 3 seeds; one change each vs the full recipe):
+
+| variant | test acc | Δ vs full | train min | img/s |
+|---|---|---|---|---|
+| full recipe (aug + OneCycle + AMP) | 0.9055 ± 0.0005 | – | 4.3 | 5,179 |
+| no mixed precision (fp32) | 0.9083 ± 0.0027 | +0.3 (tie) | 9.0 | 2,499 |
+| no augmentation | 0.8158 ± 0.0164 | −9.0 | 1.8 | 7,112 |
+| no OneCycle (constant LR) | 0.8323 ± 0.0225 | −7.3 | 3.3 | 5,231 |
+
+What the numbers say:
+
+- **Convolution is the big step.** On CIFAR-10 the CNN (1.1M params) beats the MLP (1.7M params) by 33 points with fewer parameters, so the inductive bias matters, not the size. On MNIST the gap is only 0.8 points.
+- **Pretraining adds 4.8 points** (0.9535 vs 0.9055) in fewer minutes. This mixes pretraining with ~10× capacity and 128 px inputs; see Limitations.
+- **Mixed precision roughly doubles throughput** (5,179 vs 2,499 img/s, 2.1×) at equal accuracy: the +0.3 for fp32 is within about 1 std of the fp32 runs.
+- **Augmentation and the LR schedule each matter a lot:** −9.0 and −7.3 points. Without them the runs also have 30-45× higher seed std (0.016-0.023 vs 0.0005) and stop early: no-aug ran 16.7 ± 3.2 of 30 epochs before early stopping, because val loss starts rising (overfitting).
+- **The linear baseline is under-trained, so read it as a floor, not a tuned baseline.** It shares the deep models' recipe (augmentation, OneCycle with momentum, early-stopping patience 5). On CIFAR-10 its best epoch is 1 of 6 on every seed, and on MNIST it reaches 0.850, whereas softmax regression on MNIST is commonly reported at about 0.92. A fair rerun would turn augmentation off and use a lower constant LR for `linear`. This does not change the ranking, which is far apart, but the "+X over baseline" gaps above are larger than they would be against a tuned linear model.
 
 ## Error analysis
 
