@@ -28,7 +28,7 @@ class TfidfConfig:
     word_ngrams: list[int] = field(default_factory=lambda: [1, 2])
     char_ngrams: list[int] = field(default_factory=lambda: [2, 5])  # [] disables char features
     min_df: int = 1
-    c_grid: list[float] = field(default_factory=lambda: [0.5, 1.0, 2.0, 5.0, 10.0, 20.0])
+    c_grid: list[float] = field(default_factory=lambda: [1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0, 200.0])
     max_iter: int = 3000
 
 

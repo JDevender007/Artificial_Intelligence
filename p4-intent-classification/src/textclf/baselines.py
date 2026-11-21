@@ -81,6 +81,8 @@ def fit_tfidf_lr(cfg: TfidfConfig, train_texts: list[str], train_y: np.ndarray, 
         log.info("tfidf_lr C=%s val macro-F1 %.4f", c, f1)
         if f1 > best_f1:
             best, best_f1, best_c = pipe, f1, c
+    if len(cfg.c_grid) > 1 and best_c in (min(cfg.c_grid), max(cfg.c_grid)):
+        log.warning("tfidf_lr best C=%s is at the edge of c_grid %s; consider widening it", best_c, cfg.c_grid)
     n_feat = len(best.named_steps["features"].get_feature_names_out())
     return FitResult(SklearnPredictor(best, n_labels),
                      {"C": best_c, "val_macro_f1": best_f1, "val_by_C": scores, "n_features": n_feat,
