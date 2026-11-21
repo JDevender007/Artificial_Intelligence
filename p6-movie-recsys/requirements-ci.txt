@@ -1,0 +1,12 @@
+# CPU-only CI. torch comes from the CPU wheel index (see the workflow) to keep the install small.
+numpy==2.5.2
+pandas==2.3.3
+scipy==1.18.0
+pyyaml==6.0.3
+tabulate==0.10.0
+fastapi==0.139.1
+uvicorn==0.51.0
+pydantic==2.13.4
+httpx==0.28.1
+pytest==9.1.1
+ruff==0.15.22

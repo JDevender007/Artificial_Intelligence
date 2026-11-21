@@ -1,0 +1,26 @@
+# Seconds-long check on a synthetic ml-1m.zip (no download): two seeds, 2 epochs, tiny models.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0, 1]
+data:
+  synthetic: true
+  synthetic_users: 300
+  synthetic_items: 120
+train:
+  epochs: 2
+  batch_size: 256
+  device: cpu
+bpr:
+  dim: 16
+tower:
+  dim: 16
+  emb: 8
+  hidden: 32
+  history_len: 10
+  n_random_neg: 32
+eval:
+  ks: [10, 20]
+  k_main: 10
+  n_bootstrap: 100
+  hnsw_ef: [16, 64]
+  n_latency_queries: 50
