@@ -1,5 +1,5 @@
 # Runtime (versions as installed in the D: env). torch: CPU or CUDA wheel from the PyTorch index.
-# faiss-cpu is optional (NumPy exact search is the fallback); pinned to the Kaggle version once measured.
+# faiss-cpu is optional (NumPy exact search is the fallback). The Kaggle run used faiss 1.16.0 (faiss.__version__, env.txt): pip install faiss-cpu==1.16.0 if that wheel exists for your platform.
 numpy==2.5.2
 pandas==2.3.3
 scipy==1.18.0

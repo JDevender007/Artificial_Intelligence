@@ -14,7 +14,7 @@ Eleven end-to-end projects, from classical ML to MLOps. Every project follows th
 | 3 | [PPE detection + tracking](p3-ppe-detection-tracking/) | YOLO26 scratch vs pretrained + ablations, own error analysis, per-person compliance rule, ByteTrack vs BoT-SORT with own CLEAR-MOT | pretrained YOLO26n: test mAP50-95 0.529 ± 0.003 vs 0.227 from scratch (3 seeds), 4.0 ms/img on T4; compliance agreement 0.696 | ![p3](https://github.com/JDevender007/Artificial_Intelligence/actions/workflows/p3-ci.yml/badge.svg) |
 | 4 | [Banking77 intent classification](p4-intent-classification/) | TF-IDF + LR vs DistilBERT, macro-F1 / ECE / latency, error analysis by class and length, model card | DistilBERT 0.921 ± 0.006 vs TF-IDF 0.913 macro-F1 (bootstrap CI includes 0), ECE 0.023 vs 0.063; 29 vs 9 ms/request on the same CPU | ![p4](https://github.com/JDevender007/Artificial_Intelligence/actions/workflows/p4-ci.yml/badge.svg) |
 | 5 | Time series | forecasting with walk-forward backtest + anomaly detection | planned | |
-| 6 | Recommender systems | MF vs two-tower, FAISS serving | planned | |
+| 6 | [MovieLens recommender](p6-movie-recsys/) | popularity vs BPR-MF vs feature two-tower (logQ, ablations), temporal split, FAISS HNSW, FastAPI cold-start | BPR-MF recall@20 0.097 beats two-tower 0.088 (bootstrap CI excludes 0); two-tower covers 6× more catalogue; HNSW 0.99 recall vs exact | ![p6](https://github.com/JDevender007/Artificial_Intelligence/actions/workflows/p6-ci.yml/badge.svg) |
 | 7 | RAG + QLoRA | retrieval evaluation, 4-bit fine-tune | planned | |
 | 8 | Agents | tool-using agent with a 30-task eval | planned | |
 | 9 | Multimodal | speech + vision assistant | planned | |
