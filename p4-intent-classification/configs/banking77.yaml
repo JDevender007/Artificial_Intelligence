@@ -1,0 +1,28 @@
+# Full run: majority + TF-IDF/LR + DistilBERT, 3 seeds each. ~25 min on a Kaggle T4.
+#   python scripts/run_experiment.py --config configs/banking77.yaml
+name: banking77
+output_dir: outputs/banking77
+seeds: [0, 1, 2]
+models: [majority, tfidf_lr, distilbert]
+n_bootstrap: 1000
+data:
+  val_fraction: 0.1
+  split_seed: 42
+  length_edges: [5, 10, 15, 25]
+tfidf:
+  word_ngrams: [1, 2]
+  char_ngrams: [2, 5]
+  c_grid: [0.5, 1.0, 2.0, 5.0, 10.0, 20.0]
+bert:
+  model_name: distilbert-base-uncased
+  max_length: 64
+  epochs: 5
+  batch_size: 32
+  lr: 5.0e-5
+  warmup_ratio: 0.1
+  patience: 2
+  fp16: true
+latency:
+  batch_sizes: [1, 32]
+  n_texts: 256
+  devices: [cpu, cuda]

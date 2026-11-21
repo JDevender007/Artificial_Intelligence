@@ -1,0 +1,16 @@
+# Pipeline check only (numbers are not reportable): 2,000 training rows, 1 seed, 1 BERT epoch.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0]
+models: [majority, tfidf_lr, distilbert]
+n_bootstrap: 100
+data:
+  max_train: 2000
+tfidf:
+  char_ngrams: []
+  c_grid: [5.0]
+bert:
+  epochs: 1
+latency:
+  batch_sizes: [1, 32]
+  n_texts: 64

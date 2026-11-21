@@ -1,0 +1,9 @@
+# Runtime. torch comes from the platform (Kaggle image) or the CUDA wheel index.
+numpy==2.5.2
+pandas==2.3.3
+scipy==1.18.0
+scikit-learn==1.9.0
+joblib==1.5.3
+pyyaml==6.0.3
+tabulate==0.10.0
+transformers  # TODO pin: the exact version is written to env.txt by the Kaggle run
