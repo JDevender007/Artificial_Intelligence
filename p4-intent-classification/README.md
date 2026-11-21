@@ -103,35 +103,53 @@ python scripts/predict.py --run outputs/banking77 --model tfidf_lr --threshold 0
 
 ## Results
 
-Test set (3,080 messages), mean ± std over seeds 0, 1, 2. The baselines ran on a laptop CPU (`--set "models=[majority, tfidf_lr]"`); the DistilBERT run is on a Kaggle T4 and **pending**. Raw tables: [`reports/baselines_local/`](reports/baselines_local/).
+Test set (3,080 messages), mean ± std over seeds 0, 1, 2 (ddof=1). All rows below come from one Kaggle run (Tesla T4, transformers 5.20.2, torch 2.11.0+cu130; see [`reports/kaggle_t4/env.txt`](reports/kaggle_t4/env.txt)). Raw tables: [`reports/kaggle_t4/`](reports/kaggle_t4/). The laptop baseline run in [`reports/baselines_local/`](reports/baselines_local/) gives identical TF-IDF numbers.
 
 | model | macro-F1 | accuracy | ECE | seeds |
 |---|---|---|---|---|
 | majority | 0.000 ± 0.000 | 0.013 ± 0.000 | 0.987 ± 0.000 | 3 |
-| tfidf_lr (C=20) | **0.913 ± 0.000** | 0.912 ± 0.000 | 0.063 ± 0.000 | 3 |
-| distilbert | pending | pending | pending | 3 |
+| tfidf_lr (C=20) | 0.913 ± 0.000 | 0.912 ± 0.000 | 0.063 ± 0.000 | 3 |
+| distilbert | **0.921 ± 0.006** | **0.921 ± 0.006** | **0.023 ± 0.005** | 3 |
+
+Per seed, DistilBERT scored 0.9145 / 0.9269 / 0.9227 macro-F1 (fine-tuning took about 87 s per seed on the T4, 67.0M parameters).
+
+**Is the gain real?** The mean gap is +0.008 macro-F1, which is barely more than the DistilBERT seed std (0.006). The paired bootstrap on seed 0 (1,000 resamples of the test set) gives **+0.0019, 95% CI [-0.0078, +0.0115]**, and 34% of resamples show no gain. Seed 0 is the weakest of the three seeds, so this CI is the pessimistic case, but the honest summary is: **DistilBERT is not clearly more accurate than a tuned TF-IDF model on this data. Its clear win is calibration** (ECE 0.023 vs 0.063, about 2.7× lower), which matters for the confidence-threshold hand-off.
 
 The TF-IDF std is exactly 0 because lbfgs logistic regression is convex and deterministic, and the split is fixed, so the seed changes nothing. Its uncertainty is measured with the test-set bootstrap instead.
 
 C selection on val (macro-F1): 1 → 0.906, 2 → 0.916, 5 → 0.918, 10 → 0.920, **20 → 0.922**, 50 → 0.917, 100 → 0.911, 200 → 0.907. The first grid stopped at 20, so I widened it to confirm that 20 is an interior optimum.
 
-Latency (laptop CPU, 16 logical cores, 256 test texts):
+Training note: seeds 1 and 2 picked epoch 5, the last allowed epoch (seed 0 peaked at epoch 4), so DistilBERT may gain a little from 1-2 more epochs. I did not rerun it, and the numbers above are from the 5-epoch config as committed.
 
-| model | device | batch | ms/text | batch p95 ms | texts/s |
-|---|---|---|---|---|---|
-| tfidf_lr | cpu | 1 | 2.29 | 3.03 | 436 |
-| tfidf_lr | cpu | 32 | 0.24 | 9.12 | 4,159 |
-| distilbert | cpu / T4 | 1 / 32 | pending | | |
+Latency, 256 test texts. The Kaggle rows ran on 4 logical Xeon cores at 2.0 GHz; the laptop rows ran on 16 logical cores. Compare within one machine only.
+
+| model | machine | device | batch | ms/text | batch p95 ms | texts/s |
+|---|---|---|---|---|---|---|
+| tfidf_lr | laptop | cpu | 1 | 2.29 | 3.03 | 436 |
+| tfidf_lr | laptop | cpu | 32 | 0.24 | 9.12 | 4,159 |
+| tfidf_lr | Kaggle | cpu | 1 | 9.43 | 10.12 | 106 |
+| tfidf_lr | Kaggle | cpu | 32 | 0.41 | 14.20 | 2,463 |
+| distilbert | Kaggle | cpu | 1 | 29.14 | 33.75 | 34 |
+| distilbert | Kaggle | cpu | 32 | 12.41 | 637.39 | 81 |
+| distilbert | Kaggle | T4 | 1 | 5.62 | 6.11 | 178 |
+| distilbert | Kaggle | T4 | 32 | 0.34 | 14.69 | 2,904 |
+
+On the same 4-core CPU, DistilBERT is about 3× slower than TF-IDF per single request (29.1 vs 9.4 ms) and 30× slower in batches of 32. On a T4 it is faster than TF-IDF on the CPU.
+
+**Recommendation:** ship TF-IDF + LR on CPU if there is no GPU, because the accuracy gap is within noise. Ship DistilBERT if a GPU is available or if calibrated confidences drive the human hand-off, because its ECE is much lower.
 
 ## Error analysis
 
-TF-IDF baseline, seed 0 (full tables in [`reports/baselines_local/error_analysis.md`](reports/baselines_local/error_analysis.md)):
+Seed 0 tables: [`reports/kaggle_t4/error_analysis.md`](reports/kaggle_t4/error_analysis.md) (both models) and [`reports/baselines_local/error_analysis.md`](reports/baselines_local/error_analysis.md) (TF-IDF only).
 
-- **The errors fall in families of near-duplicate intents.** The weakest intents are `balance_not_updated_after_bank_transfer` (F1 0.747), `top_up_failed` (0.759), `pending_transfer` (0.810), `card_not_working` (0.813) and `top_up_reverted` (0.825). The top confusions are pairs inside one family: `top_up_failed → top_up_reverted` (5), `balance_not_updated_after_bank_transfer → transfer_not_received_by_recipient` (5), `verify_my_identity → why_verify_identity` (4). Bag-of-words features see the same words in both members of a pair; telling them apart needs the meaning of the request (is it about *why*, or *how*?).
-- **Synonyms with no shared words fail.** For example, "My non-physical card will not work" is predicted as `card_not_working` with confidence 0.93 instead of `virtual_card_not_working`, because "non-physical" shares no n-grams with "virtual".
-- **Length:** accuracy is about flat across lengths (0.903 for 1-5 words, 0.929 for >25). Macro-F1 is lower in the 1-5 word bucket (0.775), but that bucket has only 278 messages spread over many intents, so its per-class F1 is noisy. Accuracy is the more reliable number per bucket.
-- **Calibration:** ECE 0.063, and many errors have low confidence (0.15-0.60), which is what the `--threshold` hand-off in `predict.py` relies on. The 0.93-confidence miss above shows that the threshold does not catch every error.
-- [ ] DistilBERT vs TF-IDF: per-class gains, agreement table and paired-bootstrap CI (from the Kaggle run).
+- **The two models make different mistakes.** On seed 0, 2,709 messages are right for both and 162 are wrong for both. 101 are right only for TF-IDF and 108 only for DistilBERT. The disagreement (209 messages) is larger than the net gain (7), which suggests that an ensemble or a fallback between the two could help. I have not tested that.
+- **The errors fall in families of near-duplicate intents.** For TF-IDF, the weakest intents are `balance_not_updated_after_bank_transfer` (F1 0.747), `top_up_failed` (0.759), `pending_transfer` (0.810), `card_not_working` (0.813) and `top_up_reverted` (0.825). The top confusions are pairs inside one family: `top_up_failed → top_up_reverted` (5), `balance_not_updated_after_bank_transfer → transfer_not_received_by_recipient` (5), `verify_my_identity → why_verify_identity` (4). Bag-of-words features see the same words in both members of a pair.
+- **DistilBERT fixes some families and loses others.** Averaged over seeds, it improves `top_up_failed` (0.759 → 0.873), `card_not_working` (0.813 → 0.895) and `balance_not_updated_after_bank_transfer` (0.747 → 0.791). TF-IDF wins on 34 of 77 intents on seed 0, mostly identity and card-payment pairs such as `card_payment_not_recognised` (0.872 vs 0.790) and `why_verify_identity` (0.864 vs 0.795). DistilBERT's top confusion is `why_verify_identity → verify_my_identity` (8).
+- **Some errors are label ambiguity.** Examples of DistilBERT misses: "How do I know when my card will arrive?" (`card_arrival`, predicted `card_delivery_estimate`, 0.92 confidence) and "How much does it cost in fees to use your card?" (labelled `order_physical_card`, predicted `card_payment_fee_charged`, 0.94). In the second case the prediction looks more correct than the label.
+- **Synonyms with no shared words fail for TF-IDF.** For example, "My non-physical card will not work" is predicted as `card_not_working` with confidence 0.93 instead of `virtual_card_not_working`, because "non-physical" shares no n-grams with "virtual".
+- **Length:** accuracy is about flat across lengths for both models (0.90-0.93). Macro-F1 in the 1-5 word bucket (278 messages) is 0.775 for TF-IDF and 0.816 for DistilBERT, so short messages are where DistilBERT helps most. That bucket is small and spread over many intents, so its per-class F1 is noisy.
+- **Calibration:** TF-IDF ECE is 0.063 and many of its errors have low confidence (0.15-0.60), which is what the `--threshold` hand-off in `predict.py` relies on. DistilBERT's ECE is 0.023, but confident errors still exist (0.92-0.95 above), so the threshold does not catch every error.
+- **Test/train overlap:** 7 test texts are exact (case-insensitive) duplicates of a train text. That is too few to change the scores.
 
 ## Limitations
 

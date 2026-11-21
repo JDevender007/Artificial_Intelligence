@@ -1,0 +1,567 @@
+{
+  "seed": 0,
+  "main": "distilbert",
+  "baseline": "tfidf_lr",
+  "worst_classes": [
+    {
+      "intent": "pending_transfer",
+      "support": 40,
+      "tfidf_lr_f1": 0.810126582278481,
+      "distilbert_f1": 0.7605633802816901
+    },
+    {
+      "intent": "verify_my_identity",
+      "support": 40,
+      "tfidf_lr_f1": 0.8461538461538461,
+      "distilbert_f1": 0.7848101265822784
+    },
+    {
+      "intent": "card_payment_not_recognised",
+      "support": 40,
+      "tfidf_lr_f1": 0.8717948717948718,
+      "distilbert_f1": 0.7901234567901234
+    },
+    {
+      "intent": "why_verify_identity",
+      "support": 40,
+      "tfidf_lr_f1": 0.8641975308641975,
+      "distilbert_f1": 0.7945205479452054
+    },
+    {
+      "intent": "topping_up_by_card",
+      "support": 40,
+      "tfidf_lr_f1": 0.88,
+      "distilbert_f1": 0.8
+    },
+    {
+      "intent": "balance_not_updated_after_bank_transfer",
+      "support": 40,
+      "tfidf_lr_f1": 0.7469879518072289,
+      "distilbert_f1": 0.8157894736842105
+    },
+    {
+      "intent": "declined_transfer",
+      "support": 40,
+      "tfidf_lr_f1": 0.8767123287671232,
+      "distilbert_f1": 0.8235294117647058
+    },
+    {
+      "intent": "transfer_not_received_by_recipient",
+      "support": 40,
+      "tfidf_lr_f1": 0.8433734939759037,
+      "distilbert_f1": 0.8314606741573034
+    },
+    {
+      "intent": "fiat_currency_support",
+      "support": 40,
+      "tfidf_lr_f1": 0.8767123287671232,
+      "distilbert_f1": 0.8461538461538461
+    },
+    {
+      "intent": "top_up_reverted",
+      "support": 40,
+      "tfidf_lr_f1": 0.825,
+      "distilbert_f1": 0.8461538461538461
+    },
+    {
+      "intent": "reverted_card_payment?",
+      "support": 40,
+      "tfidf_lr_f1": 0.8809523809523809,
+      "distilbert_f1": 0.8470588235294118
+    },
+    {
+      "intent": "compromised_card",
+      "support": 40,
+      "tfidf_lr_f1": 0.9,
+      "distilbert_f1": 0.8493150684931506
+    },
+    {
+      "intent": "lost_or_stolen_card",
+      "support": 40,
+      "tfidf_lr_f1": 0.9135802469135802,
+      "distilbert_f1": 0.8536585365853658
+    },
+    {
+      "intent": "direct_debit_payment_not_recognised",
+      "support": 40,
+      "tfidf_lr_f1": 0.9090909090909091,
+      "distilbert_f1": 0.8607594936708861
+    },
+    {
+      "intent": "declined_card_payment",
+      "support": 40,
+      "tfidf_lr_f1": 0.9176470588235294,
+      "distilbert_f1": 0.8666666666666667
+    }
+  ],
+  "baseline_better": [
+    {
+      "intent": "card_payment_not_recognised",
+      "tfidf_lr_f1": 0.8717948717948718,
+      "distilbert_f1": 0.7901234567901234
+    },
+    {
+      "intent": "topping_up_by_card",
+      "tfidf_lr_f1": 0.88,
+      "distilbert_f1": 0.8
+    },
+    {
+      "intent": "why_verify_identity",
+      "tfidf_lr_f1": 0.8641975308641975,
+      "distilbert_f1": 0.7945205479452054
+    },
+    {
+      "intent": "verify_my_identity",
+      "tfidf_lr_f1": 0.8461538461538461,
+      "distilbert_f1": 0.7848101265822784
+    },
+    {
+      "intent": "lost_or_stolen_card",
+      "tfidf_lr_f1": 0.9135802469135802,
+      "distilbert_f1": 0.8536585365853658
+    },
+    {
+      "intent": "card_payment_fee_charged",
+      "tfidf_lr_f1": 0.9367088607594937,
+      "distilbert_f1": 0.8809523809523809
+    },
+    {
+      "intent": "declined_transfer",
+      "tfidf_lr_f1": 0.8767123287671232,
+      "distilbert_f1": 0.8235294117647058
+    },
+    {
+      "intent": "declined_card_payment",
+      "tfidf_lr_f1": 0.9176470588235294,
+      "distilbert_f1": 0.8666666666666667
+    },
+    {
+      "intent": "compromised_card",
+      "tfidf_lr_f1": 0.9,
+      "distilbert_f1": 0.8493150684931506
+    },
+    {
+      "intent": "pending_transfer",
+      "tfidf_lr_f1": 0.810126582278481,
+      "distilbert_f1": 0.7605633802816901
+    },
+    {
+      "intent": "direct_debit_payment_not_recognised",
+      "tfidf_lr_f1": 0.9090909090909091,
+      "distilbert_f1": 0.8607594936708861
+    },
+    {
+      "intent": "supported_cards_and_currencies",
+      "tfidf_lr_f1": 0.9523809523809523,
+      "distilbert_f1": 0.9047619047619048
+    },
+    {
+      "intent": "lost_or_stolen_phone",
+      "tfidf_lr_f1": 0.9873417721518988,
+      "distilbert_f1": 0.9397590361445783
+    },
+    {
+      "intent": "card_acceptance",
+      "tfidf_lr_f1": 0.9230769230769231,
+      "distilbert_f1": 0.88
+    },
+    {
+      "intent": "receiving_money",
+      "tfidf_lr_f1": 0.961038961038961,
+      "distilbert_f1": 0.9230769230769231
+    },
+    {
+      "intent": "reverted_card_payment?",
+      "tfidf_lr_f1": 0.8809523809523809,
+      "distilbert_f1": 0.8470588235294118
+    },
+    {
+      "intent": "fiat_currency_support",
+      "tfidf_lr_f1": 0.8767123287671232,
+      "distilbert_f1": 0.8461538461538461
+    },
+    {
+      "intent": "transfer_timing",
+      "tfidf_lr_f1": 0.8947368421052632,
+      "distilbert_f1": 0.8666666666666667
+    },
+    {
+      "intent": "beneficiary_not_allowed",
+      "tfidf_lr_f1": 0.961038961038961,
+      "distilbert_f1": 0.935064935064935
+    },
+    {
+      "intent": "Refund_not_showing_up",
+      "tfidf_lr_f1": 0.9743589743589743,
+      "distilbert_f1": 0.9487179487179487
+    },
+    {
+      "intent": "declined_cash_withdrawal",
+      "tfidf_lr_f1": 0.891566265060241,
+      "distilbert_f1": 0.8695652173913043
+    },
+    {
+      "intent": "card_delivery_estimate",
+      "tfidf_lr_f1": 0.9113924050632911,
+      "distilbert_f1": 0.891566265060241
+    },
+    {
+      "intent": "exchange_via_app",
+      "tfidf_lr_f1": 0.8888888888888888,
+      "distilbert_f1": 0.8705882352941177
+    },
+    {
+      "intent": "top_up_by_cash_or_cheque",
+      "tfidf_lr_f1": 0.95,
+      "distilbert_f1": 0.935064935064935
+    },
+    {
+      "intent": "top_up_by_card_charge",
+      "tfidf_lr_f1": 0.9629629629629629,
+      "distilbert_f1": 0.95
+    },
+    {
+      "intent": "age_limit",
+      "tfidf_lr_f1": 0.9876543209876543,
+      "distilbert_f1": 0.975609756097561
+    },
+    {
+      "intent": "transfer_not_received_by_recipient",
+      "tfidf_lr_f1": 0.8433734939759037,
+      "distilbert_f1": 0.8314606741573034
+    },
+    {
+      "intent": "card_linking",
+      "tfidf_lr_f1": 0.9629629629629629,
+      "distilbert_f1": 0.9512195121951219
+    },
+    {
+      "intent": "country_support",
+      "tfidf_lr_f1": 0.9629629629629629,
+      "distilbert_f1": 0.9512195121951219
+    },
+    {
+      "intent": "transfer_fee_charged",
+      "tfidf_lr_f1": 0.9367088607594937,
+      "distilbert_f1": 0.925
+    },
+    {
+      "intent": "change_pin",
+      "tfidf_lr_f1": 0.9743589743589743,
+      "distilbert_f1": 0.963855421686747
+    },
+    {
+      "intent": "pending_card_payment",
+      "tfidf_lr_f1": 0.9135802469135802,
+      "distilbert_f1": 0.9066666666666666
+    },
+    {
+      "intent": "getting_virtual_card",
+      "tfidf_lr_f1": 0.8735632183908046,
+      "distilbert_f1": 0.8666666666666667
+    },
+    {
+      "intent": "card_swallowed",
+      "tfidf_lr_f1": 0.9487179487179487,
+      "distilbert_f1": 0.9473684210526315
+    }
+  ],
+  "by_length": {
+    "tfidf_lr": [
+      {
+        "words": "1-5",
+        "n": 278,
+        "accuracy": 0.9028776978417267,
+        "macro_f1": 0.7745867739119149
+      },
+      {
+        "words": "6-10",
+        "n": 1643,
+        "accuracy": 0.9074863055386488,
+        "macro_f1": 0.9027790594184202
+      },
+      {
+        "words": "11-15",
+        "n": 753,
+        "accuracy": 0.9229747675962815,
+        "macro_f1": 0.9010981222711566
+      },
+      {
+        "words": "16-25",
+        "n": 266,
+        "accuracy": 0.9135338345864662,
+        "macro_f1": 0.8408659380856072
+      },
+      {
+        "words": ">25",
+        "n": 140,
+        "accuracy": 0.9285714285714286,
+        "macro_f1": 0.8584749920088266
+      }
+    ],
+    "distilbert": [
+      {
+        "words": "1-5",
+        "n": 278,
+        "accuracy": 0.9172661870503597,
+        "macro_f1": 0.816202612127147
+      },
+      {
+        "words": "6-10",
+        "n": 1643,
+        "accuracy": 0.9093122337188071,
+        "macro_f1": 0.9056884023065043
+      },
+      {
+        "words": "11-15",
+        "n": 753,
+        "accuracy": 0.9296148738379814,
+        "macro_f1": 0.9110215071706373
+      },
+      {
+        "words": "16-25",
+        "n": 266,
+        "accuracy": 0.9022556390977443,
+        "macro_f1": 0.8733207450204862
+      },
+      {
+        "words": ">25",
+        "n": 140,
+        "accuracy": 0.9142857142857143,
+        "macro_f1": 0.8832432015868549
+      }
+    ]
+  },
+  "length_buckets": [
+    "1-5",
+    "6-10",
+    "11-15",
+    "16-25",
+    ">25"
+  ],
+  "confusions": {
+    "tfidf_lr": [
+      {
+        "true": "top_up_failed",
+        "predicted": "top_up_reverted",
+        "count": 5
+      },
+      {
+        "true": "balance_not_updated_after_bank_transfer",
+        "predicted": "transfer_not_received_by_recipient",
+        "count": 5
+      },
+      {
+        "true": "card_payment_wrong_exchange_rate",
+        "predicted": "wrong_exchange_rate_for_cash_withdrawal",
+        "count": 4
+      },
+      {
+        "true": "verify_my_identity",
+        "predicted": "why_verify_identity",
+        "count": 4
+      },
+      {
+        "true": "card_arrival",
+        "predicted": "card_delivery_estimate",
+        "count": 3
+      },
+      {
+        "true": "fiat_currency_support",
+        "predicted": "exchange_via_app",
+        "count": 3
+      },
+      {
+        "true": "pin_blocked",
+        "predicted": "card_not_working",
+        "count": 3
+      },
+      {
+        "true": "pending_top_up",
+        "predicted": "top_up_failed",
+        "count": 3
+      },
+      {
+        "true": "card_acceptance",
+        "predicted": "card_not_working",
+        "count": 3
+      },
+      {
+        "true": "top_up_reverted",
+        "predicted": "top_up_failed",
+        "count": 3
+      }
+    ],
+    "distilbert": [
+      {
+        "true": "why_verify_identity",
+        "predicted": "verify_my_identity",
+        "count": 8
+      },
+      {
+        "true": "card_arrival",
+        "predicted": "card_delivery_estimate",
+        "count": 5
+      },
+      {
+        "true": "fiat_currency_support",
+        "predicted": "exchange_via_app",
+        "count": 5
+      },
+      {
+        "true": "card_payment_not_recognised",
+        "predicted": "direct_debit_payment_not_recognised",
+        "count": 5
+      },
+      {
+        "true": "declined_transfer",
+        "predicted": "declined_card_payment",
+        "count": 5
+      },
+      {
+        "true": "pending_transfer",
+        "predicted": "transfer_not_received_by_recipient",
+        "count": 5
+      },
+      {
+        "true": "get_disposable_virtual_card",
+        "predicted": "getting_virtual_card",
+        "count": 5
+      },
+      {
+        "true": "balance_not_updated_after_bank_transfer",
+        "predicted": "transfer_timing",
+        "count": 5
+      },
+      {
+        "true": "verify_my_identity",
+        "predicted": "why_verify_identity",
+        "count": 4
+      },
+      {
+        "true": "verify_my_identity",
+        "predicted": "unable_to_verify_identity",
+        "count": 4
+      }
+    ]
+  },
+  "agreement": {
+    "both_right": 2709,
+    "only_baseline_right": 101,
+    "only_main_right": 108,
+    "both_wrong": 162
+  },
+  "bootstrap": {
+    "diff": 0.0018837917160734463,
+    "ci_low": -0.007750206968061016,
+    "ci_high": 0.011511553445728708,
+    "p_b_not_better": 0.339
+  },
+  "examples": [
+    {
+      "text": "How do I know when my card will arrive?",
+      "true": "card_arrival",
+      "predicted": "card_delivery_estimate",
+      "confidence": 0.9170929789543152,
+      "words": 9
+    },
+    {
+      "text": "Where did this fee come from?",
+      "true": "extra_charge_on_statement",
+      "predicted": "card_payment_fee_charged",
+      "confidence": 0.7787829041481018,
+      "words": 6
+    },
+    {
+      "text": "What countries can I travel to and have access to their currencies?",
+      "true": "fiat_currency_support",
+      "predicted": "country_support",
+      "confidence": 0.8789343237876892,
+      "words": 12
+    },
+    {
+      "text": "I would like to refill my account using SWIFT.",
+      "true": "top_up_by_bank_transfer_charge",
+      "predicted": "request_refund",
+      "confidence": 0.6981780529022217,
+      "words": 9
+    },
+    {
+      "text": "Can I get a copy of the card by email?",
+      "true": "getting_virtual_card",
+      "predicted": "card_linking",
+      "confidence": 0.5168370008468628,
+      "words": 10
+    },
+    {
+      "text": "The app wouldn't accept my top up.",
+      "true": "top_up_reverted",
+      "predicted": "top_up_failed",
+      "confidence": 0.8652821779251099,
+      "words": 7
+    },
+    {
+      "text": "How do I freeze my card using the app?",
+      "true": "compromised_card",
+      "predicted": "lost_or_stolen_phone",
+      "confidence": 0.30876773595809937,
+      "words": 9
+    },
+    {
+      "text": "Is there places where I can't withdraw money?",
+      "true": "atm_support",
+      "predicted": "declined_cash_withdrawal",
+      "confidence": 0.5159143805503845,
+      "words": 8
+    },
+    {
+      "text": "I was attempting to purchase a golf club off eBay yesterday, but my credit card was declined. I tried multiple times, and again this morning. Can you check into my card please?",
+      "true": "declined_transfer",
+      "predicted": "declined_card_payment",
+      "confidence": 0.5949472188949585,
+      "words": 32
+    },
+    {
+      "text": "I bought something and returned it and the money from the return isn't in my account.",
+      "true": "Refund_not_showing_up",
+      "predicted": "reverted_card_payment?",
+      "confidence": 0.6927651166915894,
+      "words": 16
+    },
+    {
+      "text": "When will the transfer go through?",
+      "true": "pending_transfer",
+      "predicted": "transfer_not_received_by_recipient",
+      "confidence": 0.3690628409385681,
+      "words": 6
+    },
+    {
+      "text": "How much does it cost in fees to use your card?",
+      "true": "order_physical_card",
+      "predicted": "card_payment_fee_charged",
+      "confidence": 0.9432222843170166,
+      "words": 11
+    },
+    {
+      "text": "can I have a non virtual card?",
+      "true": "order_physical_card",
+      "predicted": "getting_virtual_card",
+      "confidence": 0.862096905708313,
+      "words": 7
+    },
+    {
+      "text": "How long does a UK transfer take?",
+      "true": "balance_not_updated_after_bank_transfer",
+      "predicted": "transfer_timing",
+      "confidence": 0.9174289703369141,
+      "words": 7
+    },
+    {
+      "text": "What is needed to prove my identity?",
+      "true": "verify_my_identity",
+      "predicted": "unable_to_verify_identity",
+      "confidence": 0.9469613432884216,
+      "words": 7
+    }
+  ]
+}

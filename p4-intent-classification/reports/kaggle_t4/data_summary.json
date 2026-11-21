@@ -1,0 +1,35 @@
+{
+  "n_classes": 77,
+  "train": {
+    "rows": 9002,
+    "classes": 77,
+    "min_per_class": 32,
+    "max_per_class": 168,
+    "words_mean": 11.999111308598088,
+    "words_p50": 10.0,
+    "words_p95": 30.0,
+    "words_max": 79
+  },
+  "val": {
+    "rows": 1001,
+    "classes": 77,
+    "min_per_class": 3,
+    "max_per_class": 19,
+    "words_mean": 11.502497502497503,
+    "words_p50": 9.0,
+    "words_p95": 28.0,
+    "words_max": 64
+  },
+  "test": {
+    "rows": 3080,
+    "classes": 77,
+    "min_per_class": 40,
+    "max_per_class": 40,
+    "words_mean": 10.952597402597403,
+    "words_p50": 9.0,
+    "words_p95": 24.0,
+    "words_max": 69
+  },
+  "test_exact_overlap_with_train": 7,
+  "val_exact_overlap_with_train": 0
+}

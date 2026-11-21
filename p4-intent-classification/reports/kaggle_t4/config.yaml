@@ -1,0 +1,61 @@
+name: banking77
+output_dir: /kaggle/working/outputs/banking77
+seeds:
+- 0
+- 1
+- 2
+models:
+- majority
+- tfidf_lr
+- distilbert
+n_bootstrap: 1000
+data:
+  raw_dir: data/raw
+  train_url: https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/master/banking_data/train.csv
+  test_url: https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/master/banking_data/test.csv
+  val_fraction: 0.1
+  split_seed: 42
+  max_train: null
+  length_edges:
+  - 5
+  - 10
+  - 15
+  - 25
+tfidf:
+  word_ngrams:
+  - 1
+  - 2
+  char_ngrams:
+  - 2
+  - 5
+  min_df: 1
+  c_grid:
+  - 1.0
+  - 2.0
+  - 5.0
+  - 10.0
+  - 20.0
+  - 50.0
+  - 100.0
+  - 200.0
+  max_iter: 3000
+bert:
+  model_name: distilbert-base-uncased
+  max_length: 64
+  epochs: 5
+  batch_size: 32
+  lr: 5.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  patience: 2
+  fp16: true
+  eval_batch_size: 128
+latency:
+  batch_sizes:
+  - 1
+  - 32
+  n_texts: 256
+  warmup: 5
+  devices:
+  - cpu
+  - cuda
