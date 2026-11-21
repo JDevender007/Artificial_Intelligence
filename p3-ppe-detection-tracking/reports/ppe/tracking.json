@@ -1,0 +1,50 @@
+[
+  {
+    "tracker": "bytetrack.yaml",
+    "scope": "Person",
+    "mota": 0.9832167832167832,
+    "motp": 0.9431121669631386,
+    "idsw": 0,
+    "fp": 12,
+    "fn": 0,
+    "matches": 715,
+    "gt": 715,
+    "frames": 600
+  },
+  {
+    "tracker": "bytetrack.yaml",
+    "scope": "all classes",
+    "mota": 0.7417688831504197,
+    "motp": 0.8853741635560107,
+    "idsw": 7,
+    "fp": 484,
+    "fn": 709,
+    "matches": 3938,
+    "gt": 4647,
+    "frames": 600
+  },
+  {
+    "tracker": "botsort.yaml",
+    "scope": "Person",
+    "mota": 0.9832167832167832,
+    "motp": 0.964727548514855,
+    "idsw": 0,
+    "fp": 12,
+    "fn": 0,
+    "matches": 715,
+    "gt": 715,
+    "frames": 600
+  },
+  {
+    "tracker": "botsort.yaml",
+    "scope": "all classes",
+    "mota": 0.759414676135141,
+    "motp": 0.8930581618362543,
+    "idsw": 15,
+    "fp": 559,
+    "fn": 544,
+    "matches": 4103,
+    "gt": 4647,
+    "frames": 600
+  }
+]

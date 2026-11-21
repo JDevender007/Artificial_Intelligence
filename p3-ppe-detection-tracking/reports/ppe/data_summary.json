@@ -1,0 +1,290 @@
+{
+  "train": {
+    "images": 680,
+    "empty_images": 0,
+    "instances": 10100,
+    "boxes_per_image": {
+      "mean": 14.852941176470589,
+      "median": 12.0,
+      "max": 76
+    },
+    "per_class": {
+      "helmet": {
+        "instances": 1091,
+        "images": 519,
+        "small": 289,
+        "medium": 272,
+        "large": 530
+      },
+      "gloves": {
+        "instances": 1322,
+        "images": 468,
+        "small": 173,
+        "medium": 413,
+        "large": 736
+      },
+      "vest": {
+        "instances": 1248,
+        "images": 553,
+        "small": 122,
+        "medium": 369,
+        "large": 757
+      },
+      "boots": {
+        "instances": 1722,
+        "images": 493,
+        "small": 391,
+        "medium": 433,
+        "large": 898
+      },
+      "goggles": {
+        "instances": 533,
+        "images": 376,
+        "small": 8,
+        "medium": 167,
+        "large": 358
+      },
+      "Person": {
+        "instances": 1663,
+        "images": 674,
+        "small": 68,
+        "medium": 387,
+        "large": 1208
+      },
+      "no_helmet": {
+        "instances": 527,
+        "images": 290,
+        "small": 240,
+        "medium": 85,
+        "large": 202
+      },
+      "no_goggle": {
+        "instances": 223,
+        "images": 190,
+        "small": 70,
+        "medium": 147,
+        "large": 6
+      },
+      "no_gloves": {
+        "instances": 703,
+        "images": 289,
+        "small": 211,
+        "medium": 260,
+        "large": 232
+      },
+      "no_boots": {
+        "instances": 471,
+        "images": 209,
+        "small": 79,
+        "medium": 94,
+        "large": 298
+      },
+      "forklift": {
+        "instances": 227,
+        "images": 166,
+        "small": 0,
+        "medium": 10,
+        "large": 217
+      },
+      "no_vest": {
+        "instances": 370,
+        "images": 252,
+        "small": 65,
+        "medium": 84,
+        "large": 221
+      }
+    }
+  },
+  "val": {
+    "images": 120,
+    "empty_images": 0,
+    "instances": 1802,
+    "boxes_per_image": {
+      "mean": 15.016666666666667,
+      "median": 10.0,
+      "max": 43
+    },
+    "per_class": {
+      "helmet": {
+        "instances": 191,
+        "images": 94,
+        "small": 52,
+        "medium": 51,
+        "large": 88
+      },
+      "gloves": {
+        "instances": 226,
+        "images": 78,
+        "small": 33,
+        "medium": 71,
+        "large": 122
+      },
+      "vest": {
+        "instances": 228,
+        "images": 91,
+        "small": 15,
+        "medium": 89,
+        "large": 124
+      },
+      "boots": {
+        "instances": 281,
+        "images": 83,
+        "small": 51,
+        "medium": 73,
+        "large": 157
+      },
+      "goggles": {
+        "instances": 79,
+        "images": 61,
+        "small": 0,
+        "medium": 22,
+        "large": 57
+      },
+      "Person": {
+        "instances": 299,
+        "images": 117,
+        "small": 7,
+        "medium": 67,
+        "large": 225
+      },
+      "no_helmet": {
+        "instances": 107,
+        "images": 47,
+        "small": 54,
+        "medium": 26,
+        "large": 27
+      },
+      "no_goggle": {
+        "instances": 42,
+        "images": 37,
+        "small": 14,
+        "medium": 27,
+        "large": 1
+      },
+      "no_gloves": {
+        "instances": 136,
+        "images": 51,
+        "small": 63,
+        "medium": 34,
+        "large": 39
+      },
+      "no_boots": {
+        "instances": 98,
+        "images": 35,
+        "small": 40,
+        "medium": 16,
+        "large": 42
+      },
+      "forklift": {
+        "instances": 48,
+        "images": 35,
+        "small": 0,
+        "medium": 1,
+        "large": 47
+      },
+      "no_vest": {
+        "instances": 67,
+        "images": 48,
+        "small": 8,
+        "medium": 15,
+        "large": 44
+      }
+    }
+  },
+  "test": {
+    "images": 200,
+    "empty_images": 0,
+    "instances": 2961,
+    "boxes_per_image": {
+      "mean": 14.805,
+      "median": 10.0,
+      "max": 61
+    },
+    "per_class": {
+      "helmet": {
+        "instances": 294,
+        "images": 146,
+        "small": 91,
+        "medium": 59,
+        "large": 144
+      },
+      "gloves": {
+        "instances": 381,
+        "images": 136,
+        "small": 53,
+        "medium": 128,
+        "large": 200
+      },
+      "vest": {
+        "instances": 340,
+        "images": 157,
+        "small": 27,
+        "medium": 116,
+        "large": 197
+      },
+      "boots": {
+        "instances": 481,
+        "images": 155,
+        "small": 123,
+        "medium": 103,
+        "large": 255
+      },
+      "goggles": {
+        "instances": 139,
+        "images": 102,
+        "small": 0,
+        "medium": 42,
+        "large": 97
+      },
+      "Person": {
+        "instances": 481,
+        "images": 200,
+        "small": 15,
+        "medium": 106,
+        "large": 360
+      },
+      "no_helmet": {
+        "instances": 179,
+        "images": 91,
+        "small": 69,
+        "medium": 34,
+        "large": 76
+      },
+      "no_goggle": {
+        "instances": 82,
+        "images": 56,
+        "small": 18,
+        "medium": 63,
+        "large": 1
+      },
+      "no_gloves": {
+        "instances": 203,
+        "images": 94,
+        "small": 63,
+        "medium": 75,
+        "large": 65
+      },
+      "no_boots": {
+        "instances": 178,
+        "images": 71,
+        "small": 37,
+        "medium": 42,
+        "large": 99
+      },
+      "forklift": {
+        "instances": 73,
+        "images": 46,
+        "small": 0,
+        "medium": 3,
+        "large": 70
+      },
+      "no_vest": {
+        "instances": 130,
+        "images": 84,
+        "small": 15,
+        "medium": 33,
+        "large": 82
+      }
+    }
+  }
+}

@@ -127,35 +127,55 @@ Reproducibility: the seed is passed to Ultralytics with `deterministic=True`, an
 
 ## Results
 
-> Pending the Kaggle run. Numbers are copied from `outputs/ppe/{results,per_class,error_analysis,tracking}.md` into `reports/`. Nothing is filled in by hand.
+Kaggle T4, ultralytics 8.4.216, torch 2.11.0+cu130 (`reports/ppe/env.txt`). 50 epochs, imgsz 640, batch 16, patience 15. Test split: 200 images, 2,961 boxes. Every row is the mean ± std over 3 seeds (`reports/ppe/results.md`), and latency is the Ultralytics inference time per image on the T4.
 
 | variant | test mAP50-95 | mAP50 | precision | recall | ms/img (T4) | params (M) |
 |---|---|---|---|---|---|---|
-| scratch_n (baseline) | _ | _ | _ | _ | _ | _ |
-| pretrained_n (main) | _ | _ | _ | _ | _ | _ |
-| pretrained_n_noaug | _ | _ | _ | _ | _ | _ |
-| pretrained_n_frozen | _ | _ | _ | _ | _ | _ |
-| pretrained_s | _ | _ | _ | _ | _ | _ |
+| scratch_n (baseline) | 0.227 ± 0.008 | 0.449 ± 0.007 | 0.653 ± 0.060 | 0.425 ± 0.010 | 4.3 ± 1.2 | 2.51 |
+| **pretrained_n (main)** | **0.529 ± 0.003** | **0.747 ± 0.004** | 0.850 ± 0.001 | 0.687 ± 0.004 | 4.0 ± 0.3 | 2.54 |
+| pretrained_n_noaug | 0.471 ± 0.002 | 0.695 ± 0.007 | 0.811 ± 0.012 | 0.642 ± 0.007 | 4.1 ± 0.6 | 2.54 |
+| pretrained_n_frozen | 0.514 ± 0.002 | 0.729 ± 0.003 | 0.826 ± 0.002 | 0.671 ± 0.007 | 4.0 ± 0.0 | 2.54 |
+| pretrained_s | 0.595 ± 0.001 | 0.810 ± 0.004 | 0.892 ± 0.004 | 0.755 ± 0.005 | 8.8 ± 0.4 | 9.96 |
 
-| tracker | scope | MOTA | IDSW | MOTP |
+What the ablations show:
+
+- **COCO pretraining matters most.** It takes mAP50-95 from 0.227 to 0.529 (×2.3) under the same 50-epoch budget. The scratch model is still improving at the end: its val mAP50-95 rises 0.159 → 0.201 → 0.216 at epochs 24, 39 and 49 (`reports/ppe/runs/scratch_n_s0/results.csv`). Part of this gap is therefore under-training.
+- **Augmentation is worth 0.058 mAP50-95** (0.529 → 0.471 without it). With 680 training images, the default mosaic/HSV/flip augmentation acts as the main regulariser.
+- **Freezing the backbone (first 10 layers) costs only 0.015.** That is a cheap option when GPU time is the constraint.
+- **The larger `s` model** gains 0.066 mAP50-95 for 3.9× the parameters and 2.2× the latency. `n` is the main model because the target is edge cameras; `s` is the choice if a T4-class server is available.
+
+Per-class test mAP50-95 for the main model (`reports/ppe/per_class.md`):
+
+- Best classes: Person 0.780, vest 0.695 and helmet 0.637.
+- Weakest classes: the "absence" classes, no_goggle 0.073, no_gloves 0.386 and no_helmet 0.388.
+
+Tracking (`reports/ppe/tracking.md`) uses the main model on the synthetic test sequences (camera motion plus dropped detections), scored with our own CLEAR-MOT implementation:
+
+| tracker | scope | MOTA | IDSW | MOTP (IoU) |
 |---|---|---|---|---|
-| ByteTrack | Person | _ | _ | _ |
-| BoT-SORT | Person | _ | _ | _ |
+| ByteTrack | Person | 0.983 | 0 | 0.943 |
+| BoT-SORT | Person | 0.983 | 0 | 0.965 |
+| ByteTrack | all classes | 0.742 | 7 | 0.885 |
+| BoT-SORT | all classes | 0.759 | 15 | 0.893 |
+
+On persons the two trackers tie on MOTA, and BoT-SORT boxes fit slightly tighter. On all classes BoT-SORT has higher MOTA (fewer FN: 544 vs 709) but twice the identity switches. **ByteTrack is the default**, since stable IDs matter more than a few recovered small boxes for per-person compliance, and it has no camera-motion-compensation cost. The synthetic sequences are easy (no occlusion between people), so these numbers are an upper bound.
 
 ## Error analysis
 
-`error_analysis.md` covers the main model (seed 0, conf ≥ 0.25, IoU ≥ 0.5):
+`reports/ppe/error_analysis.md` covers the main model (seed 0, conf ≥ 0.25, IoU ≥ 0.5).
 
-- recall per class and per box size
-- false positives split into background, localization, class-confusion and duplicate errors
-- the most frequent class confusions
-- the compliance GT-vs-predicted table
-
-The written interpretation will be added after the run.
+- **Small objects are the main failure.** Recall is 0.174 on small boxes (< 32² px, 511 GT), 0.672 on medium and 0.950 on large. Most small test boxes are boots (123), helmets (91), no_helmet (69), no_gloves (63) and gloves (53), all seen from far away. Fixes, in order of cost: train at imgsz 960–1280, tile inference (SAHI-style), or use a P2 detection head.
+- **"Absence" classes are confused with their "presence" twin.** The top class confusions are no_boots→boots (36), no_helmet→helmet (14), no_vest→vest (13) and no_gloves→gloves (7). The detector localises the body part but gets the state wrong, which is the dangerous direction for safety (a violation reported as compliant).
+- **no_goggle is nearly unlearnable here.** It has 223 train instances, almost none large, and recall is 0.220. 12 of its 14 FPs are localisation errors (right class, IoU < 0.5 with the small GT box). More data or merging it into a "face PPE" check is more realistic than tuning.
+- **Boots carry the most false positives** (37 localisation, 37 class). Feet are small and often overlap.
+- **Compliance rule (GT vs predicted, 481 GT persons): agreement 0.696.**
+  - Of 227 non-compliant persons, 138 are caught. 47 become "unknown", 28 are missed persons and 14 (6%) are wrongly called compliant.
+  - Of 230 compliant persons, only 6 are flagged as violations.
+  - The rule fails "safe-ish": it mostly says "unknown", not "compliant". A deployment should route "unknown" to a human rather than treat it as OK.
 
 ## Limitations
 
-- The test set is small (the official val split), so per-class numbers for rare classes have high variance. Read the per-class `GT` column before trusting a per-class recall.
+- The test set is small (200 images), so per-class numbers for rare classes have high variance. Read the per-class `GT` column before trusting a per-class recall.
 - The synthetic sequences have rigid scenes and no person-to-person occlusion. They measure robustness to camera motion and missed detections, not crowd tracking, and real video will be harder.
 - The compliance rule is a geometric heuristic. A helmet held at chest height, or two overlapping workers, can fool it. "Unknown" is common when items are small or occluded.
 - From-scratch training gets the same epoch budget as fine-tuning, so the baseline gap partly reflects under-training. The comparison is "equal budget", not "scratch at convergence".

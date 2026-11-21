@@ -1,0 +1,229 @@
+{
+  "errors": {
+    "per_class": {
+      "helmet": {
+        "gt": 294,
+        "recall": 0.7993197278911565,
+        "background": 5,
+        "localization": 3,
+        "class": 14,
+        "duplicate": 0
+      },
+      "gloves": {
+        "gt": 381,
+        "recall": 0.7532808398950132,
+        "background": 17,
+        "localization": 19,
+        "class": 7,
+        "duplicate": 1
+      },
+      "vest": {
+        "gt": 340,
+        "recall": 0.8323529411764706,
+        "background": 0,
+        "localization": 2,
+        "class": 19,
+        "duplicate": 0
+      },
+      "boots": {
+        "gt": 481,
+        "recall": 0.7027027027027027,
+        "background": 11,
+        "localization": 37,
+        "class": 37,
+        "duplicate": 1
+      },
+      "goggles": {
+        "gt": 139,
+        "recall": 0.9424460431654677,
+        "background": 3,
+        "localization": 4,
+        "class": 2,
+        "duplicate": 1
+      },
+      "Person": {
+        "gt": 481,
+        "recall": 0.8981288981288982,
+        "background": 17,
+        "localization": 11,
+        "class": 4,
+        "duplicate": 0
+      },
+      "no_helmet": {
+        "gt": 179,
+        "recall": 0.547486033519553,
+        "background": 3,
+        "localization": 8,
+        "class": 1,
+        "duplicate": 0
+      },
+      "no_goggle": {
+        "gt": 82,
+        "recall": 0.21951219512195122,
+        "background": 0,
+        "localization": 12,
+        "class": 0,
+        "duplicate": 2
+      },
+      "no_gloves": {
+        "gt": 203,
+        "recall": 0.5812807881773399,
+        "background": 3,
+        "localization": 8,
+        "class": 1,
+        "duplicate": 2
+      },
+      "no_boots": {
+        "gt": 178,
+        "recall": 0.6460674157303371,
+        "background": 1,
+        "localization": 1,
+        "class": 8,
+        "duplicate": 0
+      },
+      "forklift": {
+        "gt": 73,
+        "recall": 0.7808219178082192,
+        "background": 7,
+        "localization": 3,
+        "class": 0,
+        "duplicate": 0
+      },
+      "no_vest": {
+        "gt": 130,
+        "recall": 0.6153846153846154,
+        "background": 0,
+        "localization": 3,
+        "class": 3,
+        "duplicate": 0
+      }
+    },
+    "by_size": {
+      "small": {
+        "gt": 511,
+        "recall": 0.17416829745596868
+      },
+      "medium": {
+        "gt": 804,
+        "recall": 0.6716417910447762
+      },
+      "large": {
+        "gt": 1646,
+        "recall": 0.9495747266099636
+      }
+    },
+    "confusions": [
+      {
+        "true": "no_boots",
+        "predicted": "boots",
+        "count": 36
+      },
+      {
+        "true": "no_helmet",
+        "predicted": "helmet",
+        "count": 14
+      },
+      {
+        "true": "no_vest",
+        "predicted": "vest",
+        "count": 13
+      },
+      {
+        "true": "boots",
+        "predicted": "no_boots",
+        "count": 8
+      },
+      {
+        "true": "no_gloves",
+        "predicted": "gloves",
+        "count": 7
+      },
+      {
+        "true": "Person",
+        "predicted": "vest",
+        "count": 5
+      },
+      {
+        "true": "vest",
+        "predicted": "no_vest",
+        "count": 3
+      },
+      {
+        "true": "no_vest",
+        "predicted": "Person",
+        "count": 2
+      },
+      {
+        "true": "forklift",
+        "predicted": "Person",
+        "count": 1
+      },
+      {
+        "true": "helmet",
+        "predicted": "vest",
+        "count": 1
+      }
+    ]
+  },
+  "compliance": {
+    "persons": 481,
+    "agreement": 0.6964656964656964,
+    "table": [
+      {
+        "gt": "compliant",
+        "pred": "compliant",
+        "count": 188
+      },
+      {
+        "gt": "compliant",
+        "pred": "missed",
+        "count": 7
+      },
+      {
+        "gt": "compliant",
+        "pred": "non_compliant",
+        "count": 6
+      },
+      {
+        "gt": "compliant",
+        "pred": "unknown",
+        "count": 29
+      },
+      {
+        "gt": "non_compliant",
+        "pred": "compliant",
+        "count": 14
+      },
+      {
+        "gt": "non_compliant",
+        "pred": "missed",
+        "count": 28
+      },
+      {
+        "gt": "non_compliant",
+        "pred": "non_compliant",
+        "count": 138
+      },
+      {
+        "gt": "non_compliant",
+        "pred": "unknown",
+        "count": 47
+      },
+      {
+        "gt": "unknown",
+        "pred": "missed",
+        "count": 14
+      },
+      {
+        "gt": "unknown",
+        "pred": "non_compliant",
+        "count": 1
+      },
+      {
+        "gt": "unknown",
+        "pred": "unknown",
+        "count": 9
+      }
+    ]
+  }
+}

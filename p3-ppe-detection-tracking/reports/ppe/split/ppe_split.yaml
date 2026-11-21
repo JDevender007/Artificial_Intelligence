@@ -1,0 +1,17 @@
+path: /kaggle/working/outputs/ppe/split
+train: train.txt
+val: val.txt
+test: test.txt
+names:
+  0: helmet
+  1: gloves
+  2: vest
+  3: boots
+  4: goggles
+  5: Person
+  6: no_helmet
+  7: no_goggle
+  8: no_gloves
+  9: no_boots
+  10: forklift
+  11: no_vest

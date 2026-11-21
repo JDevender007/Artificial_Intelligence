@@ -1,0 +1,61 @@
+name: ppe
+output_dir: /kaggle/working/outputs/ppe
+seeds:
+- 0
+- 1
+- 2
+variants:
+- name: scratch_n
+  model: yolo26n.yaml
+  pretrained: false
+  overrides: {}
+- name: pretrained_n
+  model: yolo26n.pt
+  pretrained: true
+  overrides: {}
+- name: pretrained_n_noaug
+  model: yolo26n.pt
+  pretrained: true
+  overrides:
+    mosaic: 0.0
+    mixup: 0.0
+    hsv_h: 0.0
+    hsv_s: 0.0
+    hsv_v: 0.0
+    fliplr: 0.0
+    scale: 0.0
+    translate: 0.0
+- name: pretrained_n_frozen
+  model: yolo26n.pt
+  pretrained: true
+  overrides:
+    freeze: 10
+- name: pretrained_s
+  model: yolo26s.pt
+  pretrained: true
+  overrides: {}
+data:
+  yaml: construction-ppe.yaml
+  val_fraction: 0.15
+  split_seed: 42
+train:
+  epochs: 50
+  imgsz: 640
+  batch: 16
+  patience: 15
+  workers: 4
+  fraction: 1.0
+  optimizer: auto
+eval:
+  conf: 0.25
+  iou: 0.5
+  main_variant: pretrained_n
+track:
+  enabled: true
+  trackers:
+  - bytetrack.yaml
+  - botsort.yaml
+  n_sequences: 20
+  n_frames: 30
+  min_objects: 3
+  seed: 0
