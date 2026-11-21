@@ -1,0 +1,23 @@
+# Seconds-long check on a synthetic series (no download): two seeds, few folds, 2 epochs.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0, 1]
+models: [seasonal_naive, weekly_naive, ets, sarima, lstm, transformer]
+data:
+  synthetic: true
+  val_start: "2009-11-01"
+  test_start: "2010-01-01"
+  test_end: "2010-02-01"
+backtest:
+  max_folds: 10
+stat:
+  window_days: 14
+nn:
+  lookback: 72
+  hidden: 16
+  layers: 1
+  epochs: 2
+anomaly:
+  n_events: 6
+  window: 72
+  detectors: [raw_zscore, seasonal_naive, lstm]

@@ -1,0 +1,26 @@
+# Full run: UCI household power, hourly, 24-h-ahead walk-forward over 2010 (one origin per midnight).
+name: household_power
+output_dir: outputs/household_power
+seeds: [0, 1, 2]
+models: [seasonal_naive, weekly_naive, ets, sarima, lstm, transformer]
+data:
+  val_start: "2009-07-01"
+  test_start: "2010-01-01"
+backtest:
+  horizon: 24
+  stride: 24
+  season: 24
+stat:
+  window_days: 28
+  sarima_order: [2, 0, 1]
+  sarima_seasonal: [1, 1, 1, 24]
+  refit_every: 7
+nn:
+  lookback: 168
+  hidden: 64
+  layers: 2
+  epochs: 30
+  patience: 5
+anomaly:
+  n_events: 40
+  detectors: [raw_zscore, seasonal_naive, weekly_naive, lstm]
