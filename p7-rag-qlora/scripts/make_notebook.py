@@ -33,7 +33,9 @@ def build(configs: list[str]) -> dict:
         ("markdown", INTRO),
         ("code", "!git clone --depth 1 https://github.com/JDevender007/Artificial_Intelligence.git\n"
                  "%cd Artificial_Intelligence/p7-rag-qlora\n"
-                 "!pip install -q peft bitsandbytes accelerate tabulate && pip install -q -e . --no-deps"),
+                 "!pip install -q peft bitsandbytes accelerate tabulate && pip install -q -e . --no-deps\n"
+                 "# Kaggle ships torchao 0.10; peft >= 0.18 refuses to load adapters next to torchao < 0.16. Not used here.\n"
+                 "!pip uninstall -q -y torchao"),
         ("code", "!mkdir -p /kaggle/working/outputs\n"
                  f"!python -c \"{VERSIONS}\" | tee /kaggle/working/outputs/env.txt\n"
                  "!(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || echo no-gpu) "
