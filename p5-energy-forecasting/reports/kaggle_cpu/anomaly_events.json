@@ -1,0 +1,486 @@
+{
+  "val": [
+    {
+      "kind": "spike",
+      "start": 69,
+      "length": 1,
+      "magnitude": 4.92876140203906
+    },
+    {
+      "kind": "level_shift",
+      "start": 307,
+      "length": 19,
+      "magnitude": -2.1673581872594694
+    },
+    {
+      "kind": "level_shift",
+      "start": 383,
+      "length": 18,
+      "magnitude": 2.634399055676454
+    },
+    {
+      "kind": "spike",
+      "start": 526,
+      "length": 2,
+      "magnitude": 4.498642650867102
+    },
+    {
+      "kind": "dropout",
+      "start": 629,
+      "length": 12,
+      "magnitude": -0.47855555555555557
+    },
+    {
+      "kind": "spike",
+      "start": 736,
+      "length": 2,
+      "magnitude": 5.633651855145269
+    },
+    {
+      "kind": "spike",
+      "start": 786,
+      "length": 2,
+      "magnitude": 4.812741200472765
+    },
+    {
+      "kind": "dropout",
+      "start": 848,
+      "length": 10,
+      "magnitude": -0.37332333333333334
+    },
+    {
+      "kind": "spike",
+      "start": 914,
+      "length": 1,
+      "magnitude": 4.179886085822192
+    },
+    {
+      "kind": "spike",
+      "start": 969,
+      "length": 1,
+      "magnitude": 3.440221567069059
+    },
+    {
+      "kind": "spike",
+      "start": 1044,
+      "length": 2,
+      "magnitude": 3.571990243828778
+    },
+    {
+      "kind": "dropout",
+      "start": 1156,
+      "length": 8,
+      "magnitude": -0.5462625
+    },
+    {
+      "kind": "level_shift",
+      "start": 1263,
+      "length": 20,
+      "magnitude": -2.6199935942611243
+    },
+    {
+      "kind": "dropout",
+      "start": 1344,
+      "length": 9,
+      "magnitude": -0.6629592592592594
+    },
+    {
+      "kind": "level_shift",
+      "start": 1405,
+      "length": 20,
+      "magnitude": -1.9708363356395682
+    },
+    {
+      "kind": "dropout",
+      "start": 1493,
+      "length": 4,
+      "magnitude": -1.0103499999999999
+    },
+    {
+      "kind": "level_shift",
+      "start": 1623,
+      "length": 24,
+      "magnitude": -1.6265395357625603
+    },
+    {
+      "kind": "dropout",
+      "start": 1723,
+      "length": 6,
+      "magnitude": -1.4882388888888887
+    },
+    {
+      "kind": "spike",
+      "start": 1800,
+      "length": 2,
+      "magnitude": 3.613202119758631
+    },
+    {
+      "kind": "spike",
+      "start": 1860,
+      "length": 2,
+      "magnitude": 3.3563282454192485
+    },
+    {
+      "kind": "spike",
+      "start": 2002,
+      "length": 2,
+      "magnitude": 5.22059086298489
+    },
+    {
+      "kind": "dropout",
+      "start": 2089,
+      "length": 4,
+      "magnitude": -0.3528916666666667
+    },
+    {
+      "kind": "level_shift",
+      "start": 2200,
+      "length": 19,
+      "magnitude": -1.7299805411821758
+    },
+    {
+      "kind": "spike",
+      "start": 2278,
+      "length": 2,
+      "magnitude": 4.138256663991382
+    },
+    {
+      "kind": "dropout",
+      "start": 2428,
+      "length": 10,
+      "magnitude": -1.09114
+    },
+    {
+      "kind": "dropout",
+      "start": 2582,
+      "length": 5,
+      "magnitude": -1.0062733333333331
+    },
+    {
+      "kind": "level_shift",
+      "start": 2709,
+      "length": 20,
+      "magnitude": -2.2351923344434983
+    },
+    {
+      "kind": "level_shift",
+      "start": 2795,
+      "length": 22,
+      "magnitude": -2.653048618766272
+    },
+    {
+      "kind": "level_shift",
+      "start": 2883,
+      "length": 7,
+      "magnitude": 1.7703363358976343
+    },
+    {
+      "kind": "dropout",
+      "start": 3064,
+      "length": 7,
+      "magnitude": -1.826104761904762
+    },
+    {
+      "kind": "level_shift",
+      "start": 3135,
+      "length": 6,
+      "magnitude": 2.1321407870816205
+    },
+    {
+      "kind": "dropout",
+      "start": 3212,
+      "length": 11,
+      "magnitude": -0.9682121212121213
+    },
+    {
+      "kind": "level_shift",
+      "start": 3274,
+      "length": 7,
+      "magnitude": 2.344048268050226
+    },
+    {
+      "kind": "spike",
+      "start": 3438,
+      "length": 2,
+      "magnitude": 5.057097022329469
+    },
+    {
+      "kind": "spike",
+      "start": 3566,
+      "length": 2,
+      "magnitude": 2.979222177091631
+    },
+    {
+      "kind": "dropout",
+      "start": 3619,
+      "length": 11,
+      "magnitude": -0.9580606060606062
+    },
+    {
+      "kind": "level_shift",
+      "start": 3744,
+      "length": 14,
+      "magnitude": -1.884425993677272
+    },
+    {
+      "kind": "level_shift",
+      "start": 4001,
+      "length": 9,
+      "magnitude": 2.634577912285729
+    },
+    {
+      "kind": "spike",
+      "start": 4152,
+      "length": 1,
+      "magnitude": 5.368276344483275
+    },
+    {
+      "kind": "dropout",
+      "start": 4225,
+      "length": 9,
+      "magnitude": -0.5785111111111111
+    }
+  ],
+  "test": [
+    {
+      "kind": "dropout",
+      "start": 107,
+      "length": 4,
+      "magnitude": -1.6085666666666667
+    },
+    {
+      "kind": "level_shift",
+      "start": 173,
+      "length": 15,
+      "magnitude": 1.6768711613306126
+    },
+    {
+      "kind": "level_shift",
+      "start": 301,
+      "length": 19,
+      "magnitude": 2.1191384404264757
+    },
+    {
+      "kind": "dropout",
+      "start": 595,
+      "length": 12,
+      "magnitude": -1.667972222222222
+    },
+    {
+      "kind": "level_shift",
+      "start": 1119,
+      "length": 16,
+      "magnitude": -2.016727413332743
+    },
+    {
+      "kind": "level_shift",
+      "start": 1484,
+      "length": 10,
+      "magnitude": -1.6649324051906693
+    },
+    {
+      "kind": "dropout",
+      "start": 1764,
+      "length": 12,
+      "magnitude": -1.54995
+    },
+    {
+      "kind": "dropout",
+      "start": 1829,
+      "length": 10,
+      "magnitude": -1.0886966666666669
+    },
+    {
+      "kind": "spike",
+      "start": 1958,
+      "length": 1,
+      "magnitude": 5.165785706895104
+    },
+    {
+      "kind": "spike",
+      "start": 2093,
+      "length": 1,
+      "magnitude": 2.840752369039743
+    },
+    {
+      "kind": "level_shift",
+      "start": 2407,
+      "length": 9,
+      "magnitude": 1.4242116745763964
+    },
+    {
+      "kind": "dropout",
+      "start": 2484,
+      "length": 9,
+      "magnitude": -1.257851851851852
+    },
+    {
+      "kind": "dropout",
+      "start": 2574,
+      "length": 6,
+      "magnitude": -0.923861111111111
+    },
+    {
+      "kind": "level_shift",
+      "start": 2930,
+      "length": 7,
+      "magnitude": 1.7527171837767883
+    },
+    {
+      "kind": "level_shift",
+      "start": 3279,
+      "length": 14,
+      "magnitude": 2.755447775053694
+    },
+    {
+      "kind": "dropout",
+      "start": 3394,
+      "length": 5,
+      "magnitude": -2.2107466666666675
+    },
+    {
+      "kind": "spike",
+      "start": 3567,
+      "length": 2,
+      "magnitude": 3.6149322502217407
+    },
+    {
+      "kind": "spike",
+      "start": 3722,
+      "length": 1,
+      "magnitude": 4.893943160744149
+    },
+    {
+      "kind": "spike",
+      "start": 3835,
+      "length": 2,
+      "magnitude": 4.30174562113106
+    },
+    {
+      "kind": "level_shift",
+      "start": 3938,
+      "length": 12,
+      "magnitude": -2.4902505339254994
+    },
+    {
+      "kind": "spike",
+      "start": 4151,
+      "length": 1,
+      "magnitude": 3.3389854520797795
+    },
+    {
+      "kind": "dropout",
+      "start": 4203,
+      "length": 6,
+      "magnitude": -0.7659722222222222
+    },
+    {
+      "kind": "dropout",
+      "start": 4280,
+      "length": 5,
+      "magnitude": -0.8960733333333334
+    },
+    {
+      "kind": "level_shift",
+      "start": 4606,
+      "length": 13,
+      "magnitude": 2.0208725664231304
+    },
+    {
+      "kind": "spike",
+      "start": 4856,
+      "length": 1,
+      "magnitude": 3.5852258770928933
+    },
+    {
+      "kind": "level_shift",
+      "start": 4956,
+      "length": 8,
+      "magnitude": 2.728962240734784
+    },
+    {
+      "kind": "spike",
+      "start": 5369,
+      "length": 1,
+      "magnitude": 2.984151643181514
+    },
+    {
+      "kind": "level_shift",
+      "start": 5741,
+      "length": 9,
+      "magnitude": -1.8092938638405742
+    },
+    {
+      "kind": "dropout",
+      "start": 5826,
+      "length": 7,
+      "magnitude": -1.1077285714285716
+    },
+    {
+      "kind": "spike",
+      "start": 6013,
+      "length": 2,
+      "magnitude": 3.3234246737300412
+    },
+    {
+      "kind": "dropout",
+      "start": 6190,
+      "length": 12,
+      "magnitude": -0.8189305555555556
+    },
+    {
+      "kind": "spike",
+      "start": 6278,
+      "length": 1,
+      "magnitude": 4.687344333410629
+    },
+    {
+      "kind": "dropout",
+      "start": 6368,
+      "length": 7,
+      "magnitude": -1.4917571428571428
+    },
+    {
+      "kind": "level_shift",
+      "start": 6435,
+      "length": 23,
+      "magnitude": -2.565719052730857
+    },
+    {
+      "kind": "spike",
+      "start": 6560,
+      "length": 1,
+      "magnitude": 4.299055160708468
+    },
+    {
+      "kind": "level_shift",
+      "start": 6752,
+      "length": 21,
+      "magnitude": 2.1421727169524396
+    },
+    {
+      "kind": "dropout",
+      "start": 7208,
+      "length": 5,
+      "magnitude": -0.9333466666666668
+    },
+    {
+      "kind": "spike",
+      "start": 7362,
+      "length": 1,
+      "magnitude": 2.8947089303945095
+    },
+    {
+      "kind": "spike",
+      "start": 7424,
+      "length": 2,
+      "magnitude": 4.3241926882856765
+    },
+    {
+      "kind": "spike",
+      "start": 7521,
+      "length": 2,
+      "magnitude": 4.21926510438593
+    }
+  ]
+}
