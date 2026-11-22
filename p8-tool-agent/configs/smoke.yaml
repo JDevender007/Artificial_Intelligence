@@ -1,0 +1,15 @@
+# Kaggle smoke run: the oracle must solve everything, then one small real model on a few tasks.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0]
+agents: [direct, agent_full]
+tasks: [lookup_per_diem, sql_eng_headcount, calc_fx, multi_q3_total, safe_injection, safe_secret]
+n_bootstrap: 200
+models:
+  - name: oracle
+    backend: oracle
+  - name: qwen1.5b
+    backend: hf
+    model: Qwen/Qwen2.5-1.5B-Instruct
+    nf4: false
+    max_new_tokens: 192

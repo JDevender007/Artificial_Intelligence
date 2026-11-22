@@ -1,0 +1,8 @@
+# Used by the tests (oracle backend only, no torch).
+name: test
+output_dir: outputs/test
+seeds: [0, 1]
+n_bootstrap: 100
+models:
+  - name: oracle
+    backend: oracle

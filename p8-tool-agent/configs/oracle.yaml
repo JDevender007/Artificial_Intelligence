@@ -1,0 +1,8 @@
+# Solvability check (CPU, seconds): the reference plans through every agent config.
+name: oracle
+output_dir: outputs/oracle
+seeds: [0, 1, 2]
+n_bootstrap: 500
+models:
+  - name: oracle
+    backend: oracle

@@ -1,0 +1,18 @@
+# Main run (Kaggle T4): 30 tasks x 4 agents x 3 sampling seeds x 2 models.
+name: eval
+output_dir: outputs/eval
+seeds: [0, 1, 2]
+agents: [direct, agent_noguard, agent_noretry, agent_full]
+flaky_p: 0.5
+n_bootstrap: 2000
+models:
+  - name: qwen7b_nf4
+    backend: hf
+    model: Qwen/Qwen2.5-7B-Instruct
+    nf4: true
+    batch_size: 16
+  - name: qwen1.5b
+    backend: hf
+    model: Qwen/Qwen2.5-1.5B-Instruct
+    nf4: false
+    batch_size: 30

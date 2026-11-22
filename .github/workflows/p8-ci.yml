@@ -1,0 +1,23 @@
+name: p8-ci
+on:
+  push:
+    branches: [main]
+    paths: ["p8-tool-agent/**", ".github/workflows/p8-ci.yml"]
+  pull_request:
+    paths: ["p8-tool-agent/**", ".github/workflows/p8-ci.yml"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: p8-tool-agent
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: p8-tool-agent/requirements*.txt
+      - run: pip install -r requirements-ci.txt && pip install -e . --no-deps
+      - run: ruff check .
+      - run: pytest -q
