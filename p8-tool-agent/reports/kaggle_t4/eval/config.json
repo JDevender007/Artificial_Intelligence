@@ -1,0 +1,44 @@
+{
+  "name": "eval",
+  "output_dir": "/kaggle/working/outputs/eval",
+  "world_dir": "",
+  "world_seed": 0,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "agents": [
+    "direct",
+    "agent_noguard",
+    "agent_noretry",
+    "agent_full"
+  ],
+  "tasks": [],
+  "flaky_p": 0.5,
+  "n_bootstrap": 2000,
+  "models": [
+    {
+      "name": "qwen7b_nf4",
+      "backend": "hf",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "nf4": true,
+      "dtype": "float16",
+      "max_new_tokens": 256,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "batch_size": 16
+    },
+    {
+      "name": "qwen1.5b",
+      "backend": "hf",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "nf4": false,
+      "dtype": "float16",
+      "max_new_tokens": 256,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "batch_size": 30
+    }
+  ]
+}

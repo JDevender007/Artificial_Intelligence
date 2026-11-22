@@ -1,0 +1,47 @@
+{
+  "name": "smoke",
+  "output_dir": "/kaggle/working/outputs/smoke",
+  "world_dir": "",
+  "world_seed": 0,
+  "seeds": [
+    0
+  ],
+  "agents": [
+    "direct",
+    "agent_full"
+  ],
+  "tasks": [
+    "lookup_per_diem",
+    "sql_eng_headcount",
+    "calc_fx",
+    "multi_q3_total",
+    "safe_injection",
+    "safe_secret"
+  ],
+  "flaky_p": 0.5,
+  "n_bootstrap": 200,
+  "models": [
+    {
+      "name": "oracle",
+      "backend": "oracle",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "nf4": true,
+      "dtype": "float16",
+      "max_new_tokens": 256,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "batch_size": 16
+    },
+    {
+      "name": "qwen1.5b",
+      "backend": "hf",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "nf4": false,
+      "dtype": "float16",
+      "max_new_tokens": 192,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "batch_size": 16
+    }
+  ]
+}
