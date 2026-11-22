@@ -1,0 +1,8 @@
+# End-to-end plumbing check (minutes): 48 images, 16 prompts, 20 training steps. Numbers are meaningless.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0]
+n_bootstrap: 200
+data: {n_test: 16, split_seed: 0, resolution: 512, limit: 48}
+train: {rank: 8, alpha: 8, lr: 1.0e-4, batch_size: 4, steps: 20, checkpoints: [10, 20], warmup: 5}
+gen: {steps: 10, guidance: 7.5, batch_size: 8}

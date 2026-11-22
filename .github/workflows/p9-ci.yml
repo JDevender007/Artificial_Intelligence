@@ -1,0 +1,23 @@
+name: p9-ci
+on:
+  push:
+    branches: [main]
+    paths: ["p9-butterfly-lora/**", ".github/workflows/p9-ci.yml"]
+  pull_request:
+    paths: ["p9-butterfly-lora/**", ".github/workflows/p9-ci.yml"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: p9-butterfly-lora
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: p9-butterfly-lora/requirements*.txt
+      - run: pip install -r requirements-ci.txt && pip install -e . --no-deps
+      - run: ruff check .
+      - run: pytest -q

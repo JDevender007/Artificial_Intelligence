@@ -1,0 +1,10 @@
+# Full run on a Kaggle T4: base SD 1.5 vs LoRA (rank 8) at 400 and 800 steps, 3 seeds, 200 held-out species.
+name: main
+output_dir: outputs/main
+seeds: [0, 1, 2]
+n_bootstrap: 2000
+data: {n_test: 200, split_seed: 0, resolution: 512}
+model: {base: stable-diffusion-v1-5/stable-diffusion-v1-5, clip: openai/clip-vit-base-patch16, dtype: float16}
+train: {rank: 8, alpha: 8, lr: 1.0e-4, batch_size: 4, steps: 800, checkpoints: [400, 800], warmup: 50}
+gen: {steps: 25, guidance: 7.5, batch_size: 8}
+safety: {sd_checker: true, clip_threshold: 0.5}
