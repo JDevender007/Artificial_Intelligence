@@ -1,0 +1,9 @@
+# Local pins (Python 3.13, the D: drive env). Kaggle installs only stable-baselines3/gymnasium at these versions and
+# keeps its preinstalled torch / numpy; the exact Kaggle versions land in reports/kaggle_cpu/versions.txt.
+gymnasium==1.3.0
+stable-baselines3==2.9.0
+torch==2.11.0
+numpy==2.5.2
+scipy==1.18.0
+matplotlib==3.11.0
+pyyaml==6.0.3

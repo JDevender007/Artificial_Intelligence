@@ -1,0 +1,35 @@
+# Smoke test: same pipeline as main.yaml at 4% of the steps, 2 seeds, 5 final episodes (a few minutes on CPU).
+name: smoke
+output_dir: outputs/smoke
+seeds: [0, 1]
+steps_scale: 0.04
+final_episodes: 5
+tune_episodes: 3
+n_bootstrap: 200
+envs:
+  - id: CartPole-v1
+    total_steps: 50000
+    eval_every: 2500
+    eval_episodes: 10
+    threshold: 475
+    algos: [dqn, dqn_nodouble, dqn_notarget, sb3_dqn, sb3_ppo]
+    dqn: {lr: 5.0e-4, gamma: 0.99, buffer_size: 50000, batch_size: 64, learning_starts: 1000, train_freq: 1,
+          target_update: 500, eps_end: 0.05, eps_fraction: 0.2, hidden: [128, 128]}
+    sb3_dqn: {learning_rate: 2.3e-3, batch_size: 64, buffer_size: 100000, learning_starts: 1000, gamma: 0.99,
+              target_update_interval: 10, train_freq: 256, gradient_steps: 128, exploration_fraction: 0.16,
+              exploration_final_eps: 0.04, net_arch: [256, 256]}
+    sb3_ppo: {n_envs: 8, n_steps: 32, batch_size: 256, gae_lambda: 0.8, gamma: 0.98, n_epochs: 20, ent_coef: 0.0,
+              learning_rate: lin_0.001, clip_range: lin_0.2}
+  - id: Inventory-v0
+    total_steps: 150000
+    eval_every: 7500
+    eval_episodes: 10
+    heuristics: [random, base_stock, sS, dow_sS]
+    algos: [dqn, dqn_nodouble, dqn_notarget, sb3_dqn, sb3_ppo]
+    dqn: {lr: 5.0e-4, gamma: 0.99, buffer_size: 100000, batch_size: 64, learning_starts: 1000, train_freq: 1,
+          target_update: 1000, eps_end: 0.05, eps_fraction: 0.3, hidden: [128, 128]}
+    sb3_dqn: {learning_rate: 5.0e-4, batch_size: 64, buffer_size: 100000, learning_starts: 1000, gamma: 0.99,
+              target_update_interval: 1000, train_freq: 1, gradient_steps: 1, exploration_fraction: 0.3,
+              exploration_final_eps: 0.05, net_arch: [128, 128]}
+    sb3_ppo: {n_envs: 8, n_steps: 256, batch_size: 256, n_epochs: 10, gamma: 0.99, gae_lambda: 0.95,
+              learning_rate: 3.0e-4, ent_coef: 0.01, net_arch: [128, 128]}
