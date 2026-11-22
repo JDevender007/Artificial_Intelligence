@@ -1,0 +1,17 @@
+# Smoke test of the real pipeline on a GPU (minutes): real SQuAD, a 0.5B model, few questions, 4 QLoRA steps.
+name: smoke
+output_dir: outputs/smoke
+seeds: [0]
+n_bootstrap: 200
+data:
+  n_val_articles: 4
+  n_val_questions: 40
+  n_test_questions: 60
+  n_train_examples: 64
+gen:
+  model: Qwen/Qwen2.5-0.5B-Instruct
+  batch_size: 16
+ft:
+  max_steps: 4
+  batch_size: 2
+  grad_accum: 2

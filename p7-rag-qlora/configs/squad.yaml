@@ -1,0 +1,31 @@
+# Full run (Kaggle T4). One command: python scripts/run_experiment.py --config configs/squad.yaml
+name: squad
+output_dir: outputs/squad
+seeds: [0, 1, 2]
+data:
+  n_val_articles: 8
+  n_val_questions: 300
+  n_test_questions: 1000
+  n_train_examples: 3000
+retrieval:
+  chunkers: [paragraph, window]
+  methods: [bm25, dense, hybrid, hybrid_rerank]
+  ks: [1, 5, 20]
+  k_context: 5
+  n_candidates: 20
+gen:
+  model: Qwen/Qwen2.5-1.5B-Instruct
+  variants: [base, prompted, rag, rag_nf4]
+  dtype: float16
+  max_new_tokens: 32
+  batch_size: 16
+ft:
+  modes: [closed, rag]
+  lora_r: 16
+  lora_alpha: 32
+  lr: 2.0e-4
+  epochs: 1
+  batch_size: 4
+  grad_accum: 4
+  max_seq_len: 1536
+  p_drop_gold: 0.2

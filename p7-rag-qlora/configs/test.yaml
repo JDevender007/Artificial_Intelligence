@@ -1,0 +1,13 @@
+# Used by the tests: synthetic SQuAD-format data and the fake backends (no downloads, no torch).
+name: test
+output_dir: outputs/test
+seeds: [0, 1]
+n_bootstrap: 100
+data:
+  synthetic: true
+  raw_dir: outputs/test_data
+  synthetic_articles: 10
+  n_val_articles: 3
+  n_val_questions: 18
+  n_test_questions: 42
+  n_train_examples: 40

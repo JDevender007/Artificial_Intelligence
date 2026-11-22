@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ragqa"
+version = "0.1.0"
+description = "SQuAD 2.0 open-book QA: chunking + BM25/dense/hybrid/reranked retrieval with citations, RAGAS-style metrics, and QLoRA fine-tuning of Qwen2.5-1.5B-Instruct (base vs prompted vs RAG vs FT)"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]

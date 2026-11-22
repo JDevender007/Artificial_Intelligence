@@ -1,0 +1,8 @@
+# CPU-only CI: the tests use the fake backends, so no torch / transformers are installed.
+numpy==2.5.2
+pandas==2.3.3
+scipy==1.18.0
+pyyaml==6.0.3
+tabulate==0.10.0
+pytest==9.1.1
+ruff==0.15.22
