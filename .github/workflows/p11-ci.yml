@@ -1,0 +1,67 @@
+name: p11-ci
+
+on:
+  push:
+    paths: ["11-credit-mlops/**", ".github/workflows/p11-ci.yml"]
+  pull_request:
+    paths: ["11-credit-mlops/**", ".github/workflows/p11-ci.yml"]
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: 11-credit-mlops
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13", cache: pip, cache-dependency-path: 11-credit-mlops/requirements-ci.txt}
+      - run: pip install -r requirements-ci.txt && pip install --no-deps -e .
+      - run: ruff check .
+      - run: pytest -q
+
+  image:
+    # Train a small model on the real UCI data, bake it into the image, start the container and hit it with Locust.
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13", cache: pip, cache-dependency-path: 11-credit-mlops/requirements-serve.txt}
+      - run: pip install -r requirements-serve.txt pyarrow==24.0.0 pyyaml==6.0.3 xlrd==2.0.2 locust && pip install --no-deps -e .
+      - name: CI params (one seed, no MLflow, no Evidently)
+        run: |
+          python - <<'EOF'
+          import yaml
+          p = yaml.safe_load(open("params.yaml"))
+          p["train"]["seeds"] = [0]; p["mlflow"]["enabled"] = False; p["drift"]["evidently"] = False
+          yaml.safe_dump(p, open("params.ci.yaml", "w"))
+          EOF
+      - run: python -m credops.pipeline prepare --params params.ci.yaml
+      - run: python -m credops.pipeline train --params params.ci.yaml && cat reports/results.md
+      - run: python -m credops.pipeline drift --params params.ci.yaml && cat reports/drift.md
+      - run: docker build -t credit-api:ci .
+      - name: Start container and smoke-test
+        run: |
+          docker run -d --name api -p 8000:8000 credit-api:ci
+          for i in $(seq 1 30); do curl -sf localhost:8000/ready && break; sleep 1; done
+          curl -sf localhost:8000/model-info | python -m json.tool
+          python -c "import json,pandas as pd; from credops.schema import MODEL_INPUTS; print(json.dumps({k:int(v) for k,v in pd.read_parquet('data/processed/test.parquet')[MODEL_INPUTS].iloc[0].items()}))" > row.json
+          curl -sf -X POST localhost:8000/predict -H 'content-type: application/json' -d @row.json
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST localhost:8000/predict -H 'content-type: application/json' -d '{}')" = 422
+      - name: Load test (Locust, 30 s, 20 users)
+        run: |
+          mkdir -p reports/locust
+          locust -f loadtest/locustfile.py --host http://127.0.0.1:8000 --headless -u 20 -r 10 -t 30s --csv reports/locust/ci --only-summary
+          docker stats --no-stream api
+          docker image ls credit-api:ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p11-ci-reports
+          path: |
+            11-credit-mlops/reports/*.md
+            11-credit-mlops/reports/*.json
+            11-credit-mlops/reports/locust/*.csv

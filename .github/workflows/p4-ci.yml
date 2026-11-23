@@ -2,22 +2,22 @@ name: p4-ci
 on:
   push:
     branches: [main]
-    paths: ["p4-intent-classification/**", ".github/workflows/p4-ci.yml"]
+    paths: ["04-intent-classification/**", ".github/workflows/p4-ci.yml"]
   pull_request:
-    paths: ["p4-intent-classification/**", ".github/workflows/p4-ci.yml"]
+    paths: ["04-intent-classification/**", ".github/workflows/p4-ci.yml"]
 jobs:
   test:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: p4-intent-classification
+        working-directory: 04-intent-classification
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           cache: pip
-          cache-dependency-path: p4-intent-classification/requirements*.txt
+          cache-dependency-path: 04-intent-classification/requirements*.txt
       - run: pip install -r requirements-ci.txt && pip install -e . --no-deps
       - run: ruff check .
       - run: pytest -q

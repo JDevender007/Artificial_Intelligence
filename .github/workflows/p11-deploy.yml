@@ -1,0 +1,46 @@
+name: p11-deploy
+
+# Manual deploy of the P11 API to a free Hugging Face Docker Space.
+# One-time setup by the repo owner (Claude cannot create accounts or tokens):
+#   1. create a Docker Space at https://huggingface.co/new-space (hardware: CPU basic, free)
+#   2. repo Settings -> Secrets -> Actions: HF_TOKEN (a write token);  Variables: HF_SPACE (e.g. user/credit-default-api)
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: 11-credit-mlops
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      HF_SPACE: ${{ vars.HF_SPACE }}
+    steps:
+      - name: Check deploy settings
+        run: test -n "$HF_TOKEN" && test -n "$HF_SPACE" || (echo "set the HF_TOKEN secret and HF_SPACE variable" && exit 1)
+        working-directory: .
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13"}
+      - run: pip install -r requirements-serve.txt pyarrow==24.0.0 pyyaml==6.0.3 xlrd==2.0.2 huggingface_hub && pip install --no-deps -e .
+      - name: Train the served model (same params as dvc repro, MLflow off)
+        run: |
+          python - <<'EOF'
+          import yaml
+          p = yaml.safe_load(open("params.yaml")); p["mlflow"]["enabled"] = False; p["drift"]["evidently"] = False
+          yaml.safe_dump(p, open("params.deploy.yaml", "w"))
+          EOF
+          python -m credops.pipeline prepare --params params.deploy.yaml
+          python -m credops.pipeline train --params params.deploy.yaml
+          cat reports/results.md
+      - name: Assemble and push the Space
+        run: |
+          mkdir -p /tmp/space/models
+          cp -r Dockerfile pyproject.toml requirements-serve.txt src /tmp/space/
+          cp models/model.joblib models/metadata.json models/reference_scores.npy /tmp/space/models/
+          sed -i 's/PORT=8000/PORT=7860/; s/EXPOSE 8000/EXPOSE 7860/' /tmp/space/Dockerfile
+          printf -- '---\ntitle: Credit default API\nsdk: docker\napp_port: 7860\n---\n\nP11 credit-default API. Open /docs. Data: UCI Default of Credit Card Clients (CC BY 4.0). Research demo, not for real lending decisions.\n' > /tmp/space/README.md
+          python -c "import os; from huggingface_hub import upload_folder; upload_folder(folder_path='/tmp/space', repo_id=os.environ['HF_SPACE'], repo_type='space', token=os.environ['HF_TOKEN'], commit_message='deploy ${{ github.sha }}')"
+          echo "https://$(echo $HF_SPACE | tr / -).hf.space/docs"

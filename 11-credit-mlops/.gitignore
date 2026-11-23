@@ -1,0 +1,14 @@
+.venv/
+data/raw/
+data/processed/*.parquet
+models/*.joblib
+models/*.npy
+mlflow.db
+mlruns/
+mlartifacts/
+logs/
+reports/drift/
+reports/locust/*.html
+__pycache__/
+*.egg-info/
+/dvc-store/

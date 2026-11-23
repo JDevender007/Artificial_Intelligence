@@ -1,0 +1,165 @@
+# Banking77 intent classification: TF-IDF + LR vs DistilBERT
+
+![CI](https://github.com/JDevender007/Artificial_Intelligence/actions/workflows/p4-ci.yml/badge.svg)
+
+This project routes a customer's banking message to one of 77 intents (for example `card_arrival`, `lost_or_stolen_card`, `exchange_rate`). It compares a strong classic baseline with a fine-tuned transformer on three axes: **quality** (macro-F1, accuracy, calibration), **speed** (latency on CPU and GPU) and **where each one fails** (by class, by message length, and on the examples they disagree on). The project ships a model card and a predict script that hands low-confidence messages to a human.
+
+## Problem and success criteria
+
+| | |
+|---|---|
+| Task | single-label text classification, 77 classes, short English messages |
+| Primary metric | test **macro-F1**: every intent counts equally, which matches a support desk where rare intents still matter |
+| Also reported | accuracy, ECE (15-bin calibration error), per-class F1, macro-F1 by length bucket, latency (ms per text at batch 1 and 32, CPU and GPU) |
+| Baselines | `majority` (sanity floor) and `tfidf_lr`: word 1-2-gram + char 2-5-gram TF-IDF, then logistic regression with C picked on val |
+| Main model | `distilbert`: `distilbert-base-uncased` fine-tuned end to end (max 64 tokens, early stopping on val macro-F1) |
+| Protocol | 3 seeds per model, mean Â± std (ddof=1). One fixed split. The test set is scored once per run. A paired bootstrap (1,000 resamples) on seed 0 gives a CI for the DistilBERT âˆ’ TF-IDF macro-F1 gap. |
+
+## Data
+
+| | |
+|---|---|
+| Dataset | [Banking77](https://github.com/PolyAI-LDN/task-specific-datasets) (Casanueva et al., 2020), downloaded as CSV from the PolyAI repository on the first run |
+| Licence | **CC BY 4.0**: attribution required; commercial use allowed |
+| Split | The official test split is our test set. Our val set is 10% of the official train split, stratified by intent (`split_seed=42`). C selection and early stopping use val only. |
+| Size (computed) | train **9,002** / val **1,001** / test **3,080** messages, 77 intents. The training data is imbalanced (32-168 per intent); the test set is balanced (40 per intent). Messages are short: mean 11 words, median 9, 95th percentile 24 on test. 7 test messages exactly match (case-insensitive) a train message. |
+| Statistics | `outputs/banking77/data_summary.md` is **computed** by `textclf.data.split_stats`; none of these numbers are typed in by hand. |
+
+Privacy: the messages are written by crowd workers for the dataset, not taken from real customers, so they carry no real personal data. A deployed version would see real customer text; see the model card for PII handling.
+
+## Approach
+
+```mermaid
+flowchart LR
+    A[Banking77 CSV<br/>CC BY 4.0] --> B[stratified split<br/>train / val 10% / official test]
+    B --> C1[majority]
+    B --> C2[TF-IDF word+char<br/>+ LogisticRegression<br/>C chosen on val]
+    B --> C3[DistilBERT fine-tune<br/>AdamW + warmup, fp16<br/>early stop on val]
+    C1 & C2 & C3 --> D[test: macro-F1, acc, ECE<br/>3 seeds, mean Â± std]
+    C2 & C3 --> E[latency<br/>CPU / GPU, batch 1 / 32]
+    C2 & C3 --> F[error analysis<br/>per class, by length,<br/>confusions, bootstrap]
+    D & E & F --> G[MODEL_CARD.md]
+```
+
+Trade-offs (one recommendation each):
+
+- **Char n-grams in the baseline:** keep them. The train split spells one concept several ways (counted: "top up" 599, "top-up" 415, "topped up" 34, "topup" 14) and has typos such as "recieve" (4 rows). Char n-grams match these variants, which makes the baseline fair rather than a straw man.
+- **DistilBERT over BERT-base:** it is about 40% smaller and faster at similar quality on short texts, which matters because latency is one of the three axes.
+- **max_length 64:** on test the 95th percentile is 24 words, so 64 word pieces truncates almost nothing and halves the compute of 128.
+- **Macro-F1 as the headline metric:** the test set is balanced, so accuracy and micro-F1 are close; macro-F1 makes sure a weak rare intent cannot hide behind easy ones.
+- **Own LambdaLR warmup instead of `transformers.get_linear_schedule_with_warmup`:** this keeps the code independent of transformers' scheduler API, which has moved between releases.
+
+Recent API notes:
+
+- scikit-learn 1.8+: `LogisticRegression` no longer takes `multi_class`, and `penalty` is deprecated in favour of `l1_ratio`. The code passes neither; multinomial is the default.
+- PyTorch 2.x: `torch.amp.GradScaler("cuda")` and `torch.autocast(device_type="cuda")` replace the old `torch.cuda.amp.*` names.
+- PyYAML reads `1e-4` (no decimal point) as a string under YAML 1.1. The config loader casts float fields, and a test covers it.
+
+## Repository structure
+
+```
+04-intent-classification/
+â”œâ”€â”€ configs/            banking77.yaml (full run), smoke.yaml (2k train rows, 1 epoch)
+â”œâ”€â”€ notebooks/          kaggle_run.ipynb (generated by scripts/make_notebook.py; it only calls the package)
+â”œâ”€â”€ scripts/            run_experiment.py, predict.py, make_notebook.py
+â”œâ”€â”€ src/textclf/
+â”‚   â”œâ”€â”€ config.py       dataclass configs, YAML + --set overrides, validation
+â”‚   â”œâ”€â”€ data.py         download, cleaning, stratified split, computed stats
+â”‚   â”œâ”€â”€ baselines.py    majority, TF-IDF + LR (C grid on val)
+â”‚   â”œâ”€â”€ bert.py         DistilBERT fine-tuning loop (fp16, warmup, early stopping)
+â”‚   â”œâ”€â”€ metrics.py      macro-F1, ECE, per-class, by-length, confusions, paired bootstrap
+â”‚   â”œâ”€â”€ latency.py      p50/p95 ms per batch, ms per text, texts per second
+â”‚   â”œâ”€â”€ experiment.py   resumable model x seed loop, summaries, error analysis
+â”‚   â””â”€â”€ model_card.py   renders MODEL_CARD.md from the computed results
+â”œâ”€â”€ tests/              26 pytest tests (fake 3-intent data; no network, no GPU)
+â””â”€â”€ reports/            copied results from the Kaggle run
+```
+
+## Setup and usage
+
+```bash
+uv venv --python 3.13 --system-site-packages .venv
+uv pip install --python .venv/Scripts/python.exe -r requirements.txt -e .
+.venv/Scripts/python.exe -m pytest -q
+```
+
+Run one experiment (all models, 3 seeds):
+
+```bash
+python scripts/run_experiment.py --config configs/banking77.yaml
+```
+
+Baselines only, on a laptop CPU:
+
+```bash
+python scripts/run_experiment.py --config configs/banking77.yaml --set "models=[majority, tfidf_lr]"
+```
+
+The DistilBERT run used a Kaggle T4; `notebooks/kaggle_run.ipynb` clones this repo and runs the same command. Predict with a threshold so that unsure messages go to a human:
+
+```bash
+python scripts/predict.py --run outputs/banking77 --model tfidf_lr --threshold 0.5 "my card still hasn't come"
+```
+
+## Results
+
+Test set (3,080 messages), mean Â± std over seeds 0, 1, 2 (ddof=1). All rows below come from one Kaggle run (Tesla T4, transformers 5.20.2, torch 2.11.0+cu130; see [`reports/kaggle_t4/env.txt`](reports/kaggle_t4/env.txt)). Raw tables: [`reports/kaggle_t4/`](reports/kaggle_t4/). The laptop baseline run in [`reports/baselines_local/`](reports/baselines_local/) gives identical TF-IDF numbers.
+
+| model | macro-F1 | accuracy | ECE | seeds |
+|---|---|---|---|---|
+| majority | 0.000 Â± 0.000 | 0.013 Â± 0.000 | 0.987 Â± 0.000 | 3 |
+| tfidf_lr (C=20) | 0.913 Â± 0.000 | 0.912 Â± 0.000 | 0.063 Â± 0.000 | 3 |
+| distilbert | **0.921 Â± 0.006** | **0.921 Â± 0.006** | **0.023 Â± 0.005** | 3 |
+
+Per seed, DistilBERT scored 0.9145 / 0.9269 / 0.9227 macro-F1 (fine-tuning took about 87 s per seed on the T4, 67.0M parameters).
+
+**Is the gain real?** The mean gap is +0.008 macro-F1, which is barely more than the DistilBERT seed std (0.006). The paired bootstrap on seed 0 (1,000 resamples of the test set) gives **+0.0019, 95% CI [-0.0078, +0.0115]**, and 34% of resamples show no gain. Seed 0 is the weakest of the three seeds, so this CI is the pessimistic case, but the honest summary is: **DistilBERT is not clearly more accurate than a tuned TF-IDF model on this data. Its clear win is calibration** (ECE 0.023 vs 0.063, about 2.7Ã— lower), which matters for the confidence-threshold hand-off.
+
+The TF-IDF std is exactly 0 because lbfgs logistic regression is convex and deterministic, and the split is fixed, so the seed changes nothing. Its uncertainty is measured with the test-set bootstrap instead.
+
+C selection on val (macro-F1): 1 â†’ 0.906, 2 â†’ 0.916, 5 â†’ 0.918, 10 â†’ 0.920, **20 â†’ 0.922**, 50 â†’ 0.917, 100 â†’ 0.911, 200 â†’ 0.907. The first grid stopped at 20, so I widened it to confirm that 20 is an interior optimum.
+
+Training note: seeds 1 and 2 picked epoch 5, the last allowed epoch (seed 0 peaked at epoch 4), so DistilBERT may gain a little from 1-2 more epochs. I did not rerun it, and the numbers above are from the 5-epoch config as committed.
+
+Latency, 256 test texts. The Kaggle rows ran on 4 logical Xeon cores at 2.0 GHz; the laptop rows ran on 16 logical cores. Compare within one machine only.
+
+| model | machine | device | batch | ms/text | batch p95 ms | texts/s |
+|---|---|---|---|---|---|---|
+| tfidf_lr | laptop | cpu | 1 | 2.29 | 3.03 | 436 |
+| tfidf_lr | laptop | cpu | 32 | 0.24 | 9.12 | 4,159 |
+| tfidf_lr | Kaggle | cpu | 1 | 9.43 | 10.12 | 106 |
+| tfidf_lr | Kaggle | cpu | 32 | 0.41 | 14.20 | 2,463 |
+| distilbert | Kaggle | cpu | 1 | 29.14 | 33.75 | 34 |
+| distilbert | Kaggle | cpu | 32 | 12.41 | 637.39 | 81 |
+| distilbert | Kaggle | T4 | 1 | 5.62 | 6.11 | 178 |
+| distilbert | Kaggle | T4 | 32 | 0.34 | 14.69 | 2,904 |
+
+On the same 4-core CPU, DistilBERT is about 3Ã— slower than TF-IDF per single request (29.1 vs 9.4 ms) and 30Ã— slower in batches of 32. On a T4 it is faster than TF-IDF on the CPU.
+
+**Recommendation:** ship TF-IDF + LR on CPU if there is no GPU, because the accuracy gap is within noise. Ship DistilBERT if a GPU is available or if calibrated confidences drive the human hand-off, because its ECE is much lower.
+
+## Error analysis
+
+Seed 0 tables: [`reports/kaggle_t4/error_analysis.md`](reports/kaggle_t4/error_analysis.md) (both models) and [`reports/baselines_local/error_analysis.md`](reports/baselines_local/error_analysis.md) (TF-IDF only).
+
+- **The two models make different mistakes.** On seed 0, 2,709 messages are right for both and 162 are wrong for both. 101 are right only for TF-IDF and 108 only for DistilBERT. The disagreement (209 messages) is larger than the net gain (7), which suggests that an ensemble or a fallback between the two could help. I have not tested that.
+- **The errors fall in families of near-duplicate intents.** For TF-IDF, the weakest intents are `balance_not_updated_after_bank_transfer` (F1 0.747), `top_up_failed` (0.759), `pending_transfer` (0.810), `card_not_working` (0.813) and `top_up_reverted` (0.825). The top confusions are pairs inside one family: `top_up_failed â†’ top_up_reverted` (5), `balance_not_updated_after_bank_transfer â†’ transfer_not_received_by_recipient` (5), `verify_my_identity â†’ why_verify_identity` (4). Bag-of-words features see the same words in both members of a pair.
+- **DistilBERT fixes some families and loses others.** Averaged over seeds, it improves `top_up_failed` (0.759 â†’ 0.873), `card_not_working` (0.813 â†’ 0.895) and `balance_not_updated_after_bank_transfer` (0.747 â†’ 0.791). TF-IDF wins on 34 of 77 intents on seed 0, mostly identity and card-payment pairs such as `card_payment_not_recognised` (0.872 vs 0.790) and `why_verify_identity` (0.864 vs 0.795). DistilBERT's top confusion is `why_verify_identity â†’ verify_my_identity` (8).
+- **Some errors are label ambiguity.** Examples of DistilBERT misses: "How do I know when my card will arrive?" (`card_arrival`, predicted `card_delivery_estimate`, 0.92 confidence) and "How much does it cost in fees to use your card?" (labelled `order_physical_card`, predicted `card_payment_fee_charged`, 0.94). In the second case the prediction looks more correct than the label.
+- **Synonyms with no shared words fail for TF-IDF.** For example, "My non-physical card will not work" is predicted as `card_not_working` with confidence 0.93 instead of `virtual_card_not_working`, because "non-physical" shares no n-grams with "virtual".
+- **Length:** accuracy is about flat across lengths for both models (0.90-0.93). Macro-F1 in the 1-5 word bucket (278 messages) is 0.775 for TF-IDF and 0.816 for DistilBERT, so short messages are where DistilBERT helps most. That bucket is small and spread over many intents, so its per-class F1 is noisy.
+- **Calibration:** TF-IDF ECE is 0.063 and many of its errors have low confidence (0.15-0.60), which is what the `--threshold` hand-off in `predict.py` relies on. DistilBERT's ECE is 0.023, but confident errors still exist (0.92-0.95 above), so the threshold does not catch every error.
+- **Test/train overlap:** 7 test texts are exact (case-insensitive) duplicates of a train text. That is too few to change the scores.
+
+## Limitations
+
+- **Closed set.** Every message gets one of 77 intents, including messages that fit none of them. The `--threshold` option in `predict.py` is a simple fallback, not a real out-of-scope detector.
+- **One domain, one language.** The messages are English and cover only banking, written by crowd workers. Real customer messages are messier and change over time.
+- **Overlapping intents.** Some labels are close to each other by design (for example `pending_card_payment` vs `card_payment_not_recognised`), so part of the remaining error is label ambiguity rather than model error.
+- **One split.** The seeds vary the model initialisation and data order, not the split, so the Â± values understate the variance across different data.
+
+## Licences and ethics
+
+- Banking77 data: CC BY 4.0 (attribute Casanueva et al., 2020). `distilbert-base-uncased`: Apache-2.0. Code: MIT.
+- A wrong route only delays a customer, but a confident wrong route on an urgent intent (`lost_or_stolen_card`, `compromised_card`) costs more. The predict script's threshold and the per-class table in the model card are there for this.
+- Production text would contain names, card numbers and addresses. Mask PII before logging or retraining, and do not store raw messages longer than needed.

@@ -1,0 +1,18 @@
+stages:
+  prepare:
+    cmd: python -m credops.pipeline prepare
+    deps: [src/credops/data.py]
+    params: [data]
+    outs: [data/processed/train.parquet, data/processed/test.parquet]
+    metrics: [{data/processed/data_card.json: {cache: false}}]
+  train:
+    cmd: python -m credops.pipeline train
+    deps: [data/processed/train.parquet, data/processed/test.parquet, src/credops/features.py, src/credops/model.py]
+    params: [train, gate]
+    outs: [models/model.joblib, models/reference_scores.npy, {models/metadata.json: {cache: false}}]
+    metrics: [{reports/metrics.json: {cache: false}}]
+  drift:
+    cmd: python -m credops.pipeline drift
+    deps: [models/model.joblib, data/processed/test.parquet, src/credops/drift.py, src/credops/simulate.py]
+    params: [drift]
+    outs: [{reports/drift.json: {cache: false}}, {reports/drift.md: {cache: false}}, reports/drift]

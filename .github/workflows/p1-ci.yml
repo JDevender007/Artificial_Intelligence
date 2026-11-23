@@ -3,13 +3,13 @@ name: p1-ci
 on:
   push:
     branches: [main]
-    paths: ["p1-credit-default-risk/**", ".github/workflows/p1-ci.yml"]
+    paths: ["01-credit-default-risk/**", ".github/workflows/p1-ci.yml"]
   pull_request:
-    paths: ["p1-credit-default-risk/**", ".github/workflows/p1-ci.yml"]
+    paths: ["01-credit-default-risk/**", ".github/workflows/p1-ci.yml"]
 
 defaults:
   run:
-    working-directory: p1-credit-default-risk
+    working-directory: 01-credit-default-risk
 
 jobs:
   lint-test:
@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-          cache-dependency-path: p1-credit-default-risk/requirements*.txt
+          cache-dependency-path: 01-credit-default-risk/requirements*.txt
       - name: Install
         run: |
           python -m pip install --upgrade pip

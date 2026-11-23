@@ -1,0 +1,50 @@
+{
+  "version": "lgbm-25ce825-202611221646",
+  "kind": "lgbm",
+  "seed": 0,
+  "threshold": 0.2837031291759295,
+  "test_metrics": {
+    "pr_auc": 0.5554134547060243,
+    "roc_auc": 0.7746998865196029,
+    "brier": 0.1354514040325519,
+    "ece": 0.007150725343696252,
+    "f1": 0.540381791483113
+  },
+  "features": [
+    "LIMIT_BAL",
+    "PAY_1",
+    "PAY_2",
+    "PAY_3",
+    "PAY_4",
+    "PAY_5",
+    "PAY_6",
+    "BILL_AMT1",
+    "BILL_AMT2",
+    "BILL_AMT3",
+    "BILL_AMT4",
+    "BILL_AMT5",
+    "BILL_AMT6",
+    "PAY_AMT1",
+    "PAY_AMT2",
+    "PAY_AMT3",
+    "PAY_AMT4",
+    "PAY_AMT5",
+    "PAY_AMT6"
+  ],
+  "trained_at": "2026-11-22T16:46:49+00:00",
+  "data_card": {
+    "source_sha256": "30c6be3abd8dcfd3e6096c828bad8c2f011238620f5369220bd60cfc82700933",
+    "rows": 30000,
+    "train_rows": 24000,
+    "test_rows": 6000,
+    "positive_rate": 0.2212,
+    "train_positive_rate": 0.22120833333333334,
+    "test_positive_rate": 0.22116666666666668
+  },
+  "gate": {
+    "promoted_candidate": true,
+    "pr_auc_margin": 0.0574199298631316,
+    "min_pr_auc_margin_std": 1.0,
+    "max_ece": 0.03
+  }
+}
