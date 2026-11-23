@@ -40,9 +40,15 @@ kaggle kernels status devenderj/p4-intent-runner
 kaggle kernels output devenderj/p4-intent-runner -p 04-intent-classification/reports/kaggle_t4
 ```
 
-`kernels.json` maps each project to its existing kernel id and GPU flag, so a push
-updates the same kernel instead of creating a duplicate. `11-credit-mlops` is
-intentionally absent: it is deployment work, not a training job.
+`kernels.json` maps each project to its current Kaggle kernel ref and GPU flag.
+Pushing a kernel whose `title` is the folder name makes Kaggle **re-slug** it, so
+`devenderj/p2-dl-fundamentals-runner` becomes `devenderj/02-dl-fundamentals`.
+That is intended (kernel names now match the folder rename), but it means the
+`kernel_id` in `kernels.json` must be refreshed after each first push — a stale
+ref makes Kaggle create a duplicate kernel instead of updating. Check the truth
+with `kaggle kernels list --user devenderj`.
+
+`11-credit-mlops` is intentionally absent: it is deployment work, not a training job.
 
 ## Quota and hardware
 

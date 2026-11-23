@@ -1,9 +1,9 @@
 {
-  "_comment": "project -> Kaggle kernel. Update 'kernel_id' after the folder rename if you prefer new slugs. Existing ids are reused so a push updates the same kernel instead of creating a duplicate.",
-  "01-credit-default-risk": { "kernel_id": "devenderj/01-credit-default-risk-runner", "gpu": false, "note": "tabular, CPU only; local run is enough" },
-  "02-dl-fundamentals":     { "kernel_id": "devenderj/p2-dl-fundamentals-runner", "gpu": true,  "note": "CNN + ResNet-18 on CIFAR-10" },
+  "_comment": "project -> Kaggle kernel. The notebook title is the folder name, and Kaggle re-slugs a kernel to its title, so pushing renames devenderj/pN-*-runner to devenderj/<folder>. kernel_id must be the CURRENT ref (check `kaggle kernels list --user devenderj`); a stale ref creates a duplicate kernel.",
+  "01-credit-default-risk": { "kernel_id": "devenderj/p1-credit-default-risk-runner", "gpu": false, "note": "tabular, CPU only; local run is enough" },
+  "02-dl-fundamentals":     { "kernel_id": "devenderj/02-dl-fundamentals", "gpu": true,  "note": "CNN + ResNet-18 on CIFAR-10" },
   "03-ppe-detection-tracking": { "kernel_id": "devenderj/p3-ppe-runner", "gpu": true, "note": "YOLO26 training, 3 seeds" },
-  "04-intent-classification": { "kernel_id": "devenderj/p4-intent-runner", "gpu": true, "note": "DistilBERT fine-tune" },
+  "04-intent-classification": { "kernel_id": "devenderj/04-intent-classification", "gpu": true, "note": "DistilBERT fine-tune" },
   "05-energy-forecasting":  { "kernel_id": "devenderj/p5-power-runner", "gpu": false, "note": "walk-forward backtest, CPU" },
   "06-movie-recsys":        { "kernel_id": "devenderj/p6-recsys-runner", "gpu": true, "note": "two-tower + BPR" },
   "07-rag-qlora":           { "kernel_id": "devenderj/p7-rag-qlora-runner", "gpu": true, "note": "QLoRA 4-bit" },

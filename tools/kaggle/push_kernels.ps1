@@ -66,7 +66,9 @@ foreach ($k in $selected) {
         kernel_sources   = @()
     }
     $metaPath = Join-Path $stage "kernel-metadata.json"
-    $meta | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $metaPath -Encoding UTF8
+    # Kaggle's CLI rejects a UTF-8 BOM, and Set-Content -Encoding UTF8 writes one on Windows PowerShell 5.1.
+    $json = $meta | ConvertTo-Json -Depth 4
+    [System.IO.File]::WriteAllText($metaPath, $json, (New-Object System.Text.UTF8Encoding($false)))
 
     Write-Host ("[{0}] gpu={1} id={2}" -f $k.Project, $k.Gpu, $k.Id)
     if ($DryRun) {
