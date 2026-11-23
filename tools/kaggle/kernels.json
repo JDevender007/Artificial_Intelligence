@@ -1,0 +1,13 @@
+{
+  "_comment": "project -> Kaggle kernel. Update 'kernel_id' after the folder rename if you prefer new slugs. Existing ids are reused so a push updates the same kernel instead of creating a duplicate.",
+  "01-credit-default-risk": { "kernel_id": "devenderj/01-credit-default-risk-runner", "gpu": false, "note": "tabular, CPU only; local run is enough" },
+  "02-dl-fundamentals":     { "kernel_id": "devenderj/p2-dl-fundamentals-runner", "gpu": true,  "note": "CNN + ResNet-18 on CIFAR-10" },
+  "03-ppe-detection-tracking": { "kernel_id": "devenderj/p3-ppe-runner", "gpu": true, "note": "YOLO26 training, 3 seeds" },
+  "04-intent-classification": { "kernel_id": "devenderj/p4-intent-runner", "gpu": true, "note": "DistilBERT fine-tune" },
+  "05-energy-forecasting":  { "kernel_id": "devenderj/p5-power-runner", "gpu": false, "note": "walk-forward backtest, CPU" },
+  "06-movie-recsys":        { "kernel_id": "devenderj/p6-recsys-runner", "gpu": true, "note": "two-tower + BPR" },
+  "07-rag-qlora":           { "kernel_id": "devenderj/p7-rag-qlora-runner", "gpu": true, "note": "QLoRA 4-bit" },
+  "08-tool-agent":          { "kernel_id": "devenderj/p8-tool-agent-runner", "gpu": true, "note": "7B inference, 30-task eval" },
+  "09-butterfly-lora":      { "kernel_id": "devenderj/p9-butterfly-lora-runner", "gpu": true, "note": "SD 1.5 LoRA" },
+  "10-rl-inventory":        { "kernel_id": "devenderj/p10-rl-inventory-runner", "gpu": false, "note": "DQN/PPO, CPU is fine" }
+}
