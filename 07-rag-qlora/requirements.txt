@@ -1,0 +1,7 @@
+# Core (CPU) runtime: retrieval, metrics, reports. No torch / transformers needed.
+# The test suite and CI use requirements-ci.txt instead.
+numpy==2.5.2
+pandas==2.3.3
+scipy==1.18.0
+pyyaml==6.0.3
+tabulate==0.10.0

@@ -1,0 +1,6 @@
+# CI installs this file and nothing else (see .github/workflows/p1-ci.yml).
+#
+# There is no smaller subset: tests/test_selection.py imports credit_default.experiment, which pulls
+# optuna, shap and matplotlib, so the CI pins are the runtime pins plus pytest and ruff.
+-r requirements.txt
+-r requirements-dev.txt

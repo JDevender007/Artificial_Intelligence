@@ -1,0 +1,14 @@
+# GPU stack for scripts/run_eval.py with the real model (Qwen2.5 1.5B / 7B in 4-bit).
+#
+# torch is deliberately NOT pinned: the CUDA build (2.11.0+cu130 at the time of the reported run)
+# comes from the Kaggle image. Install with
+#     pip install -r requirements-gpu.txt
+# and record what you actually got with `pip freeze > requirements-lock.txt`
+# after a successful run; the versions below are what reports/kaggle_t4/versions.txt shows.
+-r requirements.txt
+accelerate==1.15.0
+bitsandbytes==0.50.2
+huggingface-hub==1.33.0
+safetensors==0.8.0
+tokenizers==0.23.3
+transformers==5.20.2

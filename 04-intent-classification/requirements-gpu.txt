@@ -1,0 +1,4 @@
+# Kaggle extras: exactly what notebooks/kaggle_run.ipynb installs on top of the platform image.
+# torch and transformers/tokenizers at the pinned versions are already in that image, so
+# requirements.txt is not re-installed here.
+tabulate==0.10.0

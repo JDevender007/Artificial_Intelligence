@@ -1,0 +1,5 @@
+# Kaggle extras: exactly what notebooks/kaggle_run.ipynb installs on top of the platform image.
+# torch comes from that image (CUDA build), so requirements.txt is not re-installed here.
+# The exact Kaggle versions land in reports/kaggle_cpu/versions.txt.
+gymnasium==1.3.0
+stable-baselines3==2.9.0

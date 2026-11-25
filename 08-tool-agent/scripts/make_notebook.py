@@ -32,7 +32,7 @@ def build(configs: list[str]) -> dict:
         ("markdown", INTRO),
         ("code", "!git clone --depth 1 https://github.com/JDevender007/Artificial_Intelligence.git\n"
                  "%cd Artificial_Intelligence/08-tool-agent\n"
-                 "!pip install -q bitsandbytes accelerate && pip install -q -e . --no-deps"),
+                 "!pip install -q -r requirements-gpu.txt && pip install -q -e . --no-deps"),
         ("code", "!mkdir -p /kaggle/working/outputs\n"
                  f"!python -c \"{VERSIONS}\" | tee /kaggle/working/outputs/env.txt\n"
                  "!(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || echo no-gpu) "

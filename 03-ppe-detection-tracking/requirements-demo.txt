@@ -1,0 +1,5 @@
+# Demo only (scripts/demo.py -> src/ppedet/app.py). Kept separate from requirements.txt so the
+# runtime file stays fully pinned: the Gradio app has never been run locally, so there is no version
+# to pin yet. Pin it with the version the first successful demo run reported.
+-r requirements.txt
+gradio

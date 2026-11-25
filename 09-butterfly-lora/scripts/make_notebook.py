@@ -34,7 +34,7 @@ def build(configs: list[str]) -> dict:
         ("markdown", INTRO),
         ("code", "!git clone --depth 1 https://github.com/JDevender007/Artificial_Intelligence.git\n"
                  "%cd Artificial_Intelligence/09-butterfly-lora\n"
-                 "!pip install -q diffusers peft accelerate torchmetrics torch-fidelity && pip install -q -e . --no-deps\n"
+                 "!pip install -q -r requirements-gpu.txt && pip install -q -e . --no-deps\n"
                  "!pip uninstall -y -q torchao  # peft refuses to build LoRA layers next to Kaggle's torchao 0.10"),
         ("code", "!mkdir -p /kaggle/working/outputs\n"
                  f"!python -c \"{VERSIONS}\" | tee /kaggle/working/outputs/env.txt\n"

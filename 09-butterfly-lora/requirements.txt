@@ -1,0 +1,7 @@
+# Core (CPU) runtime: dataset prep, reporting and the metrics used by the tests.
+# image/tensor work needs requirements-gpu.txt.
+numpy==2.5.2
+pandas==2.3.3
+pillow==12.3.0
+pyarrow==23.0.0
+pyyaml==6.0.3

@@ -1,4 +1,4 @@
-# Runtime (versions as installed in the D: env / P5 venv). torch: CPU or CUDA wheel from the PyTorch index.
+# Runtime. torch: CPU or CUDA wheel from the PyTorch index.
 numpy==2.5.2
 pandas==2.3.3
 scipy==1.18.0

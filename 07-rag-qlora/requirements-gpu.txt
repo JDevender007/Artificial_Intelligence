@@ -1,0 +1,17 @@
+# GPU extras for scripts/run_experiment.py and scripts/ask.py (generation + QLoRA).
+#
+# torch is deliberately NOT pinned: the CUDA build must come from the Kaggle/Colab
+# image. Install with
+#     pip install -r requirements-gpu.txt
+# and record what you actually got with `pip freeze > requirements-lock.txt`
+# after a successful run.
+#
+# The set below resolves together (verified with `uv pip compile`); transformers
+# 4.57 is the 4.x line, and src/ragqa/hf.py already handles both the `torch_dtype=`
+# (<= 4.55) and `dtype=` (>= 4.56) keyword.
+-r requirements.txt
+transformers==4.57.6
+peft==0.22.0
+accelerate==1.16.0
+bitsandbytes==0.50.2
+huggingface-hub==0.36.2

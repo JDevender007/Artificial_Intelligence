@@ -1,0 +1,6 @@
+# Kaggle extras: exactly what notebooks/kaggle_run.ipynb installs on top of the platform image.
+# torch, torchvision and the array stack come from that image, so requirements.txt is not
+# re-installed here (it would replace the CUDA build).
+# ultralytics stays at the version the reported run used; see reports/ppe/env.txt.
+ultralytics==8.4.216
+tabulate==0.10.0

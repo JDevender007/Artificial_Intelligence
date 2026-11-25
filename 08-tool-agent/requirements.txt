@@ -1,0 +1,5 @@
+# CPU runtime: the agent, its guardrails, the trace viewer and the tests only need these.
+# The GPU training stack (transformers + bitsandbytes + accelerate) is in requirements-gpu.txt.
+numpy==2.1.3
+pandas==2.3.3
+pyyaml==6.0.3

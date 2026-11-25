@@ -1,0 +1,19 @@
+# GPU extras for scripts/run_experiment.py and scripts/generate.py (SD 1.5 + LoRA).
+#
+# torch / torchvision are deliberately NOT pinned: the CUDA build must come from
+# the Kaggle/Colab image. Install with
+#     pip install -r requirements-gpu.txt
+# and record what you actually got with `pip freeze > requirements-lock.txt`
+# after a successful run.
+#
+# transformers is 5.x here because diffusers 0.43 requires huggingface-hub >= 1.32,
+# which transformers 4.x pins below 1.0. The resolved set is verified with
+# `uv pip compile`.
+-r requirements.txt
+diffusers==0.43.0
+transformers==5.24.0
+peft==0.22.0
+accelerate==1.16.0
+torchmetrics==1.9.0
+torch-fidelity==0.4.0
+huggingface-hub==2.4.0

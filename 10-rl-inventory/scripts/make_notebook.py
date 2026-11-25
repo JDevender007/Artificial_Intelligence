@@ -31,7 +31,7 @@ def build(configs: list[str]) -> dict:
         ("markdown", INTRO),
         ("code", "!git clone --depth 1 https://github.com/JDevender007/Artificial_Intelligence.git\n"
                  "%cd Artificial_Intelligence/10-rl-inventory\n"
-                 "!pip install -q gymnasium==1.3.0 stable-baselines3==2.9.0 && pip install -q -e . --no-deps"),
+                 "!pip install -q -r requirements-gpu.txt && pip install -q -e . --no-deps"),
         ("code", "!mkdir -p /kaggle/working/outputs\n"
                  f"!python -c \"{VERSIONS}\" | tee /kaggle/working/outputs/env.txt\n"
                  "!lscpu | grep -E 'Model name|^CPU\\(s\\)' | tee -a /kaggle/working/outputs/env.txt\n"

@@ -27,7 +27,7 @@ def build(config: str) -> dict:
         ("markdown", INTRO),
         ("code", "!git clone --depth 1 https://github.com/JDevender007/Artificial_Intelligence.git\n"
                  "%cd Artificial_Intelligence/04-intent-classification\n"
-                 "!pip install -q tabulate && pip install -q -e . --no-deps"),
+                 "!pip install -q -r requirements-gpu.txt && pip install -q -e . --no-deps"),
         ("code", f"!mkdir -p {out}\n"
                  "!python -c \"import transformers, tokenizers, torch, sklearn, numpy; "
                  "print('transformers', transformers.__version__); print('tokenizers', tokenizers.__version__); "

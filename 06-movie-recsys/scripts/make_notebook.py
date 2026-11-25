@@ -35,7 +35,7 @@ def build(config: str) -> dict:
         ("markdown", INTRO),
         ("code", "!git clone --depth 1 https://github.com/JDevender007/Artificial_Intelligence.git\n"
                  "%cd Artificial_Intelligence/06-movie-recsys\n"
-                 "!pip install -q faiss-cpu tabulate && pip install -q -e . --no-deps"),
+                 "!pip install -q -r requirements-gpu.txt && pip install -q -e . --no-deps"),
         ("code", f"!mkdir -p {out}\n"
                  f"!python -c \"{VERSIONS}\" | tee {out}/env.txt\n"
                  f"!(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || echo no-gpu) | tee -a {out}/env.txt\n"
