@@ -3,7 +3,7 @@
 **Repo folder:** `06-movie-recsys` (suggested standalone name: `movielens-two-tower-faiss`)
 
 **Resume bullet**
-- Built a MovieLens-1M recommender on a leak-free temporal split: popularity, BPR-MF and a feature two-tower model with logQ-corrected sampled softmax, served through a FAISS HNSW index (0.99 recall vs exact) and a FastAPI cold-start endpoint. Ablations and a paired bootstrap showed BPR-MF wins on recall@20 (0.097 vs 0.088), while the two-tower covers 6Ã— more of the catalogue than popularity and logQ correction is worth +0.043 recall.
+- Built a MovieLens-1M recommender on a leak-free temporal split: popularity, BPR-MF and a feature two-tower model with logQ-corrected sampled softmax, served through a FAISS HNSW index (0.99 recall vs exact) and a FastAPI cold-start endpoint. Ablations and a paired bootstrap showed BPR-MF wins on recall@20 (0.097 vs 0.088), while the two-tower covers 6× more of the catalogue than popularity and logQ correction is worth +0.043 recall.
 
 **LinkedIn post (draft)**
 > My two-tower recommender lost to matrix factorisation, and I think that's the interesting part.

@@ -19,7 +19,7 @@ The detection metrics, the error analysis, the compliance check and the MOT metr
 | Also reported | mAP50, precision, recall, per-class mAP, GPU inference ms/img, parameters |
 | Downstream | per-person compliance agreement (the rule on predictions vs the rule on ground truth); MOTA, IDSW, MOTP for tracking |
 | Baseline | `scratch_n`: the same YOLO26n architecture, randomly initialised, with identical training settings |
-| Protocol | 3 seeds per variant, mean Â± std; one fixed train/val split; the test set is evaluated once per run with the best-on-val weights |
+| Protocol | 3 seeds per variant, mean ± std; one fixed train/val split; the test set is evaluated once per run with the best-on-val weights |
 
 ## Data
 
@@ -47,7 +47,7 @@ flowchart LR
     C --> C5[pretrained_s]
     C1 & C2 & C3 & C4 & C5 --> D[early stop on val<br/>best.pt]
     D --> E[test once<br/>mAP, P, R, ms/img]
-    E --> F[results.md mean Â± std<br/>per_class.md]
+    E --> F[results.md mean ± std<br/>per_class.md]
     D -->|main, seed 0| G[predictions on test<br/>conf 0.25]
     G --> H[numpy error analysis<br/>recall by class/size, FP types]
     G --> I[compliance rule<br/>GT vs predicted]
@@ -66,7 +66,7 @@ flowchart LR
 **Compliance rule** ([compliance.py](src/ppedet/compliance.py)). For each `Person` box and each item (helmet, vest):
 
 - **violation** if a `no_<item>` box lies at least 50% inside the person box
-- **ok** if an `<item>` box lies at least 50% inside the person box and its centre is in the expected vertical band (helmet: top 35% of the person; vest: 15â€“75%)
+- **ok** if an `<item>` box lies at least 50% inside the person box and its centre is in the expected vertical band (helmet: top 35% of the person; vest: 15–75%)
 - **unknown** otherwise
 
 A violation outranks an ok. The rule outputs "unknown" when the evidence is missing; it does not guess. The rule is scored by applying it to ground-truth boxes and to predicted boxes and comparing the result for each GT person.
@@ -87,24 +87,24 @@ Recent API notes: YOLO26 weights are `yolo26n.pt` / `yolo26s.pt`, and `model.tra
 
 ```
 03-ppe-detection-tracking/
-â”œâ”€â”€ configs/            ppe.yaml (5 variants x 3 seeds), smoke.yaml (1 epoch pipeline check)
-â”œâ”€â”€ src/ppedet/
-â”‚   â”œâ”€â”€ config.py       dataclass config + --set overrides + validation
-â”‚   â”œâ”€â”€ data.py         dataset location, fixed split, computed statistics
-â”‚   â”œâ”€â”€ boxes.py        IoU/IoA, size buckets, greedy class-aware matching + FP typing
-â”‚   â”œâ”€â”€ evaluate.py     error analysis, compliance agreement, mean Â± std tables
-â”‚   â”œâ”€â”€ compliance.py   per-person helmet/vest rule
-â”‚   â”œâ”€â”€ sequences.py    synthetic pan/zoom sequences with exact GT ids
-â”‚   â”œâ”€â”€ mot.py          CLEAR-MOT (MOTA, MOTP, IDSW, FP, FN)
-â”‚   â”œâ”€â”€ train.py        Ultralytics train / test / predict wrapper (lazy import)
-â”‚   â”œâ”€â”€ track.py        tracker comparison
-â”‚   â”œâ”€â”€ experiment.py   resumable end-to-end runner
-â”‚   â””â”€â”€ app.py          Gradio demo
-â”œâ”€â”€ scripts/            run_experiment.py, track_video.py, make_notebook.py
-â”œâ”€â”€ tests/              36 CPU tests, no ultralytics or torch needed
-â”œâ”€â”€ notebooks/          kaggle_run.ipynb (generated, thin wrapper)
-â”œâ”€â”€ reports/            committed snapshot of the final run
-â””â”€â”€ docs/               INTERVIEW.md, DEMO_SCRIPT.md, CAREER.md
+├── configs/            ppe.yaml (5 variants x 3 seeds), smoke.yaml (1 epoch pipeline check)
+├── src/ppedet/
+│   ├── config.py       dataclass config + --set overrides + validation
+│   ├── data.py         dataset location, fixed split, computed statistics
+│   ├── boxes.py        IoU/IoA, size buckets, greedy class-aware matching + FP typing
+│   ├── evaluate.py     error analysis, compliance agreement, mean ± std tables
+│   ├── compliance.py   per-person helmet/vest rule
+│   ├── sequences.py    synthetic pan/zoom sequences with exact GT ids
+│   ├── mot.py          CLEAR-MOT (MOTA, MOTP, IDSW, FP, FN)
+│   ├── train.py        Ultralytics train / test / predict wrapper (lazy import)
+│   ├── track.py        tracker comparison
+│   ├── experiment.py   resumable end-to-end runner
+│   └── app.py          Gradio demo
+├── scripts/            run_experiment.py, track_video.py, make_notebook.py
+├── tests/              36 CPU tests, no ultralytics or torch needed
+├── notebooks/          kaggle_run.ipynb (generated, thin wrapper)
+├── reports/            committed snapshot of the final run
+└── docs/               INTERVIEW.md, DEMO_SCRIPT.md, CAREER.md
 ```
 
 ## Setup and usage
@@ -114,6 +114,7 @@ python -m venv .venv && .venv\Scripts\activate           # or source .venv/bin/a
 pip install -r requirements.txt -r requirements-dev.txt && pip install -e . --no-deps
 python scripts/run_experiment.py --config configs/smoke.yaml   # ~5 min pipeline check, numbers not reportable
 python scripts/run_experiment.py --config configs/ppe.yaml     # full run, ~4-5 h on a T4
+pip install -r requirements-demo.txt                            # Gradio demo only (see the note below)
 python -m ppedet.app --weights outputs/ppe/runs/pretrained_n_s0/weights/best.pt
 python scripts/track_video.py --weights <best.pt> --video site.mp4
 pytest && ruff check .
@@ -125,31 +126,33 @@ Any config value can be overridden, for example `--set train.epochs=10 "seeds=[0
 
 Reproducibility: the seed is passed to Ultralytics with `deterministic=True`, and the split is fixed. GPU kernels are still not bit-exact, so expect small seed-to-seed spread. That spread is why the tables report std.
 
+`requirements-demo.txt` holds Gradio and nothing else. The demo app has never been run locally, so there is no version to pin; it is kept out of `requirements.txt` rather than left as an unpinned line inside a pinned file.
+
 ## Results
 
-Kaggle T4, ultralytics 8.4.216, torch 2.11.0+cu130 (`reports/ppe/env.txt`). 50 epochs, imgsz 640, batch 16, patience 15. Test split: 200 images, 2,961 boxes. Every row is the mean Â± std over 3 seeds (`reports/ppe/results.md`), and latency is the Ultralytics inference time per image on the T4.
+Kaggle T4, ultralytics 8.4.216, torch 2.11.0+cu130 (`reports/kaggle_t4/env.txt`). 50 epochs, imgsz 640, batch 16, patience 15. Test split: 200 images, 2,961 boxes. Every row is the mean ± std over 3 seeds (`reports/kaggle_t4/results.md`), and latency is the Ultralytics inference time per image on the T4.
 
 | variant | test mAP50-95 | mAP50 | precision | recall | ms/img (T4) | params (M) |
 |---|---|---|---|---|---|---|
-| scratch_n (baseline) | 0.227 Â± 0.008 | 0.449 Â± 0.007 | 0.653 Â± 0.060 | 0.425 Â± 0.010 | 4.3 Â± 1.2 | 2.51 |
-| **pretrained_n (main)** | **0.529 Â± 0.003** | **0.747 Â± 0.004** | 0.850 Â± 0.001 | 0.687 Â± 0.004 | 4.0 Â± 0.3 | 2.54 |
-| pretrained_n_noaug | 0.471 Â± 0.002 | 0.695 Â± 0.007 | 0.811 Â± 0.012 | 0.642 Â± 0.007 | 4.1 Â± 0.6 | 2.54 |
-| pretrained_n_frozen | 0.514 Â± 0.002 | 0.729 Â± 0.003 | 0.826 Â± 0.002 | 0.671 Â± 0.007 | 4.0 Â± 0.0 | 2.54 |
-| pretrained_s | 0.595 Â± 0.001 | 0.810 Â± 0.004 | 0.892 Â± 0.004 | 0.755 Â± 0.005 | 8.8 Â± 0.4 | 9.96 |
+| scratch_n (baseline) | 0.227 ± 0.008 | 0.449 ± 0.007 | 0.653 ± 0.060 | 0.425 ± 0.010 | 4.3 ± 1.2 | 2.51 |
+| **pretrained_n (main)** | **0.529 ± 0.003** | **0.747 ± 0.004** | 0.850 ± 0.001 | 0.687 ± 0.004 | 4.0 ± 0.3 | 2.54 |
+| pretrained_n_noaug | 0.471 ± 0.002 | 0.695 ± 0.007 | 0.811 ± 0.012 | 0.642 ± 0.007 | 4.1 ± 0.6 | 2.54 |
+| pretrained_n_frozen | 0.514 ± 0.002 | 0.729 ± 0.003 | 0.826 ± 0.002 | 0.671 ± 0.007 | 4.0 ± 0.0 | 2.54 |
+| pretrained_s | 0.595 ± 0.001 | 0.810 ± 0.004 | 0.892 ± 0.004 | 0.755 ± 0.005 | 8.8 ± 0.4 | 9.96 |
 
 What the ablations show:
 
-- **COCO pretraining matters most.** It takes mAP50-95 from 0.227 to 0.529 (Ã—2.3) under the same 50-epoch budget. The scratch model is still improving at the end: its val mAP50-95 rises 0.159 â†’ 0.201 â†’ 0.216 at epochs 24, 39 and 49 (`reports/ppe/runs/scratch_n_s0/results.csv`). Part of this gap is therefore under-training.
-- **Augmentation is worth 0.058 mAP50-95** (0.529 â†’ 0.471 without it). With 680 training images, the default mosaic/HSV/flip augmentation acts as the main regulariser.
+- **COCO pretraining matters most.** It takes mAP50-95 from 0.227 to 0.529 (×2.3) under the same 50-epoch budget. The scratch model is still improving at the end: its val mAP50-95 rises 0.159 → 0.201 → 0.216 at epochs 24, 39 and 49 (`reports/kaggle_t4/runs/scratch_n_s0/results.csv`). Part of this gap is therefore under-training.
+- **Augmentation is worth 0.058 mAP50-95** (0.529 → 0.471 without it). With 680 training images, the default mosaic/HSV/flip augmentation acts as the main regulariser.
 - **Freezing the backbone (first 10 layers) costs only 0.015.** That is a cheap option when GPU time is the constraint.
-- **The larger `s` model** gains 0.066 mAP50-95 for 3.9Ã— the parameters and 2.2Ã— the latency. `n` is the main model because the target is edge cameras; `s` is the choice if a T4-class server is available.
+- **The larger `s` model** gains 0.066 mAP50-95 for 3.9× the parameters and 2.2× the latency. `n` is the main model because the target is edge cameras; `s` is the choice if a T4-class server is available.
 
-Per-class test mAP50-95 for the main model (`reports/ppe/per_class.md`):
+Per-class test mAP50-95 for the main model (`reports/kaggle_t4/per_class.md`):
 
 - Best classes: Person 0.780, vest 0.695 and helmet 0.637.
 - Weakest classes: the "absence" classes, no_goggle 0.073, no_gloves 0.386 and no_helmet 0.388.
 
-Tracking (`reports/ppe/tracking.md`) uses the main model on the synthetic test sequences (camera motion plus dropped detections), scored with our own CLEAR-MOT implementation:
+Tracking (`reports/kaggle_t4/tracking.md`) uses the main model on the synthetic test sequences (camera motion plus dropped detections), scored with our own CLEAR-MOT implementation:
 
 | tracker | scope | MOTA | IDSW | MOTP (IoU) |
 |---|---|---|---|---|
@@ -162,10 +165,10 @@ On persons the two trackers tie on MOTA, and BoT-SORT boxes fit slightly tighter
 
 ## Error analysis
 
-`reports/ppe/error_analysis.md` covers the main model (seed 0, conf â‰¥ 0.25, IoU â‰¥ 0.5).
+`reports/kaggle_t4/error_analysis.md` covers the main model (seed 0, conf ≥ 0.25, IoU ≥ 0.5).
 
-- **Small objects are the main failure.** Recall is 0.174 on small boxes (< 32Â² px, 511 GT), 0.672 on medium and 0.950 on large. Most small test boxes are boots (123), helmets (91), no_helmet (69), no_gloves (63) and gloves (53), all seen from far away. Fixes, in order of cost: train at imgsz 960â€“1280, tile inference (SAHI-style), or use a P2 detection head.
-- **"Absence" classes are confused with their "presence" twin.** The top class confusions are no_bootsâ†’boots (36), no_helmetâ†’helmet (14), no_vestâ†’vest (13) and no_glovesâ†’gloves (7). The detector localises the body part but gets the state wrong, which is the dangerous direction for safety (a violation reported as compliant).
+- **Small objects are the main failure.** Recall is 0.174 on small boxes (< 32² px, 511 GT), 0.672 on medium and 0.950 on large. Most small test boxes are boots (123), helmets (91), no_helmet (69), no_gloves (63) and gloves (53), all seen from far away. Fixes, in order of cost: train at imgsz 960–1280, tile inference (SAHI-style), or use a P2 detection head.
+- **"Absence" classes are confused with their "presence" twin.** The top class confusions are no_boots→boots (36), no_helmet→helmet (14), no_vest→vest (13) and no_gloves→gloves (7). The detector localises the body part but gets the state wrong, which is the dangerous direction for safety (a violation reported as compliant).
 - **no_goggle is nearly unlearnable here.** It has 223 train instances, almost none large, and recall is 0.220. 12 of its 14 FPs are localisation errors (right class, IoU < 0.5 with the small GT box). More data or merging it into a "face PPE" check is more realistic than tuning.
 - **Boots carry the most false positives** (37 localisation, 37 class). Feet are small and often overlap.
 - **Compliance rule (GT vs predicted, 481 GT persons): agreement 0.696.**

@@ -1,4 +1,4 @@
-# P11: Credit-default MLOps (FastAPI Â· Docker Â· MLflow Â· DVC Â· GitHub Actions Â· Locust Â· Evidently)
+# P11: Credit-default MLOps (FastAPI · Docker · MLflow · DVC · GitHub Actions · Locust · Evidently)
 
 This project takes the P1 credit-default model to production shape: a reproducible DVC pipeline, MLflow tracking and a model registry, a promotion gate, a typed FastAPI service with Prometheus metrics and a prediction log, a Docker image, CI that trains, builds, smoke-tests and load-tests that image, a manual free deploy to a Hugging Face Docker Space, drift drills and a drift monitor, and a cost estimate based on measured throughput.
 
@@ -12,7 +12,7 @@ This project takes the P1 credit-default model to production shape: a reproducib
 - **Service SLOs:** p95 latency and throughput under Locust; the image's CPU and memory from `docker stats`.
 
 ## B. Data, license, split
-- **Source:** UCI *Default of Credit Card Clients* (Yeh 2009, id 350), **CC BY 4.0**. It is downloaded by `prepare` and never committed. Its SHA-256 is logged in `data/processed/data_card.json` (`30c6be3aâ€¦0933`).
+- **Source:** UCI *Default of Credit Card Clients* (Yeh 2009, id 350), **CC BY 4.0**. It is downloaded by `prepare` and never committed. Its SHA-256 is logged in `data/processed/data_card.json` (`30c6be3a…0933`).
 - **Size:** 30,000 rows; positive rate 0.2212. A stratified 80/20 split with `split_seed: 42` gives 24,000 train and 6,000 test rows, the same cleaning as P1.
 - **Inputs:** 19 model inputs (`LIMIT_BAL`, `PAY_1..6`, `BILL_AMT1..6`, `PAY_AMT1..6`). `SEX`, `EDUCATION`, `MARRIAGE` and `AGE` are **dropped**. The API schema doesn't contain them either, so they are never received or logged.
 
@@ -21,7 +21,7 @@ This project takes the P1 credit-default model to production shape: a reproducib
 - **Candidate:** LightGBM wrapped in 5-fold isotonic calibration.
 - **Shared steps:** both use the same row-wise `CreditFeatures` transformer (utilisation, payment ratios, delinquency counts), and both are trained on 3 seeds.
 - **Promotion gate (`params.yaml: gate`):** the candidate becomes champion only if **both** of these hold:
-  - its PR-AUC margin is larger than 1 Ã— its seed std;
+  - its PR-AUC margin is larger than 1 × its seed std;
   - its ECE is at most 0.03.
 - **Export:** the champion (seed 0) goes to `models/` as joblib plus metadata, and is logged to MLflow. In MLflow it is registered as `credit-default`, with the alias `champion`.
 
@@ -73,7 +73,7 @@ pytest -q && ruff check .
 | `/ready` | readiness |
 | `/model-info` | model metadata |
 | `/predict` | one row |
-| `/predict/batch` | 1â€“1,000 rows |
+| `/predict/batch` | 1–1,000 rows |
 | `/metrics` | Prometheus metrics |
 
 - Out-of-range values return 422, and so do unknown fields.
@@ -82,10 +82,10 @@ pytest -q && ruff check .
 
 | model | PR-AUC | ROC-AUC | Brier | ECE | F1 | threshold | fit s |
 |---|---|---|---|---|---|---|---|
-| logreg (baseline) | 0.4977 Â± 0.0000 | 0.7387 Â± 0.0000 | 0.1435 Â± 0.0000 | 0.0147 Â± 0.0000 | 0.5115 Â± 0.0027 | 0.270 Â± 0.014 | 1.4 Â± 0.2 |
-| **LightGBM + isotonic** | **0.5551 Â± 0.0025** | **0.7750 Â± 0.0003** | **0.1355 Â± 0.0001** | **0.0089 Â± 0.0025** | **0.5399 Â± 0.0004** | 0.278 Â± 0.008 | 35.9 Â± 4.3 |
+| logreg (baseline) | 0.4977 ± 0.0000 | 0.7387 ± 0.0000 | 0.1435 ± 0.0000 | 0.0147 ± 0.0000 | 0.5115 ± 0.0027 | 0.270 ± 0.014 | 1.4 ± 0.2 |
+| **LightGBM + isotonic** | **0.5551 ± 0.0025** | **0.7750 ± 0.0003** | **0.1355 ± 0.0001** | **0.0089 ± 0.0025** | **0.5399 ± 0.0004** | 0.278 ± 0.008 | 35.9 ± 4.3 |
 
-- **Gate:** margin 0.0574 > 1 Ã— 0.0025 and ECE 0.0089 â‰¤ 0.03, so the candidate was promoted.
+- **Gate:** margin 0.0574 > 1 × 0.0025 and ECE 0.0089 ≤ 0.03, so the candidate was promoted.
 - **Served model:** `lgbm-25ce825-202611221646` (seed 0) at threshold 0.2837. Its test PR-AUC is 0.5554 and its ECE 0.0072.
 - **Registry:** it is credit-default **v1**, with alias `champion`. `mlflow.sklearn.load_model("models:/credit-default@champion")` reloads it.
 - **Why the logreg std is 0:** lbfgs is deterministic, so the seed changes only the out-of-fold threshold.
@@ -101,7 +101,7 @@ LOADTEST_PENDING
 | scenario | alert | drifted cols | top PSI column | score PSI | default rate | mean P | PR-AUC | ECE |
 |---|---|---|---|---|---|---|---|---|
 | none (bootstrap) | no | 0/19 | BILL_AMT4 (0.006) | 0.001 | 0.228 | 0.223 | 0.5647 | 0.0125 |
-| limit_cut (âˆ’30% limits) | no | 1/19 | LIMIT_BAL (0.518) | 0.043 | 0.228 | 0.231 | 0.5569 | 0.0160 |
+| limit_cut (−30% limits) | no | 1/19 | LIMIT_BAL (0.518) | 0.043 | 0.228 | 0.231 | 0.5569 | 0.0160 |
 | recession (+1 month late for 30%, bills +25%, +17 pt defaults) | no | 0/19 | PAY_1 (0.103) | 0.127 | 0.403 | 0.263 | 0.5772 | **0.1420** |
 
 **The input-drift monitor does not catch the scenario that matters.**
@@ -136,7 +136,7 @@ I did **not** retune the thresholds to make the drills light up. The negative re
 
 **`p11-deploy.yml`** (manual): retrains with `params.yaml` and pushes a Docker Space. It needs a `HF_TOKEN` secret and a `HF_SPACE` variable, which the repo owner has to create.
 
-## Iâ€“M
+## I–M
 See [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md), [docs/CAREER.md](docs/CAREER.md) and [docs/INTERVIEW.md](docs/INTERVIEW.md).
 
 ## Ethics and limitations

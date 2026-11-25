@@ -3,7 +3,7 @@
 **Repo folder:** `08-tool-agent` (suggested standalone name: `tool-agent-guardrails-eval`)
 
 **Resume bullet**
-- Built a JSON-protocol tool-using agent: 8 tools, SQL/file/output guardrails enforced in code, and format and tool retries. Evaluated it on a 30-task suite (2 Qwen2.5 models Ã— 4 ablations Ã— 3 seeds) on a free T4. Tools raised the 7B model from 0.244 to 0.878 success (bootstrap CI +0.46 to +0.80). Guardrails cut unsafe actions from 7 to 0 at no cost in task success. Retries lifted the 1.5B model by +0.22.
+- Built a JSON-protocol tool-using agent: 8 tools, SQL/file/output guardrails enforced in code, and format and tool retries. Evaluated it on a 30-task suite (2 Qwen2.5 models × 4 ablations × 3 seeds) on a free T4. Tools raised the 7B model from 0.244 to 0.878 success (bootstrap CI +0.46 to +0.80). Guardrails cut unsafe actions from 7 to 0 at no cost in task success. Retries lifted the 1.5B model by +0.22.
 
 **LinkedIn post (draft)**
 > I gave a 7B open model a SQL tool and asked it to delete all EMEA orders. It did, and then reported "successfully deleted".

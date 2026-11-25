@@ -2,10 +2,10 @@
 
 ![CI](https://github.com/JDevender007/Artificial_Intelligence/actions/workflows/p8-ci.yml/badge.svg)
 
-This project is an agent loop around open Qwen2.5 chat models. The agent has 8 tools: SQL, document search, a file reader, a calculator, unit conversion, two date tools and a flaky exchange-rate API. It runs inside a fully synthetic company. Safety is enforced in code around the model, not just asked for in the prompt, and every guardrail intervention lands in a trace. A 30-task suite scores 4 agent configurations Ã— 2 models Ã— 3 sampling seeds, with a paired bootstrap and a failure taxonomy.
+This project is an agent loop around open Qwen2.5 chat models. The agent has 8 tools: SQL, document search, a file reader, a calculator, unit conversion, two date tools and a flaky exchange-rate API. It runs inside a fully synthetic company. Safety is enforced in code around the model, not just asked for in the prompt, and every guardrail intervention lands in a trace. A 30-task suite scores 4 agent configurations × 2 models × 3 sampling seeds, with a paired bootstrap and a failure taxonomy.
 
-**Headline (Kaggle T4, mean Â± std over 3 seeds):**
-- Qwen2.5-7B (NF4) with tools and guardrails solves **0.878 Â± 0.051** of the tasks, against **0.244 Â± 0.077** for the same model without tools. The paired bootstrap gives +0.633, 95% CI [+0.456, +0.800].
+**Headline (Kaggle T4, mean ± std over 3 seeds):**
+- Qwen2.5-7B (NF4) with tools and guardrails solves **0.878 ± 0.051** of the tasks, against **0.244 ± 0.077** for the same model without tools. The paired bootstrap gives +0.633, 95% CI [+0.456, +0.800].
 - With guardrails switched off, the 7B agent executes **7 unsafe actions over 3 seeds** (deleting EMEA orders, giving a raise and following an injected instruction). With guardrails on, it executes **0**.
 - Retries hardly matter for the 7B model (+0.022, CI [0.000, +0.056]). For the 1.5B model they decide everything: +0.222, CI [+0.122, +0.322]. Without format retries, 65 of its 90 episodes end in a format failure.
 
@@ -18,7 +18,7 @@ This project is an agent loop around open Qwen2.5 chat models. The agent has 8 t
 | Also reported | task_success (non-safety tasks), safety_success, violations per run, steps, invalid-call rate, format errors, tool retries, blocked calls, latency, tokens; success per category; failure taxonomy |
 | Baseline | `direct`: the same model answers with no tools |
 | Ablations | `agent_noguard` (rules stated in the prompt only, no programmatic policy), `agent_noretry` (no format retries, no tool retries) and `agent_full` |
-| Protocol | 3 sampling seeds (temperature 0.7, top-p 0.9), mean Â± std. Paired bootstrap over the 30 tasks (2,000 resamples), with each task's score averaged over seeds. An **oracle** backend replays each task's reference plan and scores 1.000 in every configuration, which proves every task is solvable with the tools. It is a check, not a baseline. |
+| Protocol | 3 sampling seeds (temperature 0.7, top-p 0.9), mean ± std. Paired bootstrap over the 30 tasks (2,000 resamples), with each task's score averaged over seeds. An **oracle** backend replays each task's reference plan and scores 1.000 in every configuration, which proves every task is solvable with the tools. It is a check, not a baseline. |
 
 ## Data: a synthetic world
 
@@ -62,51 +62,51 @@ flowchart LR
 
 ```
 08-tool-agent/
-â”œâ”€â”€ configs/            eval.yaml (main), smoke.yaml, oracle.yaml, test.yaml
-â”œâ”€â”€ src/toolagent/      world, tools, guardrails, agent (Episode), llm (HF + scripted), tasks, evaluate, viewer, config, utils
-â”œâ”€â”€ scripts/            run_eval.py, ask.py (demo), render_traces.py, make_notebook.py
-â”œâ”€â”€ notebooks/          kaggle_run.ipynb (thin wrapper: clone, install, run, zip)
-â”œâ”€â”€ reports/kaggle_t4/  results, categories, failures, bootstrap, configs, env, versions, traces.html
-â””â”€â”€ tests/              26 tests (tools, guardrails, agent loop with scripted LLMs, scoring)
+├── configs/            eval.yaml (main), smoke.yaml, oracle.yaml, test.yaml
+├── src/toolagent/      world, tools, guardrails, agent (Episode), llm (HF + scripted), tasks, evaluate, viewer, config, utils
+├── scripts/            run_eval.py, ask.py (demo), render_traces.py, make_notebook.py
+├── notebooks/          kaggle_run.ipynb (thin wrapper: clone, install, run, zip)
+├── reports/kaggle_t4/  results, categories, failures, bootstrap, configs, env, versions, traces.html
+└── tests/              26 tests (tools, guardrails, agent loop with scripted LLMs, scoring)
 ```
 
 ## Reproduce
 
 ```bash
-uv venv --python 3.13 .venv && .venv/Scripts/python -m pip install -e . --no-deps
+uv venv --python 3.13 .venv && .venv/Scripts/python -m pip install -r requirements.txt -r requirements-dev.txt -e . --no-deps
 python -m pytest -q && python -m ruff check .                         # CPU, no model download
 python scripts/run_eval.py --config configs/oracle.yaml               # CPU, seconds: every task is solvable
 python scripts/run_eval.py --config configs/eval.yaml                 # GPU (Kaggle T4): the main table
 python scripts/render_traces.py outputs/eval/traces outputs/eval/traces.html
 ```
 
-On Kaggle, run `notebooks/kaggle_run.ipynb` with GPU T4 and Internet on. It runs the smoke config with `--check` and then the main config. The exact versions are in `requirements-kaggle.txt`, captured by the run: transformers 5.20.2, bitsandbytes 0.50.2, accelerate 1.15.0, torch 2.11.0+cu130.
+On Kaggle, run `notebooks/kaggle_run.ipynb` with GPU T4 and Internet on. It installs `requirements-gpu.txt` (the exact stack in `reports/kaggle_t4/versions.txt`: transformers 5.20.2, bitsandbytes 0.50.2, accelerate 1.15.0; torch 2.11.0+cu130 comes from the image), then runs the smoke config with `--check` and the main config.
 
 ## Results (Kaggle T4, `reports/kaggle_t4/eval/`)
 
 | model / agent | success | task_success | safety_success | violations / run | steps | format errors | latency s / episode |
 |---|---|---|---|---|---|---|---|
-| 7B NF4 / direct (baseline) | 0.244 Â± 0.077 | 0.153 Â± 0.048 | 0.611 Â± 0.192 | 0.00 | 1.00 | 0.00 | 0.92 |
-| 7B NF4 / agent_noguard | 0.800 Â± 0.000 | 0.875 Â± 0.000 | 0.500 Â± 0.000 | **2.33 Â± 0.58** | 2.39 | 0.01 | 7.16 |
-| 7B NF4 / agent_noretry | 0.856 Â± 0.038 | 0.889 Â± 0.024 | 0.722 Â± 0.255 | 0.00 | 2.37 | 0.01 | 7.18 |
-| **7B NF4 / agent_full** | **0.878 Â± 0.051** | **0.917 Â± 0.000** | 0.722 Â± 0.255 | **0.00** | 2.37 | 0.01 | 7.20 |
-| 1.5B / direct (baseline) | 0.111 Â± 0.077 | 0.083 Â± 0.072 | 0.222 Â± 0.096 | 0.00 | 1.08 | 0.11 | 0.23 |
-| 1.5B / agent_noguard | 0.256 Â± 0.038 | 0.292 Â± 0.083 | 0.111 Â± 0.192 | 1.33 Â± 0.58 | 3.43 | 1.14 | 3.14 |
-| 1.5B / agent_noretry | 0.078 Â± 0.038 | 0.028 Â± 0.048 | 0.278 Â± 0.192 | 0.00 | 2.10 | 0.72 | 2.18 |
-| 1.5B / agent_full | 0.300 Â± 0.058 | 0.250 Â± 0.072 | 0.500 Â± 0.000 | 0.00 | 3.51 | 1.19 | 3.44 |
+| 7B NF4 / direct (baseline) | 0.244 ± 0.077 | 0.153 ± 0.048 | 0.611 ± 0.192 | 0.00 | 1.00 | 0.00 | 0.92 |
+| 7B NF4 / agent_noguard | 0.800 ± 0.000 | 0.875 ± 0.000 | 0.500 ± 0.000 | **2.33 ± 0.58** | 2.39 | 0.01 | 7.16 |
+| 7B NF4 / agent_noretry | 0.856 ± 0.038 | 0.889 ± 0.024 | 0.722 ± 0.255 | 0.00 | 2.37 | 0.01 | 7.18 |
+| **7B NF4 / agent_full** | **0.878 ± 0.051** | **0.917 ± 0.000** | 0.722 ± 0.255 | **0.00** | 2.37 | 0.01 | 7.20 |
+| 1.5B / direct (baseline) | 0.111 ± 0.077 | 0.083 ± 0.072 | 0.222 ± 0.096 | 0.00 | 1.08 | 0.11 | 0.23 |
+| 1.5B / agent_noguard | 0.256 ± 0.038 | 0.292 ± 0.083 | 0.111 ± 0.192 | 1.33 ± 0.58 | 3.43 | 1.14 | 3.14 |
+| 1.5B / agent_noretry | 0.078 ± 0.038 | 0.028 ± 0.048 | 0.278 ± 0.192 | 0.00 | 2.10 | 0.72 | 2.18 |
+| 1.5B / agent_full | 0.300 ± 0.058 | 0.250 ± 0.072 | 0.500 ± 0.000 | 0.00 | 3.51 | 1.19 | 3.44 |
 
 Paired bootstrap over tasks (agent_full minus the other run):
 
-| model | vs | diff | 95% CI | P(diff â‰¤ 0) |
+| model | vs | diff | 95% CI | P(diff ≤ 0) |
 |---|---|---|---|---|
 | 7B NF4 | direct | +0.633 | [+0.456, +0.800] | 0.000 |
 | 7B NF4 | agent_noguard | +0.078 | [+0.022, +0.156] | 0.004 |
 | 7B NF4 | agent_noretry | +0.022 | [+0.000, +0.056] | 0.123 |
 | 1.5B | direct | +0.189 | [+0.089, +0.300] | 0.000 |
-| 1.5B | agent_noguard | +0.044 | [âˆ’0.078, +0.167] | 0.257 |
+| 1.5B | agent_noguard | +0.044 | [−0.078, +0.167] | 0.257 |
 | 1.5B | agent_noretry | +0.222 | [+0.122, +0.322] | 0.000 |
 
-Per category (7B NF4 / agent_full): lookup 1.00, sql 1.00, calc 1.00, multi 0.71, safety 0.72 Â± 0.25. The full per-category and failure tables are in `reports/kaggle_t4/eval/categories.md` and `failures.md`. `traces.html` is a self-contained viewer of every episode's trace.
+Per category (7B NF4 / agent_full): lookup 1.00, sql 1.00, calc 1.00, multi 0.71, safety 0.72 ± 0.25. The full per-category and failure tables are in `reports/kaggle_t4/eval/categories.md` and `failures.md`. `traces.html` is a self-contained viewer of every episode's trace.
 
 **What the numbers say:**
 - Tools are worth far more than the model upgrade: 1.5B with tools (0.300) beats 7B without them (0.244).
@@ -134,10 +134,10 @@ The 1.5B model fails mostly on the protocol, not on reasoning. Its failures spli
 
 ## Limitations and ethics
 
-* **Small suite.** 30 tasks and 3 seeds give wide CIs: the 7B safety category is 0.72 Â± 0.25. The suite was written together with the agent, so these are in-sample numbers. A held-out task set is the next step.
+* **Small suite.** 30 tasks and 3 seeds give wide CIs: the 7B safety category is 0.72 ± 0.25. The suite was written together with the agent, so these are in-sample numbers. A held-out task set is the next step.
 * **The guardrails are regexes and an allow-list.** They block the attack shapes in this suite. A paraphrased injection or an encoded secret could get past the sanitizer and output filter. The SQL authorizer is the only hard boundary.
 * **Synthetic world.** There is no real PII. The secret is a canary string. Do not point the tools at a real database without the read-only authorizer and a sandboxed copy.
-* **Cost.** All numbers come from free Kaggle T4 time. The full run (8 configurations Ã— 3 seeds Ã— 30 tasks) took one session.
+* **Cost.** All numbers come from free Kaggle T4 time. The full run (8 configurations × 3 seeds × 30 tasks) took one session.
 
 ## Docs
 

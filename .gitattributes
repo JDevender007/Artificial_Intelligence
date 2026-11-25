@@ -1,0 +1,23 @@
+# Normalise line endings: source and docs are stored with LF, checked out with LF on every OS.
+* text=auto eol=lf
+
+# Binaries: never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.xls binary
+*.xlsx binary
+*.zip binary
+*.pt binary
+*.pth binary
+*.ckpt binary
+*.safetensors binary
+*.joblib binary
+*.parquet binary
+*.db binary
+*.ico binary
+
+# Notebooks: keep as text, but do not let git diff them line by line in tools.
+*.ipynb text eol=lf
