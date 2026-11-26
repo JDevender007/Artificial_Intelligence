@@ -9,14 +9,14 @@
     existing kernel id, then optionally runs `kaggle kernels push`.
 
 .PARAMETER Only
-    Folder name to push, e.g. 04-intent-classification. Default: every mapped project.
+    Folder name to push, e.g. 04-intent-routing. Default: every mapped project.
 
 .PARAMETER DryRun
     Write the staging folders and print what would run, without calling Kaggle.
 
 .EXAMPLE
     .\tools\kaggle\push_kernels.ps1 -DryRun
-    .\tools\kaggle\push_kernels.ps1 -Only 04-intent-classification
+    .\tools\kaggle\push_kernels.ps1 -Only 04-intent-routing
 #>
 [CmdletBinding()]
 param(

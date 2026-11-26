@@ -18,8 +18,7 @@ Every notebook starts with:
 ```
 
 So the GitHub `main` branch must already contain the folder name the notebook
-expects. After the `pN-*` -> `NN-*` rename, kernels will fail at `%cd` until the
-rename commit is pushed. Commit + push first, then run this tool.
+expects. Push the rename commit first: until then every kernel fails at `%cd`.
 
 ## Commands
 
@@ -30,25 +29,25 @@ cd "D:\Projects\Artificial Intelligence"
 .\tools\kaggle\push_kernels.ps1 -DryRun
 
 # 2. Run one project (stage + push). Use the folder name.
-.\tools\kaggle\push_kernels.ps1 -Only 04-intent-classification
+.\tools\kaggle\push_kernels.ps1 -Only 04-intent-routing
 
 # 3. Run everything (see quota note below)
 .\tools\kaggle\push_kernels.ps1
 
 # 4. Check status / download outputs
-kaggle kernels status devenderj/p4-intent-runner
-kaggle kernels output devenderj/p4-intent-runner -p 04-intent-classification/reports/kaggle_t4
+kaggle kernels status devenderj/04-intent-classification
+kaggle kernels output devenderj/04-intent-classification -p 04-intent-routing/reports/kaggle_t4
 ```
 
 `kernels.json` maps each project to its current Kaggle kernel ref and GPU flag.
-Pushing a kernel whose `title` is the folder name makes Kaggle **re-slug** it, so
-`devenderj/p2-dl-fundamentals-runner` becomes `devenderj/02-dl-fundamentals`.
-That is intended (kernel names now match the folder rename), but it means the
-`kernel_id` in `kernels.json` must be refreshed after each first push — a stale
-ref makes Kaggle create a duplicate kernel instead of updating. Check the truth
-with `kaggle kernels list --user devenderj`.
+Pushing a kernel whose `title` is the folder name makes Kaggle **re-slug** it, so the
+P04 kernel moves from `devenderj/04-intent-classification` to
+`devenderj/04-intent-routing` on its next push. That is intended (kernel names match
+the folder names), but it means the `kernel_id` in `kernels.json` must be refreshed
+after each first push — a stale ref makes Kaggle create a duplicate kernel instead of
+updating. Check the truth with `kaggle kernels list --user devenderj`.
 
-`11-credit-mlops` is intentionally absent: it is deployment work, not a training job.
+`11-credit-risk-mlops` is intentionally absent: it is deployment work, not a training job.
 
 ## Quota and hardware
 
@@ -64,11 +63,11 @@ with `kaggle kernels list --user devenderj`.
 Colab reads the notebook straight from the public GitHub repo:
 
 ```
-https://colab.research.google.com/github/JDevender007/Artificial_Intelligence/blob/main/07-rag-qlora/notebooks/kaggle_run.ipynb
+https://colab.research.google.com/github/JDevender007/Artificial_Intelligence/blob/main/07-openbook-qa/notebooks/kaggle_run.ipynb
 ```
 
-Swap `07-rag-qlora` for any project folder. These links 404 until the rename is
-pushed, and the notebook's `git clone` + `%cd` must match the folder on `main`.
+Swap `07-openbook-qa` for any project folder. These links 404 until the folder
+exists on `main`, and the notebook's `git clone` + `%cd` must match it.
 
 ## Why I do not drive your Chrome profile
 

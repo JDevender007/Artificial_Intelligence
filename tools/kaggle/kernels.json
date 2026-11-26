@@ -1,13 +1,13 @@
 {
-  "_comment": "project -> Kaggle kernel. The notebook title is the folder name, and Kaggle re-slugs a kernel to its title, so pushing renames devenderj/pN-*-runner to devenderj/<folder>. kernel_id must be the CURRENT ref (check `kaggle kernels list --user devenderj`); a stale ref creates a duplicate kernel.",
-  "01-credit-default-risk": { "kernel_id": "devenderj/p1-credit-default-risk-runner", "gpu": false, "note": "tabular, CPU only; local run is enough" },
-  "02-dl-fundamentals":     { "kernel_id": "devenderj/02-dl-fundamentals", "gpu": true,  "note": "CNN + ResNet-18 on CIFAR-10" },
-  "03-ppe-detection-tracking": { "kernel_id": "devenderj/p3-ppe-runner", "gpu": true, "note": "YOLO26 training, 3 seeds" },
-  "04-intent-classification": { "kernel_id": "devenderj/04-intent-classification", "gpu": true, "note": "DistilBERT fine-tune" },
-  "05-energy-forecasting":  { "kernel_id": "devenderj/p5-power-runner", "gpu": false, "note": "walk-forward backtest, CPU" },
-  "06-movie-recsys":        { "kernel_id": "devenderj/p6-recsys-runner", "gpu": true, "note": "two-tower + BPR" },
-  "07-rag-qlora":           { "kernel_id": "devenderj/p7-rag-qlora-runner", "gpu": true, "note": "QLoRA 4-bit" },
-  "08-tool-agent":          { "kernel_id": "devenderj/p8-tool-agent-runner", "gpu": true, "note": "7B inference, 30-task eval" },
-  "09-butterfly-lora":      { "kernel_id": "devenderj/p9-butterfly-lora-runner", "gpu": true, "note": "SD 1.5 LoRA" },
-  "10-rl-inventory":        { "kernel_id": "devenderj/p10-rl-inventory-runner", "gpu": false, "note": "DQN/PPO, CPU is fine" }
+  "_comment": "project -> Kaggle kernel. The notebook title is the folder name, and Kaggle re-slugs a kernel to its title, so pushing renames devenderj/<old-slug> to devenderj/<folder>. kernel_id must be the CURRENT ref (check `kaggle kernels list --user devenderj`); a stale ref creates a duplicate kernel.",
+  "01-credit-risk-scoring": { "kernel_id": "devenderj/p1-credit-default-risk-runner", "gpu": false, "note": "tabular, CPU only; a local run is enough" },
+  "02-vision-from-scratch": { "kernel_id": "devenderj/02-vision-from-scratch", "gpu": true, "note": "CNN + ResNet-18 on CIFAR-10; the previous kernel was deleted, so the next push creates this ref" },
+  "03-ppe-safety-vision": { "kernel_id": "devenderj/p3-ppe-runner", "gpu": true, "note": "YOLO26 training, 3 seeds; still on the old slug, the next push re-slugs it" },
+  "04-intent-routing": { "kernel_id": "devenderj/04-intent-classification", "gpu": true, "note": "DistilBERT fine-tune, COMPLETE; still on the old slug, the next push re-slugs it" },
+  "05-load-forecasting": { "kernel_id": "devenderj/p5-power-runner", "gpu": false, "note": "walk-forward backtest, CPU" },
+  "06-two-tower-recsys": { "kernel_id": "devenderj/p6-recsys-runner", "gpu": true, "note": "two-tower + BPR" },
+  "07-openbook-qa": { "kernel_id": "devenderj/p7-rag-qlora-runner", "gpu": true, "note": "QLoRA 4-bit" },
+  "08-guarded-tool-agent": { "kernel_id": "devenderj/p8-tool-agent-runner", "gpu": true, "note": "7B inference, 30-task eval" },
+  "09-domain-lora": { "kernel_id": "devenderj/p9-butterfly-lora-runner", "gpu": true, "note": "SD 1.5 LoRA" },
+  "10-rl-inventory-control": { "kernel_id": "devenderj/p10-rl-inventory-runner", "gpu": false, "note": "DQN/PPO, CPU is fine; still on the old slug, the next push re-slugs it" }
 }

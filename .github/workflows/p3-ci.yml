@@ -2,22 +2,22 @@ name: p3-ci
 on:
   push:
     branches: [main]
-    paths: ["03-ppe-detection-tracking/**", ".github/workflows/p3-ci.yml"]
+    paths: ["03-ppe-safety-vision/**", ".github/workflows/p3-ci.yml"]
   pull_request:
-    paths: ["03-ppe-detection-tracking/**", ".github/workflows/p3-ci.yml"]
+    paths: ["03-ppe-safety-vision/**", ".github/workflows/p3-ci.yml"]
 jobs:
   test:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 03-ppe-detection-tracking
+        working-directory: 03-ppe-safety-vision
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           cache: pip
-          cache-dependency-path: 03-ppe-detection-tracking/requirements*.txt
+          cache-dependency-path: 03-ppe-safety-vision/requirements*.txt
       - run: pip install -r requirements-ci.txt && pip install -e . --no-deps
       - run: ruff check .
       - run: pytest -q

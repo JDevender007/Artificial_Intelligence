@@ -9,7 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: 11-credit-mlops
+    working-directory: 11-credit-risk-mlops
 
 jobs:
   deploy:

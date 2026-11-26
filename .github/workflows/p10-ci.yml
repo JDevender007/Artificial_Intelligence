@@ -2,22 +2,22 @@ name: p10-ci
 on:
   push:
     branches: [main]
-    paths: ["10-rl-inventory/**", ".github/workflows/p10-ci.yml"]
+    paths: ["10-rl-inventory-control/**", ".github/workflows/p10-ci.yml"]
   pull_request:
-    paths: ["10-rl-inventory/**", ".github/workflows/p10-ci.yml"]
+    paths: ["10-rl-inventory-control/**", ".github/workflows/p10-ci.yml"]
 jobs:
   test:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 10-rl-inventory
+        working-directory: 10-rl-inventory-control
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           cache: pip
-          cache-dependency-path: 10-rl-inventory/requirements*.txt
+          cache-dependency-path: 10-rl-inventory-control/requirements*.txt
       - name: Install (CPU-only torch)
         run: |
           python -m pip install --upgrade pip

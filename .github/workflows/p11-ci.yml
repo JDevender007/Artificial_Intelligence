@@ -2,14 +2,14 @@ name: p11-ci
 
 on:
   push:
-    paths: ["11-credit-mlops/**", ".github/workflows/p11-ci.yml"]
+    paths: ["11-credit-risk-mlops/**", ".github/workflows/p11-ci.yml"]
   pull_request:
-    paths: ["11-credit-mlops/**", ".github/workflows/p11-ci.yml"]
+    paths: ["11-credit-risk-mlops/**", ".github/workflows/p11-ci.yml"]
   workflow_dispatch:
 
 defaults:
   run:
-    working-directory: 11-credit-mlops
+    working-directory: 11-credit-risk-mlops
 
 jobs:
   test:
@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: "3.13", cache: pip, cache-dependency-path: 11-credit-mlops/requirements-ci.txt}
+        with: {python-version: "3.13", cache: pip, cache-dependency-path: 11-credit-risk-mlops/requirements-ci.txt}
       - run: pip install -r requirements-ci.txt && pip install --no-deps -e .
       - run: ruff check .
       - run: pytest -q
@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: "3.13", cache: pip, cache-dependency-path: 11-credit-mlops/requirements-serve.txt}
+        with: {python-version: "3.13", cache: pip, cache-dependency-path: 11-credit-risk-mlops/requirements-serve.txt}
       - run: pip install -r requirements-serve.txt pyarrow==24.0.0 pyyaml==6.0.3 xlrd==2.0.2 locust && pip install --no-deps -e .
       - name: CI params (one seed, no MLflow, no Evidently)
         run: |
@@ -62,6 +62,6 @@ jobs:
         with:
           name: p11-ci-reports
           path: |
-            11-credit-mlops/reports/*.md
-            11-credit-mlops/reports/*.json
-            11-credit-mlops/reports/locust/*.csv
+            11-credit-risk-mlops/reports/*.md
+            11-credit-risk-mlops/reports/*.json
+            11-credit-risk-mlops/reports/locust/*.csv
