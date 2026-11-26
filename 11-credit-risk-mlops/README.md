@@ -91,7 +91,22 @@ pytest -q && ruff check .
 - **Why the logreg std is 0:** lbfgs is deterministic, so the seed changes only the out-of-fold threshold.
 
 ### Load test and cost
-LOADTEST_PENDING
+Locust 20 users, 5 users/s ramp, 30 s, against `uvicorn credops.api:app` on the laptop CPU: one process, `WEB_CONCURRENCY` unset. Raw output is in `reports/locust/run_stats.csv`.
+
+| endpoint | reqs | fails | median ms | avg ms | p95 ms | max ms |
+|---|---|---|---|---|---|---|
+| `POST /predict` | 642 | 0 | 560 | 557 | 740 | 903 |
+| `POST /predict/batch` (50 rows) | 65 | 0 | 570 | 565 | 780 | 849 |
+| `GET /model-info` | 8 | 0 | 230 | 218 | 320 | 319 |
+| **aggregated** | **715** | **0** | **560** | **554** | **740** | **903** |
+
+- **No errors:** 0 failures in 715 requests — every response was 200, so the p95 above is a latency tail, not a mix of timeouts.
+- **Throughput 27.3 req/s**, of which 24.5 is single-row scoring. The batch endpoint only adds 2.5 req/s because 50 rows cost about the same as 50 single calls; there is no batching win in the pandas path.
+- **This is a CPU ceiling, not a model ceiling.** Per-row feature engineering is 8.6 ms of the 20.4 ms single-row path (`latency_profile.md`), and Locust shared the same 12 cores, so the real single-worker figure is somewhat higher than measured.
+- **Scaling:** one worker sustains ~98k requests/hour, so a million predictions costs ~10.2 core-hours. At the image's `WEB_CONCURRENCY=2` that is ~5.1 wall-clock hours *if* the two workers scale linearly — untested, and unlikely to be exactly true, since the pandas transformer is memory-bound per process. Cost per million = 10.2 × (price per core-hour). No cloud price is asserted here — read it from the provider's current page.
+- **Measured SLO:** p95 740 ms at 20 concurrent users, which meets a 1 s p95 target on one process. That is the number CI checks against.
+- **Cost:** the derivation from these numbers is in [`reports/cost.md`](reports/cost.md) — 10.2 core-hours per million single-row predictions, with the price per core-hour left to the provider's price list.
+- **Not measured locally:** the container's own CPU and memory. Docker Desktop was stopped during this run, so `docker stats` was skipped rather than faked. The CI `image` job does run it (`docker stats --no-stream api`) and uploads the output in the `p11-ci-reports` artifact, which needs an authenticated download. To reproduce locally: `docker build -t credops . && docker run -d --name api -p 8000:8000 credops && docker stats --no-stream api`.
 
 ## G. Error analysis: drift drills
 `dvc repro` runs three synthetic "production" scenarios on the held-out set. They are illustrative stress tests, not forecasts.
